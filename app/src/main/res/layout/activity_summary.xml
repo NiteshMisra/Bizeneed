@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.Summary">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#DCDCDC"
+                android:layout_height="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F0F0F0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="User Details"
+                android:fontFamily="@font/roboto_black"
+                android:textSize="12sp"
+                android:layout_margin="15dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Nitish Mishra"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Siswan, Sangam Vihar Road, Post Office Siwan District - 841210"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="40dp"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="9999999999"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Change or Add Address"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:padding="12dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:fontFamily="@font/roboto_bold"
+                    style="@style/Widget.MaterialComponents.Button"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#DCDCDC"
+                android:layout_marginTop="10dp"
+                android:layout_height="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F0F0F0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Price Detail"
+                android:fontFamily="@font/roboto_black"
+                android:textSize="12sp"
+                android:layout_margin="15dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Item Total"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="\u20B93370"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="\u20B91799"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="15dp"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Other Charges"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="\u20B949"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="#DDDDDD"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Total"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_black"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="\u20B91848"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/roboto_black"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#DCDCDC"
+                android:layout_marginTop="10dp"
+                android:layout_height="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F0F0F0"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Offers, promo code and gift cards"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:padding="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#DCDCDC"
+                android:layout_marginTop="10dp"
+                android:layout_height="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F0F0F0"/>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.Button"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:fontFamily="@font/roboto_bold"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true"
+        android:padding="15dp"
+        android:text="Register"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

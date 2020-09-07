@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.SearchActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back2"
+                android:layout_centerVertical="true"/>
+
+            <EditText
+                android:id="@+id/searchEdt"
+                android:layout_width="match_parent"
+                android:hint="Search for services and packages"
+                android:layout_toEndOf="@id/back_btn"
+                android:textSize="16sp"
+                android:padding="15dp"
+                android:inputType="text"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:imeActionLabel="Search"
+                android:layout_toStartOf="@id/cross_btn"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:background="@null"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/cross_btn"
+                android:layout_width="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_close"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/search_container"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</layout>

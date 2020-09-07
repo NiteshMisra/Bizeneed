@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.Address">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/back_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    android:src="@drawable/ic_arrow_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Address"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Add the address where a service provider\nshould arrive"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="#4C4C4C"
+                    android:textSize="13.5sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Address"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="#4C4C4C"
+                    android:textSize="13sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="35sp"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/address_edt_bg"
+                    android:layout_marginStart="15dp"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:padding="8dp"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="120dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="City"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="#4C4C4C"
+                    android:textSize="13sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="25sp"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/address_edt_bg"
+                    android:layout_marginStart="15dp"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:padding="15dp"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Pin Code"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="#4C4C4C"
+                    android:textSize="13sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="25sp"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/address_edt_bg"
+                    android:layout_marginStart="15dp"
+                    android:gravity="start"
+                    android:inputType="number"
+                    android:padding="15dp"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="State"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="#4C4C4C"
+                    android:textSize="13sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="25sp"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/address_edt_bg"
+                    android:layout_marginStart="15dp"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:padding="15dp"
+                    android:layout_marginBottom="50dp"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bookServiceBtn"
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.Button"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="5dp"
+            android:padding="15dp"
+            android:text="Add Address"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</layout>

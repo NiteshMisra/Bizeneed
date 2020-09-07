@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.Login">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:overScrollMode="never"
+                android:layout_height="400dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Your Home Service Expert"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/poppins"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Quick"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#636363"
+                    android:fontFamily="@font/poppins"
+                    android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_dot_8dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Affordable"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:textColor="#636363"
+                    android:fontFamily="@font/poppins"
+                    android:textStyle="bold"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_dot_8dp"
+                    android:textSize="11sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Trusted"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_dot_8dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#636363"
+                    android:fontFamily="@font/poppins"
+                    android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/login_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/edt_bg"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/code"
+                        android:layout_width="wrap_content"
+                        android:text="+91"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textSize="15sp"
+                        android:padding="15dp"
+                        android:layout_height="wrap_content"/>
+
+                    <View
+                        android:id="@+id/v1"
+                        android:layout_width="2dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/code"
+                        android:background="#F0F0F0"/>
+
+                    <EditText
+                        android:id="@+id/mobileNoEdt"
+                        android:layout_toEndOf="@id/v1"
+                        android:layout_width="match_parent"
+                        android:inputType="phone"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:background="@null"
+                        android:hint="Mobile Number"
+                        android:padding="15dp"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sendOtpBtn"
+                    android:layout_width="match_parent"
+                    android:text="Send OTP"
+                    android:padding="12dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_black"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/otp_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="OTP sent to +91 XXXXX 12345"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="12sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/edt_bg"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/otpEdt"
+                        android:layout_width="match_parent"
+                        android:inputType="phone"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:background="@null"
+                        android:hint="Enter OTP"
+                        android:padding="15dp"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/loginBtn"
+                    android:layout_width="match_parent"
+                    android:text="Login"
+                    android:padding="12dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_black"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

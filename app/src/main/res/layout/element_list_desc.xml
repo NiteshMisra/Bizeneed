@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_dot_8dp"
+            android:padding="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:textSize="13sp"
+            android:text="FACIAL - Eyebrows Threading, Upper Lip Threading"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/roboto"
+            android:textColor="#686868"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</layout>
