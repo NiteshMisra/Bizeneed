@@ -18,7 +18,7 @@
             android:drawableStart="@drawable/ic_dot_8dp"
             android:drawablePadding="10dp"
             android:fontFamily="@font/poppins"
-            android:text="Removal of embedded dust mites, food particles, etc."
+            android:text="8 Page Website, Inquiry Form, Live Chat, etc."
             android:textColor="@color/black"
             android:textSize="11sp" />
 

@@ -34,7 +34,7 @@ class ServiceCategory : AppCompatActivity(), CategoryListener {
         categoryLayoutManager = LinearLayoutManager(this)
         binding.categoryRcv.layoutManager = categoryLayoutManager
         val list: ArrayList<Int> = ArrayList()
-        for (i in 0..4)
+        for (i in 0..5)
             list.add(i)
 
         categoriesAdapter = CategoriesAdapter1(this,this)

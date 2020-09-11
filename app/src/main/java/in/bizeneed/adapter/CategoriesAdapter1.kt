@@ -22,6 +22,15 @@ class CategoriesAdapter1(var context: Context, var categoryListener: CategoryLis
 
         holder.binding.categoryRcv.visibility = View.GONE
 
+        when(position){
+            0 -> holder.binding.title.text = ("Website Development")
+            1 -> holder.binding.title.text = ("Mobile Application")
+            2 -> holder.binding.title.text = ("IOS Application")
+            3 -> holder.binding.title.text = ("Window Application")
+            4 -> holder.binding.title.text = ("Game Application")
+            5 -> holder.binding.title.text = ("ERP")
+        }
+
         holder.binding.titleLayout.setOnClickListener {
             if (holder.binding.categoryRcv.visibility == View.VISIBLE){
                 holder.binding.categoryRcv.visibility = View.GONE

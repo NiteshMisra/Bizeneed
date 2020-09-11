@@ -18,7 +18,7 @@ class DetailListAdapter(
     ) {
 
         val currentItem = items[position]
-        holder.binding.title.text = ("Benefits of Deep Cleaning:")
+        holder.binding.title.text = ("Website Description Title")
 
         holder.binding.detailListRcv.layoutManager = LinearLayoutManager(context)
         val list : ArrayList<Int> = ArrayList()

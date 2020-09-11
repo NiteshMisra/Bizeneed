@@ -16,7 +16,7 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Benefits of Deep Cleaning:"
+            android:text="Website Description Title"
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView

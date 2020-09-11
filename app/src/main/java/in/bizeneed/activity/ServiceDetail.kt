@@ -6,6 +6,7 @@ import `in`.bizeneed.adapter.DetailListAdapter
 import `in`.bizeneed.adapter.DetailServicesAdapter
 import `in`.bizeneed.databinding.ActivityServiceDetailBinding
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -26,7 +27,13 @@ class ServiceDetail : AppCompatActivity() {
         detailList()
         commentList()
 
+        binding.crossedPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+
         binding.bookServiceBtn.setOnClickListener {
+            startActivity(Intent(this,Registration::class.java))
+        }
+
+        binding.bookBtn.setOnClickListener {
             startActivity(Intent(this,Registration::class.java))
         }
     }

@@ -17,7 +17,7 @@ class DetailListAdapter2(
     ) {
 
         val currentItem = items[position]
-        holder.binding.title.text = ("Removal of embedded dust mites, food particles, etc.")
+        holder.binding.title.text = ("8 Page Website, Inquiry Form, Live Chat, etc.")
 
     }
 

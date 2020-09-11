@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.rishabhharit.roundedimageview.RoundedImageView
 
 class BannerAdapter(val act: Context, var imagelist: List<Int>) : PagerAdapter()  {
 
@@ -38,7 +39,7 @@ class BannerAdapter(val act: Context, var imagelist: List<Int>) : PagerAdapter()
         val currentImage: Int = imagelist[position]
         val inflater = act.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val v: View = inflater.inflate(R.layout.item_slider_image, container, false)
-        val image = v.findViewById<ImageView>(R.id.image)
+        val image = v.findViewById<RoundedImageView>(R.id.image)
         //val lyt_parent: CardView = v.findViewById(R.id.layout_cv)
         Glide.with(act).load(currentImage).diskCacheStrategy(DiskCacheStrategy.ALL).into(image)
         //lyt_parent.setOnClickListener { v1: View? -> }
