@@ -49,7 +49,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="Static Website"
+                        android:text="Private Limited Company Registration"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
                         android:textColor="#FFFFFF"
@@ -61,7 +61,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="20% Cashback | Use Code: WEB20 Only for First Time Users"
+                        android:text="Use Code: CFYPVT100 only for One Time Use | Get 100% Cashback"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
                         android:textColor="#FFFFFF"
@@ -110,7 +110,7 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/black"
-                        android:text="Super Saver Week"
+                        android:text="Private Limited Company Registration"
                         android:layout_height="wrap_content"/>
 
                     <LinearLayout
@@ -154,7 +154,7 @@
                             android:id="@+id/currentPrice"
                             android:layout_width="wrap_content"
                             android:textColor="@color/black"
-                            android:text="\u20B9349"
+                            android:text="\u20B92000*"
                             android:fontFamily="@font/roboto_bold"
                             android:drawablePadding="2dp"
                             android:textSize="12sp"
@@ -169,7 +169,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_gravity="center_vertical"
                             android:gravity="center"
-                            android:text="\u20B9514"
+                            android:text="\u20B92500"
                             android:layout_height="wrap_content"/>
 
                         <ImageView
@@ -257,6 +257,16 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="#676767"
+                android:text="*Out of Packet Fees for DSC, Name approval &amp; Registration is excluded on Actual Basis"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="12sp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_height="wrap_content"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detailListRcv"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +22,16 @@
             android:text="8 Page Website, Inquiry Form, Live Chat, etc."
             android:textColor="@color/black"
             android:textSize="11sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/detailListRcv"
+            android:overScrollMode="never"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/element_detail_list_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

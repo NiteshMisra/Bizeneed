@@ -11,7 +11,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding : ActivityMainBinding
 

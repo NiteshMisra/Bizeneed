@@ -1,6 +1,7 @@
 package `in`.bizeneed.adapter
 
 import `in`.bizeneed.R
+import `in`.bizeneed.RandomModel
 import `in`.bizeneed.databinding.ElementCategories1Binding
 import `in`.bizeneed.listener.CategoryListener
 import android.content.Context
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 import java.util.ArrayList
 
-class CategoriesAdapter1(var context: Context, var categoryListener: CategoryListener) : BaseRecyclerViewAdapter<Int,ElementCategories1Binding>(){
+class CategoriesAdapter1(var context: Context, var categoryListener: CategoryListener) : BaseRecyclerViewAdapter<RandomModel,ElementCategories1Binding>(){
 
     override fun getLayout(): Int = R.layout.element_categories1
 
@@ -22,14 +23,7 @@ class CategoriesAdapter1(var context: Context, var categoryListener: CategoryLis
 
         holder.binding.categoryRcv.visibility = View.GONE
 
-        when(position){
-            0 -> holder.binding.title.text = ("Website Development")
-            1 -> holder.binding.title.text = ("Mobile Application")
-            2 -> holder.binding.title.text = ("IOS Application")
-            3 -> holder.binding.title.text = ("Window Application")
-            4 -> holder.binding.title.text = ("Game Application")
-            5 -> holder.binding.title.text = ("ERP")
-        }
+        holder.binding.title.text = currentItem.itemName
 
         holder.binding.titleLayout.setOnClickListener {
             if (holder.binding.categoryRcv.visibility == View.VISIBLE){
@@ -39,9 +33,30 @@ class CategoriesAdapter1(var context: Context, var categoryListener: CategoryLis
                 val manager = LinearLayoutManager(context)
                 holder.binding.categoryRcv.layoutManager = manager
                 holder.binding.categoryRcv.scheduleLayoutAnimation()
-                val list: ArrayList<Int> = ArrayList()
-                for (i in 0..6)
-                    list.add(i)
+                val list: ArrayList<RandomModel> = ArrayList()
+                when(currentItem.position) {
+                    0 -> {
+                        list.add(RandomModel("Static Website",null,0))
+                        list.add(RandomModel("Dynamic Website",null,0))
+                        list.add(RandomModel("ECommerce Website",null,0))
+                        list.add(RandomModel("Multi Vendor Website",null,0))
+                        list.add(RandomModel("MLM",null,0))
+                    }
+                    1 -> {
+                        list.add(RandomModel("Private Limited Company",null,1))
+                    }
+                    else -> {
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                        list.add(RandomModel("Category",null,2))
+                    }
+                }
 
                 val categoriesAdapter = CategoriesAdapter(context)
                 categoriesAdapter.addItems(list)

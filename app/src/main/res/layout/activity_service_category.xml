@@ -29,8 +29,8 @@
                     android:src="@drawable/ic_arrow_back" />
 
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
-                    android:src="@drawable/it_sevice"
                     android:scaleType="fitXY"
                     android:layout_height="match_parent"
                     android:background="#F0F0F0" />

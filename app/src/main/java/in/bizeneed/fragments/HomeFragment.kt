@@ -7,6 +7,9 @@ import `in`.bizeneed.adapter.BannerAdapter
 import `in`.bizeneed.adapter.MoreServicesAdapter
 import `in`.bizeneed.adapter.ServicesAdapter
 import `in`.bizeneed.databinding.FragmentHomeBinding
+import `in`.bizeneed.extras.getMyViewModelFactory
+import `in`.bizeneed.response.BannerData
+import `in`.bizeneed.viewmodel.MyViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -16,6 +19,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
 
@@ -24,7 +29,8 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var activity1: FragmentActivity
     private var countDownTimer: CountDownTimer ?= null
-    private lateinit var bannerList : ArrayList<Int>
+    private lateinit var bannerList : ArrayList<BannerData>
+    private lateinit var myViewModel: MyViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +64,7 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         bannerList = ArrayList()
+        myViewModel = ViewModelProvider(this, getMyViewModelFactory()).get(MyViewModel::class.java)
     }
 
     private fun moreServicesList() {
@@ -73,28 +80,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun servicesList() {
-        val list: ArrayList<Int> = ArrayList()
-        for (i in 0..8)
-            list.add(i)
 
-        val servicesAdapter = ServicesAdapter(activity1)
-        servicesAdapter.addItems(list)
-        binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
-        binding.servicesRcv.adapter = servicesAdapter
-        servicesAdapter.notifyDataSetChanged()
+        myViewModel.getServices().observe(activity1, Observer {
+            it.let {
+                val servicesAdapter = ServicesAdapter(activity1)
+                servicesAdapter.addItems(it.data)
+                binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
+                binding.servicesRcv.adapter = servicesAdapter
+                servicesAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun bannerList() {
 
-        bannerList.clear()
-        bannerList.add(R.raw.safety)
-        bannerList.add(R.raw.cleaning)
-        bannerList.add(R.raw.salon)
-        bannerList.add(R.raw.reward_point)
-
-        val bannerAdapter = BannerAdapter(activity1, bannerList)
-        binding.viewPager.adapter = bannerAdapter
-        bannerAdapter.notifyDataSetChanged()
+        myViewModel.getBanners().observe(activity1, Observer {
+            it.let {
+                bannerList.clear()
+                bannerList.addAll(it.data)
+                val bannerAdapter = BannerAdapter(activity1, bannerList)
+                binding.viewPager.adapter = bannerAdapter
+                bannerAdapter.notifyDataSetChanged()
+            }
+        })
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
