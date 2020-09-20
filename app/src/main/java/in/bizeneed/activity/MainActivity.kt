@@ -11,7 +11,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
 
@@ -26,11 +26,15 @@ class MainActivity : BaseActivity() {
                 R.id.nav_home -> addFragment(HomeFragment.newInstance())
                 R.id.nav_bookings -> addFragment(BookingsFragment.newInstance())
                 //R.id.nav_safe -> {} // TODO move to safe Activity
-                R.id.nav_rewards -> addFragment(RewardsFragment.newInstance())
-                R.id.nav_profile -> addFragment(SettingsFragment.newInstance())
+                //R.id.nav_rewards -> addFragment(RewardsFragment.newInstance())
+                R.id.nav_setting -> addFragment(SettingsFragment.newInstance())
             }
             return@setOnNavigationItemSelectedListener true
         }
+    }
+
+    fun moveToHome(){
+        binding.bottomNav.selectedItemId = R.id.nav_home
     }
 
     private fun addFragment(fragment: Fragment) {

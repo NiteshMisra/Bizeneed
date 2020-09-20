@@ -1,16 +1,10 @@
 package `in`.bizeneed.adapter
 
 import `in`.bizeneed.R
-import `in`.bizeneed.activity.ServiceCategory
-import `in`.bizeneed.activity.ServiceDetail
-import `in`.bizeneed.databinding.ElementCategoriesBinding
 import `in`.bizeneed.databinding.ElementTagsBinding
 import `in`.bizeneed.listener.ListingListener
 import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
 class TagAdapter(
     var context: Context,

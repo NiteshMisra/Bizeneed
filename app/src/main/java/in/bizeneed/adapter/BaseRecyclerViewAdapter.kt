@@ -1,4 +1,4 @@
-package assignment.chatapp.adapter
+package `in`.bizeneed.adapter
 
 import android.view.LayoutInflater
 import android.view.View

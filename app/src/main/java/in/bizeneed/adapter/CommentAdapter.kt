@@ -2,10 +2,10 @@ package `in`.bizeneed.adapter
 
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ElementCommentBinding
+import `in`.bizeneed.response.CommentData
 import android.content.Context
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
-class CommentAdapter(var context: Context) : BaseRecyclerViewAdapter<Int,ElementCommentBinding>(){
+class CommentAdapter(var context: Context) : BaseRecyclerViewAdapter<CommentData, ElementCommentBinding>(){
 
     override fun getLayout(): Int = R.layout.element_comment
 
@@ -16,7 +16,9 @@ class CommentAdapter(var context: Context) : BaseRecyclerViewAdapter<Int,Element
 
         val currentItem = items[position]
 
-        holder.binding.senderNameTv.text = ("Hello This is a comment...")
+        holder.binding.senderNameTv.text = currentItem.userName
+        holder.binding.commentTv.text = currentItem.feedback
+        holder.binding.points.text = currentItem.rating
     }
 
 }

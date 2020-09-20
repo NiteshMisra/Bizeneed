@@ -4,7 +4,6 @@ import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ElementMonthBinding
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
 class BookingMonthAdapter(var context: Context) : BaseRecyclerViewAdapter<Int, ElementMonthBinding>() {
 

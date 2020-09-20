@@ -1,16 +1,21 @@
 package `in`.bizeneed.adapter
 
 import `in`.bizeneed.R
-import `in`.bizeneed.RandomModel
 import `in`.bizeneed.databinding.ElementCategories1Binding
+import `in`.bizeneed.extras.Constants
 import `in`.bizeneed.listener.CategoryListener
+import `in`.bizeneed.response.CategoryData
+import `in`.bizeneed.response.CategoryResponse
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
-import java.util.ArrayList
+import com.bumptech.glide.Glide
 
-class CategoriesAdapter1(var context: Context, var categoryListener: CategoryListener) : BaseRecyclerViewAdapter<RandomModel,ElementCategories1Binding>(){
+class CategoriesAdapter1(
+    var context: Context,
+    private var categoryListener: CategoryListener,
+    private var categoryResponse: CategoryResponse
+) : BaseRecyclerViewAdapter<CategoryData, ElementCategories1Binding>() {
 
     override fun getLayout(): Int = R.layout.element_categories1
 
@@ -23,52 +28,25 @@ class CategoriesAdapter1(var context: Context, var categoryListener: CategoryLis
 
         holder.binding.categoryRcv.visibility = View.GONE
 
-        holder.binding.title.text = currentItem.itemName
+        holder.binding.title.text = currentItem.name
+        Glide.with(context).load(Constants.IMAGE_URL + currentItem.image).into(holder.binding.image)
 
         holder.binding.titleLayout.setOnClickListener {
-            if (holder.binding.categoryRcv.visibility == View.VISIBLE){
+            if (holder.binding.categoryRcv.visibility == View.VISIBLE) {
                 holder.binding.categoryRcv.visibility = View.GONE
-            }else{
+            } else {
                 holder.binding.categoryRcv.visibility = View.VISIBLE
                 val manager = LinearLayoutManager(context)
                 holder.binding.categoryRcv.layoutManager = manager
                 holder.binding.categoryRcv.scheduleLayoutAnimation()
-                val list: ArrayList<RandomModel> = ArrayList()
-                when(currentItem.position) {
-                    0 -> {
-                        list.add(RandomModel("Static Website",null,0))
-                        list.add(RandomModel("Dynamic Website",null,0))
-                        list.add(RandomModel("ECommerce Website",null,0))
-                        list.add(RandomModel("Multi Vendor Website",null,0))
-                        list.add(RandomModel("MLM",null,0))
-                    }
-                    1 -> {
-                        list.add(RandomModel("Private Limited Company",null,1))
-                    }
-                    else -> {
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                        list.add(RandomModel("Category",null,2))
-                    }
-                }
 
                 val categoriesAdapter = CategoriesAdapter(context)
-                categoriesAdapter.addItems(list)
+                categoriesAdapter.addItems(currentItem.subCategory)
                 holder.binding.categoryRcv.adapter = categoriesAdapter
                 categoriesAdapter.notifyDataSetChanged()
                 categoryListener.hideOtherCategory(position)
-                manager.scrollToPositionWithOffset(2,20)
+                manager.scrollToPositionWithOffset(2, 20)
             }
-        }
-
-        holder.binding.layout.setOnClickListener{
-            //context.startActivity(Intent(context,ServiceCategory::class.java))
         }
     }
 

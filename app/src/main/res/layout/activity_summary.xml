@@ -14,8 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never">
-
-
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -48,14 +47,15 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/userName"
                         android:layout_width="wrap_content"
-                        android:text="Nitish Mishra"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/userAddress"
                         android:layout_width="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Siswan, Sangam Vihar Road, Post Office Siwan District - 841210"
@@ -66,6 +66,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/userMobile"
                         android:layout_width="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="9999999999"
@@ -75,18 +76,64 @@
                         android:layout_height="wrap_content"/>
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/changeAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Change or Add Address"
-                        android:textColor="@color/white"
+                        android:text="Change Address"
+                        app:strokeColor="@color/colorPrimary"
+                        app:strokeWidth="1dp"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="14sp"
                         android:padding="12dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:fontFamily="@font/roboto_bold"
-                        style="@style/Widget.MaterialComponents.Button"/>
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#DCDCDC"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="2dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#F0F0F0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Applied Promo Code"
+                    android:fontFamily="@font/roboto_black"
+                    android:textSize="12sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/promoCode"
+                    android:layout_width="wrap_content"
+                    android:textAllCaps="true"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/roboto_black"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/promoSummary"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="12sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:gravity="center"
+                    android:textColor="#878787"
+                    android:layout_height="wrap_content"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -128,6 +175,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/currentPrice"
                             android:layout_width="wrap_content"
                             android:text="\u20B93370"
                             android:textColor="@color/black"
@@ -157,7 +205,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="Other Charges"
+                        android:text="PromoCode Discount"
                         android:layout_marginStart="15dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto"
@@ -165,6 +213,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/promoCodeDiscount"
                         android:layout_width="wrap_content"
                         android:text="\u20B949"
                         android:layout_alignParentEnd="true"
@@ -200,6 +249,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/amountToBePaid"
                         android:layout_width="wrap_content"
                         android:text="\u20B91848"
                         android:layout_alignParentEnd="true"
@@ -222,34 +272,12 @@
                     android:layout_height="10dp"
                     android:background="#F0F0F0"/>
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:text="Offers, promo code and gift cards"
-                    android:textSize="14sp"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/black"
-                    android:padding="15dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:layout_height="wrap_content"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:background="#DCDCDC"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="2dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="#F0F0F0"/>
-
-
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/registerBtn"
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.Button"
             android:textColor="@color/white"
@@ -258,7 +286,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_margin="5dp"
             android:layout_alignParentBottom="true"
-            android:padding="15dp"
+            android:padding="12dp"
             android:text="Register"
             android:layout_height="wrap_content"/>
 

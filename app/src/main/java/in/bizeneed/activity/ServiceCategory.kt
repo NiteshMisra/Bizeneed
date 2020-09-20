@@ -1,77 +1,57 @@
 package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
-import `in`.bizeneed.RandomModel
 import `in`.bizeneed.adapter.CategoriesAdapter1
 import `in`.bizeneed.databinding.ActivityServiceCategoryBinding
+import `in`.bizeneed.extras.Constants
+import `in`.bizeneed.extras.isConnected
 import `in`.bizeneed.listener.CategoryListener
-import androidx.appcompat.app.AppCompatActivity
+import `in`.bizeneed.response.ServiceData
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.element_categories.*
-import java.util.*
 
-class ServiceCategory : AppCompatActivity(), CategoryListener {
+class ServiceCategory : BaseActivity<ActivityServiceCategoryBinding>(), CategoryListener {
 
-    private lateinit var binding : ActivityServiceCategoryBinding
     private var oldSelectedPosition : Int = -1
     private lateinit var categoriesAdapter : CategoriesAdapter1
     private lateinit var categoryLayoutManager: LinearLayoutManager
-    private lateinit var randomModel: RandomModel
+    private lateinit var serviceData: ServiceData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_service_category)
-        val value = intent.getStringExtra("data")
-        randomModel = Gson().fromJson(value,RandomModel::class.java)
+        val value = intent.getStringExtra(Constants.DATA)
+        serviceData = Gson().fromJson(value,ServiceData::class.java)
 
-        if (randomModel.itemImage != null){
-            Glide.with(this).load(randomModel.itemImage).into(binding.image)
-        }
+        Glide.with(this).load(Constants.IMAGE_URL + serviceData.image).into(binding.image)
+
         binding.backBtn.setOnClickListener { onBackPressed() }
-        binding.title.text = randomModel.itemName
+        binding.title.text = serviceData.name
 
         categories()
 
     }
 
     private fun categories() {
-        binding.categoryTitle.text = ("Select a Category")
         categoryLayoutManager = LinearLayoutManager(this)
         binding.categoryRcv.layoutManager = categoryLayoutManager
-        val list: ArrayList<RandomModel> = ArrayList()
-        when (randomModel.position) {
-            0 -> {
-                list.add(RandomModel("Website Development",null,0))
-                list.add(RandomModel("Mobile Application",null,0))
-                list.add(RandomModel("IOS Application",null,0))
-                list.add(RandomModel("Window Application",null,0))
-                list.add(RandomModel("Game Application",null,0))
-                list.add(RandomModel("ERP",null,0))
-            }
-            1 -> {
-                list.add(RandomModel("Business Registration",null,1))
-            }
-            else -> {
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-                list.add(RandomModel("Category",null,2))
-            }
-        }
 
-        categoriesAdapter = CategoriesAdapter1(this,this)
-        categoriesAdapter.addItems(list)
-        binding.categoryRcv.adapter = categoriesAdapter
-        categoriesAdapter.notifyDataSetChanged()
+        if (isConnected(this)){
+            showProgressBar(null)
+            myViewModel.getAllCategory(serviceData.name).observe(this, androidx.lifecycle.Observer {
+                hideProgress()
+                it.let {
+                    categoriesAdapter = CategoriesAdapter1(this,this,it)
+                    categoriesAdapter.addItems(it.category)
+                    binding.categoryRcv.adapter = categoriesAdapter
+                    categoriesAdapter.notifyDataSetChanged()
+                }
+            })
+        }else{
+            Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun hideOtherCategory(visibleCategoryIndex: Int) {
@@ -79,4 +59,6 @@ class ServiceCategory : AppCompatActivity(), CategoryListener {
             categoriesAdapter.notifyItemChanged(oldSelectedPosition)
         oldSelectedPosition = visibleCategoryIndex
     }
+
+    override fun getLayoutRes(): Int = R.layout.activity_service_category
 }

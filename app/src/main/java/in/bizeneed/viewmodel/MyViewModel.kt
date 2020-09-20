@@ -1,8 +1,9 @@
 package `in`.bizeneed.viewmodel
 
+import `in`.bizeneed.model.OrderModel
+import `in`.bizeneed.model.UpdateModel
 import `in`.bizeneed.repository.MyRepository
-import `in`.bizeneed.response.AllServicesResponse
-import `in`.bizeneed.response.BannerResponse
+import `in`.bizeneed.response.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
@@ -14,8 +15,32 @@ class MyViewModel(
         return myRepository.getServices()
     }
 
-    fun getBanners() : LiveData<BannerResponse>{
-        return myRepository.getBanners()
+    fun getBanners(slot : String) : LiveData<BannerResponse>{
+        return myRepository.getBanners(slot)
+    }
+
+    fun getAllCategory(serviceName : String) : LiveData<CategoryResponse>{
+        return myRepository.getAllCategory(serviceName)
+    }
+
+    fun checkMobileNo(mobileNo : String, otp : String) : LiveData<LoginResponse>{
+        return myRepository.checkMobileNo(mobileNo,otp)
+    }
+
+    fun fetchAllComment(subCategoryName : String) : LiveData<AllCommentResponse>{
+        return myRepository.fetchAllComment(subCategoryName)
+    }
+
+    fun updateUser(updateModel: UpdateModel) : LiveData<Boolean>{
+        return myRepository.updateUser(updateModel)
+    }
+
+    fun createOrder(orderModel: OrderModel) : LiveData<Boolean>{
+        return myRepository.createOrder(orderModel)
+    }
+
+    fun fetchOrder() : LiveData<OrderResponse>{
+        return myRepository.fetchOrder()
     }
 
 }

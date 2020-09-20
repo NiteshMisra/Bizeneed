@@ -5,9 +5,8 @@ import `in`.bizeneed.activity.ListingActivity
 import `in`.bizeneed.databinding.ElementRecentSearchBinding
 import android.content.Context
 import android.content.Intent
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
-class RecentSearchAdapter(var context: Context) : BaseRecyclerViewAdapter<Int,ElementRecentSearchBinding>() {
+class RecentSearchAdapter(var context: Context) : BaseRecyclerViewAdapter<Int, ElementRecentSearchBinding>() {
 
     override fun getLayout(): Int = R.layout.element_recent_search
 

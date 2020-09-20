@@ -6,9 +6,8 @@ import `in`.bizeneed.databinding.ElementBookingsBinding
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
-class BookingAdapter(var context: Context) : BaseRecyclerViewAdapter<Int,ElementBookingsBinding>(){
+class BookingAdapter(var context: Context) : BaseRecyclerViewAdapter<Int, ElementBookingsBinding>(){
 
     override fun getLayout(): Int = R.layout.element_bookings
 

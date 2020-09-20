@@ -61,6 +61,7 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:id="@+id/addressEdt"
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/address_edt_bg"
@@ -84,13 +85,14 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:id="@+id/cityEdt"
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/address_edt_bg"
                     android:layout_marginStart="15dp"
                     android:gravity="start"
                     android:inputType="text"
-                    android:padding="15dp"
+                    android:padding="12dp"
                     android:textSize="15sp"
                     android:layout_marginEnd="15dp"
                     android:layout_height="wrap_content"/>
@@ -107,13 +109,14 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:id="@+id/pinCodeEdt"
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/address_edt_bg"
                     android:layout_marginStart="15dp"
                     android:gravity="start"
                     android:inputType="number"
-                    android:padding="15dp"
+                    android:padding="12dp"
                     android:textSize="15sp"
                     android:layout_marginEnd="15dp"
                     android:layout_height="wrap_content"/>
@@ -130,13 +133,14 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:id="@+id/stateEdt"
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/address_edt_bg"
                     android:layout_marginStart="15dp"
                     android:gravity="start"
                     android:inputType="textMultiLine"
-                    android:padding="15dp"
+                    android:padding="12dp"
                     android:layout_marginBottom="50dp"
                     android:textSize="15sp"
                     android:layout_marginEnd="15dp"
@@ -147,7 +151,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/bookServiceBtn"
+            android:id="@+id/updateAddress"
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.Button"
             android:textColor="@color/white"
@@ -160,7 +164,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="5dp"
             android:padding="15dp"
-            android:text="Add Address"
+            android:text="Update Address"
             android:layout_height="wrap_content"/>
 
     </RelativeLayout>

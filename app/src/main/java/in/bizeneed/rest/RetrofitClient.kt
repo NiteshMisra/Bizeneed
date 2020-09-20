@@ -1,11 +1,13 @@
 package `in`.bizeneed.rest
 
 import `in`.bizeneed.BuildConfig
+import android.content.Context
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
 
@@ -14,9 +16,11 @@ class RetrofitClient {
     companion object {
 
         private var instance : RetrofitClient?= null
+        private lateinit var context: Context
 
         @Synchronized
-        fun getInstance(): RetrofitClient {
+        fun getInstance(context1: Context): RetrofitClient {
+            context = context1
             if (instance == null) {
                 instance = RetrofitClient()
             }
@@ -36,6 +40,8 @@ class RetrofitClient {
         }
 
         val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(120,TimeUnit.SECONDS)
+            .readTimeout(120,TimeUnit.SECONDS)
             .addInterceptor(interceptor)
             .build()
 

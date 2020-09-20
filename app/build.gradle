@@ -22,11 +22,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "BASE_URL", '"http://bizeneed.com/bizeneedApk/"'
+            buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
+            buildConfigField "String", "RZP_KEY", "\"rzp_test_CbdgS5lkqE8bkR\""
+            buildConfigField "String", "RZP_SECRET", "\"MiQIosS0mkpfQnSX4K75OGtJ\""
         }
 
         debug {
-            buildConfigField "String", "BASE_URL", '"http://bizeneed.com/bizeneedApk/"'
+            buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
+            buildConfigField "String", "RZP_KEY", "\"rzp_test_CbdgS5lkqE8bkR\""
+            buildConfigField "String", "RZP_SECRET", "\"MiQIosS0mkpfQnSX4K75OGtJ\""
         }
     }
 
@@ -37,6 +41,10 @@ android {
 
     dataBinding {
         enabled true
+    }
+
+    repositories {
+        mavenCentral()
     }
 }
 
@@ -55,7 +63,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 
     // Pagination
     implementation 'android.arch.paging:runtime:1.0.1'
@@ -68,6 +76,9 @@ dependencies {
 
     // GSon
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"
 
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -84,5 +95,12 @@ dependencies {
 
     // Rounded Corners
     implementation 'com.rishabhharit.roundedimageview:RoundedImageView:0.8.4'
+
+    // RazorPay Payment Gateway
+    implementation 'com.razorpay:checkout:1.5.16'
+    implementation 'com.razorpay:razorpay-java:1.3.8'
+
+    // Dialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -11,22 +11,95 @@
         tools:context=".fragments.BookingsFragment">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:text="My Bookings"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/white"
-            android:padding="15dp"
-            android:textSize="17sp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:layout_height="wrap_content"/>
+            android:fontFamily="@font/roboto_bold"
+            android:padding="15dp"
+            android:text="My Bookings"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/bookingRcv"
-            android:layout_width="match_parent"
-            tools:listitem="@layout/element_month"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"/>
+       <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+           android:id="@+id/refresh"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_below="@id/title"
+           android:overScrollMode="never">
 
-    </LinearLayout>
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+
+               <androidx.core.widget.NestedScrollView
+                   android:id="@+id/dataView"
+                   android:layout_width="match_parent"
+                   android:visibility="gone"
+                   android:layout_height="match_parent"
+                   android:overScrollMode="never">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="15dp"
+                           android:fontFamily="@font/roboto_bold"
+                           android:text="Recent Transactions"
+                           android:textColor="@color/black"
+                           android:textSize="14sp" />
+
+                       <androidx.recyclerview.widget.RecyclerView
+                           android:id="@+id/bookingRcv"
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:overScrollMode="never"
+                           tools:listitem="@layout/element_transactions" />
+
+                   </LinearLayout>
+
+               </androidx.core.widget.NestedScrollView>
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerInParent="true"
+                   android:id="@+id/emptyView"
+                   android:orientation="vertical">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/roboto_bold"
+                       android:text="You haven't booked any service yet"
+                       android:textColor="#5A5A5A"
+                       android:textSize="14sp" />
+
+                   <com.google.android.material.button.MaterialButton
+                       android:id="@+id/bookServiceBtn"
+                       android:layout_width="wrap_content"
+                       android:text="Book Service"
+                       android:layout_gravity="center_horizontal"
+                       android:layout_marginTop="5dp"
+                       style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                       android:textSize="14sp"
+                       app:strokeColor="@color/colorPrimary"
+                       app:strokeWidth="1dp"
+                       android:fontFamily="@font/roboto_black"
+                       android:textColor="@color/colorPrimary"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                       android:layout_height="wrap_content"/>
+
+               </LinearLayout>
+
+           </RelativeLayout>
+
+       </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
 
 </layout>

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
 class ListingAdapter2(
     var context: Context

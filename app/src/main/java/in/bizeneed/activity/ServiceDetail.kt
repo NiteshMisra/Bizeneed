@@ -1,58 +1,105 @@
 package `in`.bizeneed.activity
 
-import `in`.bizeneed.DescriptionModel
 import `in`.bizeneed.R
 import `in`.bizeneed.adapter.CommentAdapter
-import `in`.bizeneed.adapter.DetailListAdapter
-import `in`.bizeneed.adapter.DetailServicesAdapter
+import `in`.bizeneed.adapter.ServiceImagesAdapter
 import `in`.bizeneed.databinding.ActivityServiceDetailBinding
+import `in`.bizeneed.extras.Constants
+import `in`.bizeneed.extras.isConnected
+import `in`.bizeneed.response.CommentData
+import `in`.bizeneed.response.SubCategoryData
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
 
-class ServiceDetail : AppCompatActivity() {
+class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
 
-    private lateinit var binding : ActivityServiceDetailBinding
+    private lateinit var subCategoryData: SubCategoryData
+    private var isPurchased : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_service_detail)
+        val value = intent.getStringExtra(Constants.DATA)
+        isPurchased = intent.getBooleanExtra(Constants.IS_PURCHASED,false)
+        subCategoryData = Gson().fromJson(value, SubCategoryData::class.java)
+
+        Glide.with(this).load(Constants.IMAGE_URL + subCategoryData.image).into(binding.image)
+        binding.name.text = subCategoryData.name
+        binding.title.text = subCategoryData.name
+        binding.offer.text = ("Use Code: ${subCategoryData.promoCode} to get ${subCategoryData.discount}% Additional Discount")
+        binding.crossedPrice.text = ("\u20B9${subCategoryData.mrp}*")
+        binding.currentPrice.text = ("\u20B9${subCategoryData.sellingPrice}*")
+        binding.desc.text = subCategoryData.description
+
+        if (isPurchased){
+            binding.bookBtn.visibility = View.GONE
+            binding.bookServiceBtn.visibility = View.GONE
+        }else{
+            binding.bookBtn.visibility = View.VISIBLE
+            binding.bookServiceBtn.visibility = View.VISIBLE
+        }
 
         binding.backBtn.setOnClickListener { onBackPressed() }
 
-        servicesList()
-        detailList()
+        imagesList()
         commentList()
 
         binding.crossedPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
         binding.bookServiceBtn.setOnClickListener {
-            startActivity(Intent(this,Registration::class.java))
+            val intent = Intent(this,Registration::class.java)
+            intent.putExtra(Constants.DATA,Gson().toJson(subCategoryData))
+            startActivity(intent)
         }
 
         binding.bookBtn.setOnClickListener {
-            startActivity(Intent(this,Registration::class.java))
+            val intent = Intent(this,Registration::class.java)
+            intent.putExtra(Constants.DATA,Gson().toJson(subCategoryData))
+            startActivity(intent)
         }
     }
 
     private fun commentList() {
-        val list : ArrayList<Int> = ArrayList()
-        for (i in 0..5)
-            list.add(i)
-
         binding.commentRcv.layoutManager = LinearLayoutManager(this)
 
-        val commentAdapter = CommentAdapter(this)
-        commentAdapter.addItems(list)
-        binding.commentRcv.adapter = commentAdapter
-        commentAdapter.notifyDataSetChanged()
+        if (isConnected(this)){
+            showProgressBar(null)
+            myViewModel.fetchAllComment(subCategoryData.name).observe(this, Observer {
+                hideProgress()
+                it.let {
+                    val commentList : ArrayList<CommentData> = ArrayList()
+                    for (item in it.data){
+                        if (commentList.size == 20){
+                            break
+                        }
+                        commentList.add(item)
+                    }
+
+                    if (commentList.size == 0){
+                        binding.commentLayout.visibility = View.GONE
+                    }else{
+                        binding.commentLayout.visibility = View.VISIBLE
+                    }
+
+                    val commentAdapter = CommentAdapter(this)
+                    commentAdapter.addItems(commentList)
+                    binding.commentRcv.adapter = commentAdapter
+                    commentAdapter.notifyDataSetChanged()
+                }
+            })
+        }else{
+            Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun detailList() {
+    /*private fun detailList() {
         val list : ArrayList<DescriptionModel> = ArrayList()
         val list2 : ArrayList<DescriptionModel> = ArrayList()
         list2.add(DescriptionModel("Certificate of Incorporation",null))
@@ -93,17 +140,15 @@ class ServiceDetail : AppCompatActivity() {
         detailListAdapter.addItems(list)
         binding.detailListRcv.adapter = detailListAdapter
         detailListAdapter.notifyDataSetChanged()
-    }
+    }*/
 
-    private fun servicesList() {
-        val list: ArrayList<Int> = ArrayList()
-        for (i in 0..8)
-            list.add(i)
-
-        val servicesAdapter = DetailServicesAdapter(this)
-        servicesAdapter.addItems(list)
+    private fun imagesList() {
+        val servicesAdapter = ServiceImagesAdapter(this)
+        servicesAdapter.addItems(subCategoryData.demoImages)
         binding.detailServicesRcv.layoutManager = LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
         binding.detailServicesRcv.adapter = servicesAdapter
         servicesAdapter.notifyDataSetChanged()
     }
+
+    override fun getLayoutRes(): Int = R.layout.activity_service_detail
 }

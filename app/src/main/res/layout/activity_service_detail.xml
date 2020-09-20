@@ -29,9 +29,9 @@
                     android:src="@drawable/ic_arrow_back" />
 
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/it_sevice"
                     android:background="#F0F0F0"
                     android:layout_height="match_parent"/>
 
@@ -48,8 +48,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="match_parent"
-                        android:text="Private Limited Company Registration"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
                         android:textColor="#FFFFFF"
@@ -60,8 +60,8 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/offer"
                         android:layout_width="match_parent"
-                        android:text="Use Code: CFYPVT100 only for One Time Use | Get 100% Cashback"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
                         android:textColor="#FFFFFF"
@@ -110,7 +110,6 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/black"
-                        android:text="Private Limited Company Registration"
                         android:layout_height="wrap_content"/>
 
                     <LinearLayout
@@ -154,7 +153,6 @@
                             android:id="@+id/currentPrice"
                             android:layout_width="wrap_content"
                             android:textColor="@color/black"
-                            android:text="\u20B92000*"
                             android:fontFamily="@font/roboto_bold"
                             android:drawablePadding="2dp"
                             android:textSize="12sp"
@@ -169,7 +167,6 @@
                             android:layout_marginStart="8dp"
                             android:layout_gravity="center_vertical"
                             android:gravity="center"
-                            android:text="\u20B92500"
                             android:layout_height="wrap_content"/>
 
                         <ImageView
@@ -268,13 +265,19 @@
                 android:layout_marginEnd="15dp"
                 android:layout_height="wrap_content"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detailListRcv"
+            <TextView
+                android:id="@+id/desc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"/>
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textColor="#555555"
+                android:fontFamily="@font/roboto"
+                android:layout_height="wrap_content"/>
 
-            <View
+            <!--<View
                 android:layout_width="match_parent"
                 android:background="#DCDCDC"
                 android:layout_height="2dp"/>
@@ -464,7 +467,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"
@@ -477,23 +480,31 @@
                 android:layout_height="10dp"
                 android:background="#F0F0F0"/>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/commentLayout"
                 android:layout_width="match_parent"
-                android:text="Over 10,000 Great Experiences"
-                android:textSize="17sp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"/>
+                android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentRcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Great Experiences"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentRcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"/>
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bookServiceBtn"

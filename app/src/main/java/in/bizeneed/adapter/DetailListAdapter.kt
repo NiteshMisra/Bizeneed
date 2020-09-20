@@ -1,12 +1,11 @@
 package `in`.bizeneed.adapter
 
-import `in`.bizeneed.DescriptionModel
+import `in`.bizeneed.model.DescriptionModel
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ElementDetailListBinding
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import assignment.chatapp.adapter.BaseRecyclerViewAdapter
 
 class DetailListAdapter(
     var context: Context

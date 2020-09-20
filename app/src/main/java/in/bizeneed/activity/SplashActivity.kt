@@ -3,6 +3,7 @@
 package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
+import `in`.bizeneed.extras.AppPrefData
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,9 +16,15 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            val intent = Intent(this,Login::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+           if (AppPrefData.isLogin()){
+               val intent = Intent(this,MainActivity::class.java)
+               intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+               startActivity(intent)
+           }else{
+               val intent = Intent(this,Login::class.java)
+               intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+               startActivity(intent)
+           }
         },3000)
     }
 }
