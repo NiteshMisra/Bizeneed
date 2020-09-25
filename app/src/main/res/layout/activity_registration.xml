@@ -174,8 +174,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <EditText
-                    android:id="@+id/stateEdt"
+                <Spinner
+                    android:id="@+id/stateSpinner"
                     android:layout_width="match_parent"
                     android:background="@drawable/address_edt_bg"
                     android:layout_marginStart="15dp"

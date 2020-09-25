@@ -8,5 +8,6 @@ data class AllServicesResponse(
 data class ServiceData(
     val id : String,
     val name : String,
-    val image : String
+    val headerImage : String,
+    val mainImage : String
 )

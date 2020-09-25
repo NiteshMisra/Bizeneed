@@ -10,19 +10,29 @@ import `in`.bizeneed.response.SubCategoryData
 import `in`.bizeneed.response.User
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 
-class Registration : BaseActivity<ActivityRegistrationBinding>() {
+class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.OnItemSelectedListener {
 
     private var user: User? = null
     private lateinit var subCategoryData : SubCategoryData
+    private var state : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val value = intent.getStringExtra(Constants.DATA)
         subCategoryData = Gson().fromJson(value, SubCategoryData::class.java)
+
+        val adapter = ArrayAdapter.createFromResource(this,R.array.states,android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        binding.stateSpinner.adapter = adapter
+        binding.stateSpinner.onItemSelectedListener = this
 
         user = AppPrefData.user()
         user?.let { user1 ->
@@ -38,15 +48,14 @@ class Registration : BaseActivity<ActivityRegistrationBinding>() {
             user1.mobile.let {
                 binding.mobileEdt.text = it
             }
-            user1.state.let {
+            /*user1.state.let {
                 binding.stateEdt.setText(it)
-            }
+            }*/
         }
 
         binding.continueBtn.setOnClickListener {
 
             if (binding.nameEdt.text.toString().isEmpty()
-                || binding.stateEdt.text.toString().isEmpty()
                 || binding.addressEdt.text.toString().isEmpty()
                 || binding.emailEdt.text.toString().isEmpty()
             ) {
@@ -65,14 +74,14 @@ class Registration : BaseActivity<ActivityRegistrationBinding>() {
         if (user?.name != binding.nameEdt.text.toString()
             || user?.address != binding.addressEdt.text.toString()
             || user?.email != binding.emailEdt.text.toString()
-            || user?.state != binding.stateEdt.text.toString()
+            || state.isNotEmpty()
         ) {
 
             val newUser = User(
                 user!!.id, binding.mobileEdt.text.toString(),
                 binding.nameEdt.text.toString(), binding.emailEdt.text.toString(),
                 binding.addressEdt.text.toString(), user!!.city,
-                binding.stateEdt.text.toString(), user!!.pincode
+                state, user!!.pincode
             )
 
             var pinCode = ""
@@ -114,4 +123,15 @@ class Registration : BaseActivity<ActivityRegistrationBinding>() {
     }
 
     override fun getLayoutRes(): Int = R.layout.activity_registration
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        state = ""
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        state = if(p2 != 0){
+            p0?.getItemAtPosition(p2).toString()
+        }else{
+            ""
+        }
+    }
 }

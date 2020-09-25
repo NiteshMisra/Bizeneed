@@ -15,13 +15,20 @@ data class CategoryData(
 data class SubCategoryData(
     val id : String,
     val name : String,
-    val image : String,
+    val headerImage : String,
     val discount : String,
     val promoCode : String,
     val sellingPrice : String,
+    val walletWithdrawalPercent : String,
     val mrp : String,
-    val description : String,
+    var mulitpleDescription : List<DescriptionData>?,
     val demoImages : List<DemoImages>
+)
+
+data class DescriptionData(
+    val id : String,
+    val heading : String,
+    val body : String
 )
 
 data class DemoImages(

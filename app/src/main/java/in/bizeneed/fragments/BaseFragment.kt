@@ -2,10 +2,13 @@
 
 package `in`.bizeneed.fragments
 
+import `in`.bizeneed.R
 import `in`.bizeneed.extras.getMyViewModelFactory
 import `in`.bizeneed.viewmodel.MyViewModel
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,13 +26,11 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
     open lateinit var binding : VB
     open lateinit var myViewModel: MyViewModel
     open lateinit var activity1 : FragmentActivity
-    private var dialog : AlertDialog?= null
 
     private var pDialog: ProgressDialog? = null
 
     private fun init(inflater: LayoutInflater, container : ViewGroup?){
         activity1 = requireActivity()
-        dialog = SpotsDialog.Builder().setContext(activity1).setMessage("Please wait...").setCancelable(false).build()
         myViewModel = ViewModelProvider(activity1, getMyViewModelFactory(activity1)).get(MyViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater,getLayoutRes(),container,false)
     }
@@ -48,20 +49,31 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
     }
 
     fun showProgressBar(message: String?) {
-        if (dialog == null){
-            dialog = SpotsDialog.Builder().setContext(activity1)
-                .setMessage("Please wait...")
-                .setCancelable(false)
-                .build()
+        if (pDialog == null) {
+            pDialog = ProgressDialog(activity1)
         }
-        if (!dialog!!.isShowing && !activity1.isFinishing){
-            dialog!!.show()
+        if (!pDialog!!.isShowing && !activity1.isFinishing) {
+            pDialog?.setTitle(null)
+            pDialog?.isIndeterminate = false
+            pDialog?.setCancelable(false)
+            if (message == null) {
+                pDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                pDialog?.show()
+                pDialog?.setContentView(R.layout.progress_bar_layout)
+            } else if (message.isEmpty()) {
+                pDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                pDialog?.show()
+                pDialog?.setContentView(R.layout.progress_bar_layout)
+            } else {
+                pDialog?.setMessage(message)
+                pDialog?.show()
+            }
         }
     }
 
     fun hideProgress() {
-        if (dialog != null && dialog!!.isShowing) {
-            dialog!!.dismiss()
+        if (pDialog != null && pDialog!!.isShowing) {
+            pDialog!!.cancel();
         }
     }
 

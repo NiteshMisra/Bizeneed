@@ -2,14 +2,19 @@ package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ActivityMainBinding
+import `in`.bizeneed.extras.getDate
+import `in`.bizeneed.extras.getTime
 import `in`.bizeneed.fragments.BookingsFragment
 import `in`.bizeneed.fragments.HomeFragment
 import `in`.bizeneed.fragments.SettingsFragment
 import `in`.bizeneed.fragments.RewardsFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

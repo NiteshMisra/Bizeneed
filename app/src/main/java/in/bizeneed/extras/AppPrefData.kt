@@ -32,6 +32,17 @@ class AppPrefData {
             return mSharedPreferences.getBoolean("APP_SESSION", false)
         }
 
+        fun walletAmount(value: String) {
+            val editor = preferences.edit()
+            editor.putString("USER_WALLET", value)
+            editor.apply()
+        }
+
+        fun walletAmount(): String? {
+            val mSharedPreferences = preferences
+            return mSharedPreferences.getString("USER_WALLET","0")
+        }
+
         fun user(user: User) {
             val editor = preferences.edit()
             editor.putString("USER_DATA", Gson().toJson(user))

@@ -43,4 +43,20 @@ class MyViewModel(
         return myRepository.fetchOrder()
     }
 
+    fun fetchCoupons(subCategoryName: String) : LiveData<CouponResponse>{
+        return myRepository.fetchCoupons(subCategoryName)
+    }
+
+    fun checkPromoCode(subCategoryName: String,promoCode : String) : LiveData<CheckPromoCodeResponse>{
+        return myRepository.checkPromoCode(subCategoryName,promoCode)
+    }
+
+    fun currentBalance() : LiveData<String>{
+        return myRepository.currentBalance()
+    }
+
+    fun updateBalance(amount : String) : LiveData<String>{
+        return myRepository.updateBalance(amount)
+    }
+
 }

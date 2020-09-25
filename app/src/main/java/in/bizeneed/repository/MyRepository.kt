@@ -136,4 +136,64 @@ class MyRepository(var context : Context) {
         return data;
     }
 
+    fun fetchCoupons(subCategoryName: String) : MutableLiveData<CouponResponse>{
+        val data : MutableLiveData<CouponResponse> = MutableLiveData()
+
+        Coroutines.io {
+            val response = retrofitClient.api.fetchCoupons(subCategoryName)
+            if (response.isSuccessful){
+                val body = response.body()
+                data.postValue(body)
+            }else {
+                data.postValue(null)
+            }
+        }
+        return data;
+    }
+
+    fun checkPromoCode(subCategoryName: String, promoCode : String) : MutableLiveData<CheckPromoCodeResponse>{
+        val data : MutableLiveData<CheckPromoCodeResponse> = MutableLiveData()
+
+        Coroutines.io {
+            val response = retrofitClient.api.checkPromoCode(subCategoryName,promoCode)
+            if (response.isSuccessful){
+                val body = response.body()
+                data.postValue(body)
+            }else {
+                data.postValue(null)
+            }
+        }
+        return data;
+    }
+
+    fun currentBalance() : MutableLiveData<String>{
+        val data : MutableLiveData<String> = MutableLiveData()
+
+        Coroutines.io {
+            val response = retrofitClient.api.currentBalance("12")
+            if (response.isSuccessful){
+                val body = response.body()
+                data.postValue(body)
+            }else {
+                data.postValue(null)
+            }
+        }
+        return data;
+    }
+
+    fun updateBalance(amount : String) : MutableLiveData<String>{
+        val data : MutableLiveData<String> = MutableLiveData()
+
+        Coroutines.io {
+            val response = retrofitClient.api.updateBalance(AppPrefData.user()!!.id.toString(),amount)
+            if (response.isSuccessful){
+                val body = response.body()
+                data.postValue(body)
+            }else {
+                data.postValue(null)
+            }
+        }
+        return data;
+    }
+
 }

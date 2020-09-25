@@ -28,7 +28,7 @@ interface Api {
     @POST("checkMobileNo.php")
     suspend fun checkMobileNo(
         @Field("mobileNo") mobileNo : String,
-        @Field("msg") otp : String
+        @Field("otp") otp : String
     ) : Response<LoginResponse>
 
     @FormUrlEncoded
@@ -52,5 +52,31 @@ interface Api {
     suspend fun fetchUserOrder(
         @Field("userId") userId : String
     ) : Response<OrderResponse>
+
+    @FormUrlEncoded
+    @POST("fetchCoupon.php")
+    suspend fun fetchCoupons(
+        @Field("subCategoryName") subCategoryName : String
+    ) : Response<CouponResponse>
+
+    @FormUrlEncoded
+    @POST("checkPromoCode.php")
+    suspend fun checkPromoCode(
+        @Field("subCategoryName") subCategoryName : String,
+        @Field("promoCode") promoCode : String
+    ) : Response<CheckPromoCodeResponse>
+
+    @FormUrlEncoded
+    @POST("fetchCurrentBalance.php")
+    suspend fun currentBalance(
+        @Field("userId") userId : String
+    ) : Response<String>
+
+    @FormUrlEncoded
+    @POST("updateUserBalance.php")
+    suspend fun updateBalance(
+        @Field("userId") userId : String,
+        @Field("amount") amount : String
+    ) : Response<String>
 
 }

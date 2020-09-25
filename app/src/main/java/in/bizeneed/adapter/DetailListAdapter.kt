@@ -3,13 +3,14 @@ package `in`.bizeneed.adapter
 import `in`.bizeneed.model.DescriptionModel
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ElementDetailListBinding
+import `in`.bizeneed.response.DescriptionData
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class DetailListAdapter(
     var context: Context
-) : BaseRecyclerViewAdapter<DescriptionModel, ElementDetailListBinding>() {
+) : BaseRecyclerViewAdapter<DescriptionData, ElementDetailListBinding>() {
 
     override fun getLayout(): Int = R.layout.element_detail_list
 
@@ -19,18 +20,8 @@ class DetailListAdapter(
     ) {
 
         val currentItem = items[position]
-        holder.binding.title.text = currentItem.title
-
-        if (currentItem.list != null){
-            holder.binding.detailListRcv.layoutManager = LinearLayoutManager(context)
-            val listingAdapter2 = DetailListAdapter2(context)
-            listingAdapter2.addItems(currentItem.list!!)
-            holder.binding.detailListRcv.adapter = listingAdapter2
-            listingAdapter2.notifyDataSetChanged()
-            holder.binding.detailListRcv.visibility = View.VISIBLE
-        }else{
-            holder.binding.detailListRcv.visibility = View.GONE
-        }
+        holder.binding.title.text = currentItem.heading
+        holder.binding.body.text = currentItem.body
 
     }
 

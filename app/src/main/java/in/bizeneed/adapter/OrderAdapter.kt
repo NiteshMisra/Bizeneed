@@ -23,15 +23,19 @@ class OrderAdapter(
 
         val currentItem = items[position]
         holder.binding.title.text = currentItem.subCategoryName
-        Glide.with(context).load(Constants.IMAGE_URL + currentItem.subCategoryDetails[0].image).into(holder.binding.image)
+        if (currentItem.subCategoryDetails.isNotEmpty()){
+            Glide.with(context).load(Constants.IMAGE_URL + currentItem.subCategoryDetails[0].headerImage).into(holder.binding.image)
+        }
         holder.binding.date.text = (currentItem.timeOfOrder + currentItem.dateOfOrder)
         holder.binding.amount.text = ("\u20B9${currentItem.totalAmount}")
 
         holder.binding.layout.setOnClickListener {
-            val intent = Intent(context,ServiceDetail::class.java)
-            intent.putExtra(Constants.DATA,Gson().toJson(currentItem.subCategoryDetails[0]))
-            intent.putExtra(Constants.IS_PURCHASED,true)
-            context.startActivity(intent)
+            if (currentItem.subCategoryDetails.isNotEmpty()){
+                val intent = Intent(context,ServiceDetail::class.java)
+                intent.putExtra(Constants.DATA,Gson().toJson(currentItem.subCategoryDetails[0]))
+                intent.putExtra(Constants.IS_PURCHASED,true)
+                context.startActivity(intent)
+            }
         }
 
     }

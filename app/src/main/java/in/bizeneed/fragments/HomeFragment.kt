@@ -45,9 +45,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             startActivity(Intent(activity1,Address::class.java))
         }
 
-        binding.profile.setOnClickListener {
+        /*binding.profile.setOnClickListener {
             startActivity(Intent(activity1,Profile::class.java))
-        }
+        }*/
 
         binding.searchImage.setOnClickListener {
             startActivity(Intent(activity1,SearchActivity::class.java))
@@ -76,7 +76,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             myViewModel.getBanners("2").observe(activity1, Observer {
                 it.let {
                     it.let {
-                        Glide.with(activity1).load(Constants.IMAGE_URL + it.data[0].image).into(binding.image)
+                        if (it.data.isNotEmpty()){
+                            binding.bannerText.visibility = View.VISIBLE
+                            binding.image.visibility = View.VISIBLE
+                            Glide.with(activity1).load(Constants.IMAGE_URL + it.data[0].image).into(binding.image)
+                        }else{
+                            binding.bannerText.visibility = View.GONE
+                            binding.image.visibility = View.GONE
+                        }
                     }
                 }
             })
@@ -113,8 +120,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         }
                     }
 
-                    servicesAdapter = ServicesAdapter(activity1)
-                    servicesAdapter?.addItems(serviceList)
+                    servicesAdapter = ServicesAdapter(activity1,serviceList)
                     binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
                     binding.servicesRcv.adapter = servicesAdapter
                     servicesAdapter?.notifyDataSetChanged()

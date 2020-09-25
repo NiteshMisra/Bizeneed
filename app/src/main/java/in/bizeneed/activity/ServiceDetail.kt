@@ -2,15 +2,18 @@ package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
 import `in`.bizeneed.adapter.CommentAdapter
+import `in`.bizeneed.adapter.DetailListAdapter
 import `in`.bizeneed.adapter.ServiceImagesAdapter
 import `in`.bizeneed.databinding.ActivityServiceDetailBinding
 import `in`.bizeneed.extras.Constants
+import `in`.bizeneed.extras.formattedRating
 import `in`.bizeneed.extras.isConnected
 import `in`.bizeneed.response.CommentData
 import `in`.bizeneed.response.SubCategoryData
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -30,13 +33,13 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
         isPurchased = intent.getBooleanExtra(Constants.IS_PURCHASED,false)
         subCategoryData = Gson().fromJson(value, SubCategoryData::class.java)
 
-        Glide.with(this).load(Constants.IMAGE_URL + subCategoryData.image).into(binding.image)
+        Glide.with(this).load(Constants.IMAGE_URL + subCategoryData.headerImage).into(binding.image)
         binding.name.text = subCategoryData.name
         binding.title.text = subCategoryData.name
         binding.offer.text = ("Use Code: ${subCategoryData.promoCode} to get ${subCategoryData.discount}% Additional Discount")
-        binding.crossedPrice.text = ("\u20B9${subCategoryData.mrp}*")
+        binding.crossedPrice.text = ("\u20B9${subCategoryData.mrp}")
         binding.currentPrice.text = ("\u20B9${subCategoryData.sellingPrice}*")
-        binding.desc.text = subCategoryData.description
+        //binding.desc.text = subCategoryData.description
 
         if (isPurchased){
             binding.bookBtn.visibility = View.GONE
@@ -50,6 +53,7 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
 
         imagesList()
         commentList()
+        detailList()
 
         binding.crossedPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
@@ -74,76 +78,50 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
             myViewModel.fetchAllComment(subCategoryData.name).observe(this, Observer {
                 hideProgress()
                 it.let {
-                    val commentList : ArrayList<CommentData> = ArrayList()
+                    var sumRating : Float = 0F
                     for (item in it.data){
-                        if (commentList.size == 20){
-                            break
-                        }
-                        commentList.add(item)
+                       sumRating += item.rating.toFloat()
                     }
 
-                    if (commentList.size == 0){
+                    if (it.data.isNotEmpty()){
+                        binding.rating.text = (sumRating/(it.data.size)).toString()
+                    }else{
+                        binding.rating.text = ("0.0")
+                    }
+                    binding.ratingCount.text = ("(${formattedRating(it.data.size)} ratings)")
+
+                    if (it.data.isEmpty()){
                         binding.commentLayout.visibility = View.GONE
                     }else{
                         binding.commentLayout.visibility = View.VISIBLE
                     }
 
                     val commentAdapter = CommentAdapter(this)
-                    commentAdapter.addItems(commentList)
+                    commentAdapter.addItems(it.data)
                     binding.commentRcv.adapter = commentAdapter
                     commentAdapter.notifyDataSetChanged()
                 }
             })
         }else{
+            hideProgress()
             Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show()
         }
     }
 
-    /*private fun detailList() {
-        val list : ArrayList<DescriptionModel> = ArrayList()
-        val list2 : ArrayList<DescriptionModel> = ArrayList()
-        list2.add(DescriptionModel("Certificate of Incorporation",null))
-        list2.add(DescriptionModel("Company Name Approval",null))
-        list2.add(DescriptionModel("2 Director Identification Numbers (DIN) Digital Signature Token for 2 Directors",null))
-        list2.add(DescriptionModel("Memorandum of Association",null))
-        list2.add(DescriptionModel("ESI/PF Registration",null))
-        list2.add(DescriptionModel("Articles of association",null))
-        list2.add(DescriptionModel("Company PAN Card",null))
-        list2.add(DescriptionModel("Comany TAN Number",null))
-        list2.add(DescriptionModel("Bank A/c Opening Support",null))
+    private fun detailList() {
 
-        val list3 : ArrayList<DescriptionModel> = ArrayList()
-        list3.add(DescriptionModel("One week Post Submission of documents",null))
+        if (subCategoryData.mulitpleDescription != null){
+            binding.listDescRcv.layoutManager = LinearLayoutManager(this)
 
-        val list4 : ArrayList<DescriptionModel> = ArrayList()
-        list4.add(DescriptionModel("Step-1 Choose a unique name for your company using Spice+ Part-A",null))
-        list4.add(DescriptionModel("Step-2 Apply for DSC for Subscribers",null))
-        list4.add(DescriptionModel("Step-3 Drafting prrparation of Spice+ PartB, eMOA, eAOA & AGILEPRO",null))
-        list4.add(DescriptionModel("Step-5 Apply for DSC for Subscribers",null))
-        list4.add(DescriptionModel("Step-6 Choose a unique name for your company using Spice+ Part-A",null))
-
-        val list5 : ArrayList<DescriptionModel> = ArrayList()
-        list5.add(DescriptionModel("Step-1 Choose a unique name for your company using Spice+ Part-A",list4))
-        list5.add(DescriptionModel("Step-2 Apply for DSC for Subscribers",list4))
-        list5.add(DescriptionModel("Step-3 Drafting prrparation of Spice+ PartB, eMOA, eAOA & AGILEPRO",list4))
-        list5.add(DescriptionModel("Step-5 Apply for DSC for Subscribers",list4))
-        list5.add(DescriptionModel("Step-6 Choose a unique name for your company using Spice+ Part-A",list4))
-
-        list.add(DescriptionModel("Deliverables",list2))
-        list.add(DescriptionModel("Time Taken",list3))
-        list.add(DescriptionModel("Process",list4))
-        list.add(DescriptionModel("Checklist of Documents Required",list5))
-
-        binding.detailListRcv.layoutManager = LinearLayoutManager(this)
-
-        val detailListAdapter = DetailListAdapter(this)
-        detailListAdapter.addItems(list)
-        binding.detailListRcv.adapter = detailListAdapter
-        detailListAdapter.notifyDataSetChanged()
-    }*/
+            val detailListAdapter = DetailListAdapter(this)
+            detailListAdapter.addItems(subCategoryData.mulitpleDescription!!)
+            binding.listDescRcv.adapter = detailListAdapter
+            detailListAdapter.notifyDataSetChanged()
+        }
+    }
 
     private fun imagesList() {
-        val servicesAdapter = ServiceImagesAdapter(this)
+        val servicesAdapter = ServiceImagesAdapter(this,subCategoryData.demoImages)
         servicesAdapter.addItems(subCategoryData.demoImages)
         binding.detailServicesRcv.layoutManager = LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
         binding.detailServicesRcv.adapter = servicesAdapter

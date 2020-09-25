@@ -21,7 +21,7 @@ class MoreServicesAdapter(var context: Context) : BaseRecyclerViewAdapter<Servic
         val currentItem = items[position]
 
         holder.binding.title.text = currentItem.name
-        Glide.with(context).load(Constants.IMAGE_URL + currentItem.image).into(holder.binding.image)
+        Glide.with(context).load(Constants.IMAGE_URL + currentItem.headerImage).into(holder.binding.image)
 
         holder.binding.layout.setOnClickListener{
             val intent = Intent(context,ServiceCategory::class.java)

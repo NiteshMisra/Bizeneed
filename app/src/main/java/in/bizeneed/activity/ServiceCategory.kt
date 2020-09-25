@@ -25,7 +25,7 @@ class ServiceCategory : BaseActivity<ActivityServiceCategoryBinding>(), Category
         val value = intent.getStringExtra(Constants.DATA)
         serviceData = Gson().fromJson(value,ServiceData::class.java)
 
-        Glide.with(this).load(Constants.IMAGE_URL + serviceData.image).into(binding.image)
+        Glide.with(this).load(Constants.IMAGE_URL + serviceData.mainImage).into(binding.image)
 
         binding.backBtn.setOnClickListener { onBackPressed() }
         binding.title.text = serviceData.name
