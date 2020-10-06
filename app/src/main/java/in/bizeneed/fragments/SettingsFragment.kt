@@ -5,6 +5,7 @@ import `in`.bizeneed.R
 import `in`.bizeneed.activity.*
 import `in`.bizeneed.databinding.FragmentProfileBinding
 import `in`.bizeneed.extras.AppPrefData
+import `in`.bizeneed.extras.getUserReferCode
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -60,7 +61,7 @@ class SettingsFragment : BaseFragment<FragmentProfileBinding>() {
         binding.share.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
-            intent.putExtra(Intent.EXTRA_TEXT,"Hey check out my app: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
+            intent.putExtra(Intent.EXTRA_TEXT,"Hey check out my app: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + ". Use my Refer Code : ${getUserReferCode()}, to get cashBack in your wallet")
             intent.type = "text/plain"
             startActivity(intent)
         }

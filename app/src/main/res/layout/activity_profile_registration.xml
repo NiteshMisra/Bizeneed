@@ -7,6 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         tools:context=".activity.ProfileRegistration">
 
         <androidx.core.widget.NestedScrollView
@@ -26,7 +27,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:background="#F0F0F0"
+                        android:background="#FFFFFF"
                         android:layout_alignParentBottom="true"
                         android:layout_height="40dp"/>
 

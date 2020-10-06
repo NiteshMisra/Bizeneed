@@ -109,29 +109,33 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
             getUserReferCode()
         )
 
-        myViewModel.checkReferalNo(binding.couponCodeEdt.text.toString().trim(),binding.nameEdt.text.toString()).observe(this, Observer { it1 ->
+        if (binding.couponCodeEdt.text.trim().toString().isNotEmpty()){
+            myViewModel.checkReferalNo(binding.couponCodeEdt.text.toString().trim(),binding.nameEdt.text.toString()).observe(this, Observer { it1 ->
 
-            if (it1 == null){
-                hideProgress()
-                Toast.makeText(this,"Some error occurred,Try again Later",Toast.LENGTH_SHORT).show()
-                return@Observer
-            }
-
-            if (it1.data[0].isReferalValid.toLowerCase(Locale.getDefault()) == "in valid"){
-                hideProgress()
-                Toast.makeText(this,"Invalid Refer Code",Toast.LENGTH_SHORT).show()
-            }else{
-                val dialog = CouponAddDialog(0)
-                dialog.show(supportFragmentManager,"CouponDialog")
-
-                Coroutines.main {
-                    delay(2500)
-                    updateApi(updateModel,newUser)
+                if (it1 == null){
+                    hideProgress()
+                    Toast.makeText(this,"Some error occurred,Try again Later",Toast.LENGTH_SHORT).show()
+                    return@Observer
                 }
 
-            }
+                if (it1.data[0].isReferalValid.toLowerCase(Locale.getDefault()) == "in valid"){
+                    hideProgress()
+                    Toast.makeText(this,"Invalid Refer Code",Toast.LENGTH_SHORT).show()
+                }else{
+                    val dialog = CouponAddDialog(0)
+                    dialog.show(supportFragmentManager,"CouponDialog")
 
-        })
+                    Coroutines.main {
+                        delay(2500)
+                        updateApi(updateModel,newUser)
+                    }
+
+                }
+
+            })
+        }else{
+            updateApi(updateModel,newUser)
+        }
     }
 
     private fun updateApi(updateModel : UpdateModel,newUser : User) {

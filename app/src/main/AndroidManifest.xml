@@ -53,9 +53,6 @@
             android:name=".activity.Registration"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".activity.Login"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
             android:name=".activity.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

@@ -24,8 +24,8 @@ class MyViewModel(
         return myRepository.getAllCategory(serviceName)
     }
 
-    fun checkMobileNo(mobileNo : String, otp : String) : LiveData<LoginResponse>{
-        return myRepository.checkMobileNo(mobileNo,otp)
+    fun checkMobileNo(mobileNo : String, otp : String, token : String) : LiveData<LoginResponse>{
+        return myRepository.checkMobileNo(mobileNo,otp,token)
     }
 
     fun cancelOrder(orderId : String, name : String, amount : String, subCategoryName : String) : LiveData<CancelOrderResponse>{

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
@@ -10,6 +12,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.google.firebase.iid.FirebaseInstanceId
 
 class LoginActivity2 : BaseActivity<ActivityLogin2Binding>() {
 
@@ -31,10 +34,14 @@ class LoginActivity2 : BaseActivity<ActivityLogin2Binding>() {
 
             val mobileNo = ("91${binding.mobileNoEdt.text}")
 
-            val otp = generateOTP()
+            var otp = generateOTP()
+            while (otp.toString().length < 6){
+                otp = generateOTP()
+            }
 
+            val token : String = FirebaseInstanceId.getInstance().token!!
             showProgressBar(null)
-            myViewModel.checkMobileNo(mobileNo,otp.toString()).observe(this, Observer {
+            myViewModel.checkMobileNo(mobileNo,otp.toString(),token).observe(this, Observer {
                 hideProgress()
 
                 if (it == null){

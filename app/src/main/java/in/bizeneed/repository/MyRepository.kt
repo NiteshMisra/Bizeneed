@@ -104,12 +104,12 @@ class MyRepository(var context: Context) {
         return data
     }
 
-    fun checkMobileNo(mobileNo: String, otp: String): MutableLiveData<LoginResponse> {
+    fun checkMobileNo(mobileNo: String, otp: String, token : String): MutableLiveData<LoginResponse> {
         val data: MutableLiveData<LoginResponse> = MutableLiveData()
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.checkMobileNo(mobileNo, otp)
+                val response = retrofitClient.api.checkMobileNo(mobileNo, otp,token)
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)

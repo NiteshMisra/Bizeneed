@@ -32,14 +32,14 @@ class ContactUs : BaseActivity<ActivityContactUsBinding>() {
             })
         }
 
-        binding.callUs.setOnClickListener {
+        binding.chatWithUs.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=+917710771301"
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
 
-        binding.chatWithUs.setOnClickListener {
+        binding.callUs.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse("tel:" + "7710771301")
             startActivity(intent)

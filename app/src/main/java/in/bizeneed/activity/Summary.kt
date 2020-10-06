@@ -146,8 +146,9 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 AppPrefData.walletAmount(it)
                 if (it.toInt() > 0) {
                     binding.walletLayout.visibility = View.VISIBLE
-                    walletDeductAmount = if (amountToBePaid > it.toInt()) {
-                        it.toInt()
+                    val percentageAmount = (it.toInt() * subCategoryData.walletWithdrawalPercent.toInt() )/100
+                    walletDeductAmount = if (amountToBePaid > percentageAmount) {
+                        percentageAmount
                     } else {
                         amountToBePaid
                     }
