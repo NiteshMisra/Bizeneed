@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "201184607724",
+    "firebase_url": "https://companify-97e33.firebaseio.com",
+    "project_id": "companify-97e33",
+    "storage_bucket": "companify-97e33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201184607724:android:f0443142a8303ebe9894c9",
+        "android_client_info": {
+          "package_name": "in.bizeneed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201184607724-ro25eb4nougngb2fn99qk9kcssnpuo23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.bizeneed",
+            "certificate_hash": "a75ed9b33f454644a0f2658be9dab216d0b404f4"
+          }
+        },
+        {
+          "client_id": "201184607724-evqost458qb5mjqdl9c2e43s6q18agh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkMdks0ItqxxRmwOrAgm3PLd_ohnO-E4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201184607724-evqost458qb5mjqdl9c2e43s6q18agh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
