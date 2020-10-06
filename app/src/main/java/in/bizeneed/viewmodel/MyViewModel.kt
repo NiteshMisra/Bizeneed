@@ -64,8 +64,8 @@ class MyViewModel(
         return myRepository.checkPromoCode(subCategoryName,promoCode)
     }
 
-    fun checkReferalNo(referNo: String) : LiveData<ResponseBody>{
-        return myRepository.checkReferalNo(referNo)
+    fun checkReferalNo(referNo: String, name : String) : LiveData<CheckPromoCodeResponse>{
+        return myRepository.checkReferalNo(referNo,name)
     }
 
     fun sendFeedBack(feedBack: String) : LiveData<ResponseBody>{

@@ -251,6 +251,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/priceDesc"
                 android:layout_width="wrap_content"
                 android:textColor="#676767"
                 android:text="*Above Price are excluding out of pocket expenses and GST"

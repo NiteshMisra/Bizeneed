@@ -2,10 +2,7 @@ package `in`.bizeneed.fragments
 
 import `in`.bizeneed.BuildConfig
 import `in`.bizeneed.R
-import `in`.bizeneed.activity.ContactUs
-import `in`.bizeneed.activity.Login
-import `in`.bizeneed.activity.Profile
-import `in`.bizeneed.activity.WalletHistory
+import `in`.bizeneed.activity.*
 import `in`.bizeneed.databinding.FragmentProfileBinding
 import `in`.bizeneed.extras.AppPrefData
 import android.content.Intent
@@ -45,7 +42,7 @@ class SettingsFragment : BaseFragment<FragmentProfileBinding>() {
             ) { p0, _ ->
                 p0.dismiss()
                 AppPrefData.isLogin(false)
-                val intent = Intent(activity1,Login::class.java)
+                val intent = Intent(activity1,GetStartedActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }

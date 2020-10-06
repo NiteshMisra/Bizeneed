@@ -25,7 +25,11 @@ class CouponAddDialog(var cashBack : Int) : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.message.text = ("Hurray!! You have won \u20B9 $cashBack")
+        if (cashBack > 0){
+            binding.message.text = ("Hurray!! You have won \u20B9 $cashBack")
+        }else{
+            binding.message.text = ("Hurray!! You and your friend got the refer CashBack")
+        }
     }
 
     override fun onStart() {

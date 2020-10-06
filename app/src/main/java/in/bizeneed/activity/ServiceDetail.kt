@@ -49,6 +49,12 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
         binding.crossedPrice.text = ("\u20B9${subCategoryData.mrp}")
         binding.currentPrice.text = ("\u20B9${subCategoryData.sellingPrice}*")
 
+        if (!subCategoryData.description.isNullOrEmpty()){
+            binding.priceDesc.text = subCategoryData.description
+        }else{
+            binding.priceDesc.visibility = View.GONE
+        }
+
         if (isPurchased) {
             val order = intent.getStringExtra(Constants.ORDER_DATA)
             orderDetail = Gson().fromJson(order, OrderData::class.java)

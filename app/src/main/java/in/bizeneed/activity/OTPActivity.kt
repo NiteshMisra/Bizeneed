@@ -10,6 +10,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.auth.api.phone.SmsRetriever
 
@@ -25,6 +26,7 @@ class OTPActivity : BaseActivity<ActivityOtpBinding>() {
         mobile = intent.getStringExtra(Constants.MOBILE)!!
         otp = intent.getStringExtra(Constants.OTP)!!
 
+        Log.e("data",otp)
         binding.mobileTxt.text = ("+91 ${mobile.substring(2)}")
         startSmsUserConsent()
 

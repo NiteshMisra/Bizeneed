@@ -116,7 +116,7 @@ interface Api {
         @Field("referalNo") referalNo : String,
         @Field("name") name : String,
         @Field("id") id : String
-    ) : Response<ResponseBody>
+    ) : Response<CheckPromoCodeResponse>
 
     @FormUrlEncoded
     @POST("addSuggestion.php")

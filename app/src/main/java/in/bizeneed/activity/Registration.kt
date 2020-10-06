@@ -38,9 +38,6 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
         binding.nameEdt.setText(user.name)
         binding.mobileEdt.text = user.mobile
         binding.emailEdt.setText(user.email)
-        user.address?.let {
-            binding.addressEdt.setText(it)
-        }
 
         user.state?.let {
             if (user.state!!.isEmpty()){
@@ -68,22 +65,37 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
                 return@setOnClickListener
             }
 
-            updateData()
+            if (binding.additionalMsg.text.toString().isNotEmpty()){
+                sendAdditionalMsg()
+            }else{
+                updateData()
+            }
         }
 
+    }
+
+    private fun sendAdditionalMsg() {
+        showProgressBar(null)
+        myViewModel.sendFeedBack(binding.additionalMsg.text.toString()).observe(this, Observer {
+            hideProgress()
+            it.let {
+                binding.additionalMsg.setText("")
+                Toast.makeText(this,"Message for the information",Toast.LENGTH_SHORT).show()
+                updateData()
+            }
+        })
     }
 
     private fun updateData() {
         showProgressBar(null)
         if (user.name != binding.nameEdt.text.toString()
-            || user.address != binding.addressEdt.text.toString()
             || user.email != binding.emailEdt.text.toString()
             || (user.state != state && state.isNotEmpty())
         ) {
 
             var address = ""
-            if (binding.addressEdt.text.toString().trim().isNotEmpty()){
-                address = binding.addressEdt.text.toString().trim()
+            if (user.address != null){
+                address = user.address!!
             }
 
             val newUser = User(

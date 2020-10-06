@@ -7,5 +7,7 @@ class CheckPromoCodeResponse(
 
 data class PromoData(
     val isValid : String,
-    val discountPrice : String
+    val discountPrice : String,
+    val isReferalValid : String,
+    val isAmountAddedInWallet : String
 )

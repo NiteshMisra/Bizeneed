@@ -2,6 +2,7 @@ package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ActivityProfileRegistrationBinding
+import `in`.bizeneed.dialog.CouponAddDialog
 import `in`.bizeneed.extras.AppPrefData
 import `in`.bizeneed.extras.getBitmap
 import `in`.bizeneed.extras.getUserReferCode
@@ -20,7 +21,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import kotlinx.coroutines.delay
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
 
@@ -106,20 +109,41 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
             getUserReferCode()
         )
 
-        myViewModel.updateUser(updateModel, newUser).observe(this, Observer {
+        myViewModel.checkReferalNo(binding.couponCodeEdt.text.toString().trim(),binding.nameEdt.text.toString()).observe(this, Observer { it1 ->
 
+            if (it1 == null){
+                hideProgress()
+                Toast.makeText(this,"Some error occurred,Try again Later",Toast.LENGTH_SHORT).show()
+                return@Observer
+            }
+
+            if (it1.data[0].isReferalValid.toLowerCase(Locale.getDefault()) == "in valid"){
+                hideProgress()
+                Toast.makeText(this,"Invalid Refer Code",Toast.LENGTH_SHORT).show()
+            }else{
+                val dialog = CouponAddDialog(0)
+                dialog.show(supportFragmentManager,"CouponDialog")
+
+                Coroutines.main {
+                    delay(2500)
+                    updateApi(updateModel,newUser)
+                }
+
+            }
+
+        })
+    }
+
+    private fun updateApi(updateModel : UpdateModel,newUser : User) {
+        myViewModel.updateUser(updateModel, newUser).observe(this, Observer {
+            hideProgress()
             if (it == null) {
                 Toast.makeText(this, "Failed to Update", Toast.LENGTH_SHORT).show()
                 return@Observer
             }
 
             if (it) {
-                if (binding.couponCodeEdt.text.toString().trim().isEmpty()) {
-                    moveToNextActivity()
-                } else {
-                    myViewModel.checkReferalNo(binding.couponCodeEdt.text.toString().trim())
-                        .observe(this, Observer { moveToNextActivity() })
-                }
+                moveToNextActivity()
             } else {
                 Toast.makeText(this, "Failed to Update", Toast.LENGTH_SHORT).show()
             }

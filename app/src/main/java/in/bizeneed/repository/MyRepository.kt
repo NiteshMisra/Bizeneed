@@ -17,6 +17,7 @@ import okhttp3.ResponseBody
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.*
 
 class MyRepository(var context: Context) {
 
@@ -157,12 +158,18 @@ class MyRepository(var context: Context) {
         return data
     }
 
-    fun cancelOrder(orderId : String, name : String, amount : String, subCategoryName : String): MutableLiveData<CancelOrderResponse> {
+    fun cancelOrder(
+        orderId: String,
+        name: String,
+        amount: String,
+        subCategoryName: String
+    ): MutableLiveData<CancelOrderResponse> {
         val data: MutableLiveData<CancelOrderResponse> = MutableLiveData()
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.cancelOrder(orderId, name, amount, subCategoryName)
+                val response =
+                    retrofitClient.api.cancelOrder(orderId, name, amount, subCategoryName)
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)
@@ -189,7 +196,8 @@ class MyRepository(var context: Context) {
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.fetchWalletHistory(AppPrefData.user()!!.id.toString())
+                val response =
+                    retrofitClient.api.fetchWalletHistory(AppPrefData.user()!!.id.toString())
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)
@@ -387,7 +395,10 @@ class MyRepository(var context: Context) {
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.checkPromoCode(subCategoryName, promoCode)
+                val response = retrofitClient.api.checkPromoCode(
+                    subCategoryName,
+                    promoCode.toUpperCase(Locale.getDefault())
+                )
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)
@@ -409,15 +420,16 @@ class MyRepository(var context: Context) {
     }
 
     fun checkReferalNo(
-        referalNo: String
-    ): MutableLiveData<ResponseBody> {
-        val data: MutableLiveData<ResponseBody> = MutableLiveData()
+        referalNo: String,
+        name: String
+    ): MutableLiveData<CheckPromoCodeResponse> {
+        val data: MutableLiveData<CheckPromoCodeResponse> = MutableLiveData()
 
         Coroutines.io {
             try {
                 val response = retrofitClient.api.checkReferralNo(
-                    referalNo,
-                    AppPrefData.user()!!.name!!,
+                    referalNo.toUpperCase(Locale.getDefault()),
+                    name,
                     AppPrefData.user()!!.id.toString()
                 )
                 if (response.isSuccessful) {

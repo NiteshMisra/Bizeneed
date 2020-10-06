@@ -100,9 +100,9 @@ class Login : BaseActivity<ActivityLoginBinding>() {
         imageList.add(R.raw.salon)
         imageList.add(R.raw.cleaning)
         imageList.add(R.raw.safety)
-        val loginImageAdapter = LoginImageAdapter(this,imageList)
+        /*val loginImageAdapter = LoginImageAdapter(this,imageList)
         binding.viewPager.adapter = loginImageAdapter
-        loginImageAdapter.notifyDataSetChanged()
+        loginImageAdapter.notifyDataSetChanged()*/
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {

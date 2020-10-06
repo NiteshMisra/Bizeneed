@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:text="Address"
+                    android:text="Additional Information ( Optional )"
                     android:textSize="13sp"
                     android:fontFamily="@font/poppins"
                     android:textStyle="bold"
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
-                    android:id="@+id/addressEdt"
+                    android:id="@+id/additionalMsg"
                     android:layout_width="match_parent"
                     android:background="@drawable/address_edt_bg"
                     android:layout_marginStart="15dp"

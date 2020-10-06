@@ -19,6 +19,7 @@ data class SubCategoryData(
     val name : String,
     val headerImage : String,
     val discount : String,
+    val description : String?,
     val promoCode : String,
     val sellingPrice : String,
     val walletWithdrawalPercent : String,
