@@ -146,12 +146,12 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 AppPrefData.walletAmount(it)
                 if (it.toInt() > 0) {
                     binding.walletLayout.visibility = View.VISIBLE
-                    binding.walletDeduct.text = ("- \u20B9$it")
                     walletDeductAmount = if (amountToBePaid > it.toInt()) {
                         it.toInt()
                     } else {
                         amountToBePaid
                     }
+                    binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
 
                 } else {
                     binding.walletLayout.visibility = View.GONE
