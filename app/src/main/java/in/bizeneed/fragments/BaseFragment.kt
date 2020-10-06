@@ -19,7 +19,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import dmax.dialog.SpotsDialog
 
 abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 

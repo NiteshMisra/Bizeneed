@@ -40,7 +40,6 @@ class RetrofitClient {
         }
 
         val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(120,TimeUnit.SECONDS)
             .addInterceptor(interceptor)
             .build()
 

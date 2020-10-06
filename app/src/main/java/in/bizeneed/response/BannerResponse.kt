@@ -8,5 +8,6 @@ data class BannerResponse(
 data class BannerData(
     val id : String,
     val image : String,
-    val description : String
+    val description : String,
+    val subCategory : List<SubCategoryData>?
 )

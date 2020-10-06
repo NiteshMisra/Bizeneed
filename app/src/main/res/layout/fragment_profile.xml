@@ -20,60 +20,179 @@
             android:textColor="@color/white"
             android:textSize="17sp" />
 
-        <ImageView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:src="@drawable/company_logo"
-            android:scaleType="centerCrop"
-            android:padding="45dp"
-            android:layout_height="150dp"/>
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
 
-        <View
-            android:layout_width="match_parent"
-            android:background="#BFBFBF"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="25dp"
-            android:layout_height="1dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/profile"
-            android:layout_width="match_parent"
-            android:text="Profile"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:drawableStart="@drawable/ic_baseline_person_24"
-            android:drawablePadding="15dp"
-            android:padding="15dp"
-            android:gravity="center_vertical"
-            android:fontFamily="@font/roboto_bold"
-            android:layout_height="wrap_content"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:background="#BFBFBF"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_height="1dp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:src="@drawable/company_logo"
+                    android:scaleType="centerCrop"
+                    android:padding="45dp"
+                    android:layout_height="150dp"/>
 
-        <TextView
-            android:id="@+id/logOut"
-            android:layout_width="match_parent"
-            android:text="Log Out"
-            android:textSize="14sp"
-            android:textColor="#FF0000"
-            android:drawableStart="@drawable/ic_baseline_exit_to_app_24"
-            android:drawablePadding="15dp"
-            android:padding="15dp"
-            android:gravity="center_vertical"
-            android:fontFamily="@font/roboto_bold"
-            android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_height="1dp"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:background="#BFBFBF"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_height="1dp"/>
+                <RelativeLayout
+                    android:id="@+id/walletLayout"
+                    android:layout_width="match_parent"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/walletImage"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_wallet"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/walletImage"
+                        android:layout_marginStart="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@id/walletBalance"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="Wallet Balance "
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:gravity="center_vertical"
+                            android:fontFamily="@font/roboto_bold"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="You can use it while purchasing only"
+                            android:textSize="11sp"
+                            android:textColor="#555555"
+                            android:gravity="center_vertical"
+                            android:fontFamily="@font/roboto_medium"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/walletBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:drawablePadding="15dp"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center_vertical"
+                        android:fontFamily="@font/roboto_bold"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:id="@+id/profile"
+                    android:layout_width="match_parent"
+                    android:text="Profile"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_baseline_person_24"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:id="@+id/share"
+                    android:layout_width="match_parent"
+                    android:text="Share App"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_baseline_share_24"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:id="@+id/contactUs"
+                    android:layout_width="match_parent"
+                    android:text="Contact Us"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_baseline_contact_support_24"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:id="@+id/logOut"
+                    android:layout_width="match_parent"
+                    android:text="Log Out"
+                    android:textSize="14sp"
+                    android:textColor="#FF0000"
+                    android:drawableStart="@drawable/ic_baseline_exit_to_app_24"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="1dp"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

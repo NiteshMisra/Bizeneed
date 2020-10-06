@@ -15,5 +15,7 @@ data class User(
     val address : String?,
     val city : String?,
     val state : String?,
-    val pincode : String?
+    val pincode : String?,
+    var wallet : String?,
+    var profile : String?
 )

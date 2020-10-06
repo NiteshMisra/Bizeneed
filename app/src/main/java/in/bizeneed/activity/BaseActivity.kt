@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
-import dmax.dialog.SpotsDialog
 import java.util.*
 
 abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity() {
@@ -42,17 +41,21 @@ abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity() {
             pDialog?.setTitle(null)
             pDialog?.isIndeterminate = false
             pDialog?.setCancelable(false)
-            if (message == null) {
-                pDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                pDialog?.show()
-                pDialog?.setContentView(R.layout.progress_bar_layout)
-            } else if (message.isEmpty()) {
-                pDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                pDialog?.show()
-                pDialog?.setContentView(R.layout.progress_bar_layout)
-            } else {
-                pDialog?.setMessage(message)
-                pDialog?.show()
+            when {
+                message == null -> {
+                    pDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    pDialog?.show()
+                    pDialog?.setContentView(R.layout.progress_bar_layout)
+                }
+                message.isEmpty() -> {
+                    pDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    pDialog?.show()
+                    pDialog?.setContentView(R.layout.progress_bar_layout)
+                }
+                else -> {
+                    pDialog?.setMessage(message)
+                    pDialog?.show()
+                }
             }
         }
     }

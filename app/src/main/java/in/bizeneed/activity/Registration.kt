@@ -2,9 +2,7 @@ package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ActivityRegistrationBinding
-import `in`.bizeneed.extras.AppPrefData
-import `in`.bizeneed.extras.Constants
-import `in`.bizeneed.extras.isConnected
+import `in`.bizeneed.extras.*
 import `in`.bizeneed.model.UpdateModel
 import `in`.bizeneed.response.SubCategoryData
 import `in`.bizeneed.response.User
@@ -19,7 +17,7 @@ import com.google.gson.Gson
 
 class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.OnItemSelectedListener {
 
-    private var user: User? = null
+    private lateinit var user: User
     private lateinit var subCategoryData : SubCategoryData
     private var state : String = ""
 
@@ -28,39 +26,45 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
         val value = intent.getStringExtra(Constants.DATA)
         subCategoryData = Gson().fromJson(value, SubCategoryData::class.java)
 
-        val adapter = ArrayAdapter.createFromResource(this,R.array.states,android.R.layout.simple_spinner_item)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item,getStates())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         binding.stateSpinner.adapter = adapter
         binding.stateSpinner.onItemSelectedListener = this
 
-        user = AppPrefData.user()
-        user?.let { user1 ->
-            user1.name?.let {
-                binding.nameEdt.setText(it)
+        binding.backBtn.setOnClickListener { onBackPressed() }
+
+        user = AppPrefData.user()!!
+        binding.nameEdt.setText(user.name)
+        binding.mobileEdt.text = user.mobile
+        binding.emailEdt.setText(user.email)
+        user.address?.let {
+            binding.addressEdt.setText(it)
+        }
+
+        user.state?.let {
+            if (user.state!!.isEmpty()){
+                binding.stateSpinner.setSelection(0)
+            }else{
+                val list = getStates()
+                val index = list.indexOf(user.state!!)
+                binding.stateSpinner.setSelection(index)
             }
-            user1.address.let {
-                binding.addressEdt.setText(it)
-            }
-            user1.email.let {
-                binding.emailEdt.setText(it)
-            }
-            user1.mobile.let {
-                binding.mobileEdt.text = it
-            }
-            /*user1.state.let {
-                binding.stateEdt.setText(it)
-            }*/
         }
 
         binding.continueBtn.setOnClickListener {
 
             if (binding.nameEdt.text.toString().isEmpty()
-                || binding.addressEdt.text.toString().isEmpty()
                 || binding.emailEdt.text.toString().isEmpty()
+                || state.isEmpty()
             ) {
 
                 Toast.makeText(this, "Please fill the credentials", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!isEmailValid(binding.emailEdt.text.toString())){
+                Toast.makeText(this, "Please enter valid email-id", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -71,17 +75,22 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
 
     private fun updateData() {
         showProgressBar(null)
-        if (user?.name != binding.nameEdt.text.toString()
-            || user?.address != binding.addressEdt.text.toString()
-            || user?.email != binding.emailEdt.text.toString()
-            || state.isNotEmpty()
+        if (user.name != binding.nameEdt.text.toString()
+            || user.address != binding.addressEdt.text.toString()
+            || user.email != binding.emailEdt.text.toString()
+            || (user.state != state && state.isNotEmpty())
         ) {
 
+            var address = ""
+            if (binding.addressEdt.text.toString().trim().isNotEmpty()){
+                address = binding.addressEdt.text.toString().trim()
+            }
+
             val newUser = User(
-                user!!.id, binding.mobileEdt.text.toString(),
+                user.id, user.mobile,
                 binding.nameEdt.text.toString(), binding.emailEdt.text.toString(),
-                binding.addressEdt.text.toString(), user!!.city,
-                state, user!!.pincode
+                address, user.city,
+                state, user.pincode, user.wallet,user.profile
             )
 
             var pinCode = ""
@@ -92,27 +101,27 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
             if(newUser.city != null){
                 city = newUser.city
             }
+            val profile = ""
             val updateModel = UpdateModel(
                 newUser.name!!, newUser.email!!, newUser.address!!,
-                city, newUser.state!!, pinCode, newUser.id.toString()
+                city, newUser.state!!, pinCode, newUser.id.toString(),profile, getUserReferCode()
             )
 
-            if (isConnected(this)){
-                myViewModel.updateUser(updateModel).observe(this, Observer {
-                    hideProgress()
-                    it?.let {
-                        if (it){
-                            AppPrefData.user(newUser)
-                            val intent = Intent(this,Summary::class.java)
-                            intent.putExtra(Constants.DATA,Gson().toJson(subCategoryData))
-                            startActivity(intent)
-                        }
-                    }
-                })
-            }else{
+            myViewModel.updateUser(updateModel,newUser).observe(this, Observer {
                 hideProgress()
-                Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show()
-            }
+                if (it == null){
+                    Toast.makeText(this,"Failed to update",Toast.LENGTH_SHORT).show()
+                    return@Observer
+                }
+
+                if (it){
+                    val intent = Intent(this,Summary::class.java)
+                    intent.putExtra(Constants.DATA,Gson().toJson(subCategoryData))
+                    startActivity(intent)
+                }else{
+                    Toast.makeText(this,"Failed to update",Toast.LENGTH_SHORT).show()
+                }
+            })
 
         } else {
             hideProgress()
@@ -123,6 +132,7 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
     }
 
     override fun getLayoutRes(): Int = R.layout.activity_registration
+
     override fun onNothingSelected(p0: AdapterView<*>?) {
         state = ""
     }

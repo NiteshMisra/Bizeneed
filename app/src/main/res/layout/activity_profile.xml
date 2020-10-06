@@ -35,9 +35,10 @@
                     android:layout_height="80dp">
 
                     <ImageView
+                        android:id="@+id/userProfile"
                         android:layout_width="match_parent"
+                        android:scaleType="fitXY"
                         android:layout_height="match_parent"
-                        android:padding="10dp"
                         android:src="@drawable/boy"/>
 
                 </androidx.cardview.widget.CardView>
@@ -55,7 +56,6 @@
             <TextView
                 android:id="@+id/mobile"
                 android:layout_width="wrap_content"
-                android:text="9868629703"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -194,16 +194,16 @@
                 android:layout_marginTop="25sp"
                 android:layout_height="wrap_content"/>
 
-            <EditText
-                android:id="@+id/stateEdt"
+            <Spinner
+                android:id="@+id/stateSpinner"
                 android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
                 android:background="@drawable/address_edt_bg"
                 android:layout_marginStart="15dp"
-                android:gravity="start"
-                android:inputType="textMultiLine"
                 android:padding="12dp"
-                android:textSize="15sp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
                 android:layout_marginEnd="15dp"
                 android:layout_height="wrap_content"/>
 
@@ -217,11 +217,10 @@
                 android:fontFamily="@font/roboto_bold"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_alignParentBottom="true"
                 android:layout_marginTop="35dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="80dp"
                 android:padding="15dp"
-                android:text="Update Address"
+                android:text="Update"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>

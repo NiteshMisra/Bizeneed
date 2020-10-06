@@ -7,5 +7,7 @@ data class UpdateModel(
     var city : String,
     var state : String,
     var pincode : String,
-    var id : String
+    var id : String,
+    val profile : String,
+    val referCode : String
 )

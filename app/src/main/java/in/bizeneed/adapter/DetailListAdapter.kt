@@ -1,12 +1,13 @@
+@file:Suppress("DEPRECATION")
+
 package `in`.bizeneed.adapter
 
-import `in`.bizeneed.model.DescriptionModel
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ElementDetailListBinding
 import `in`.bizeneed.response.DescriptionData
 import android.content.Context
-import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.os.Build
+import android.text.Html
 
 class DetailListAdapter(
     var context: Context
@@ -20,8 +21,16 @@ class DetailListAdapter(
     ) {
 
         val currentItem = items[position]
-        holder.binding.title.text = currentItem.heading
-        holder.binding.body.text = currentItem.body
+        holder.binding.title.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            Html.fromHtml(currentItem.heading,Html.FROM_HTML_MODE_LEGACY)
+        }else{
+            Html.fromHtml(currentItem.heading)
+        }
+        holder.binding.body.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            Html.fromHtml(currentItem.body,Html.FROM_HTML_MODE_LEGACY)
+        }else{
+            Html.fromHtml(currentItem.body)
+        }
 
     }
 

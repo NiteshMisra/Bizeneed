@@ -2,17 +2,10 @@ package `in`.bizeneed.fragments
 
 import `in`.bizeneed.R
 import `in`.bizeneed.activity.MainActivity
-import `in`.bizeneed.adapter.BookingAdapter
-import `in`.bizeneed.adapter.BookingMonthAdapter
 import `in`.bizeneed.adapter.OrderAdapter
 import `in`.bizeneed.databinding.FragmentBookingsBinding
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 

@@ -3,18 +3,18 @@ package `in`.bizeneed.activity
 import `in`.bizeneed.R
 import `in`.bizeneed.adapter.LoginImageAdapter
 import `in`.bizeneed.databinding.ActivityLoginBinding
-import `in`.bizeneed.extras.AppPrefData
-import `in`.bizeneed.extras.generateOTP
-import `in`.bizeneed.extras.hideKeyBoard
-import `in`.bizeneed.extras.isConnected
+import `in`.bizeneed.extras.*
 import `in`.bizeneed.response.User
+import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import com.google.android.gms.auth.api.phone.SmsRetriever
 
 class Login : BaseActivity<ActivityLoginBinding>() {
 
@@ -23,6 +23,8 @@ class Login : BaseActivity<ActivityLoginBinding>() {
     private var otp : Int = 0
     private lateinit var mobileNo : String
     private lateinit var user : User
+    private val REQ_USER_CONSENT = 200
+    var smsBroadcastReceiver: SmsBroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +52,18 @@ class Login : BaseActivity<ActivityLoginBinding>() {
 
             otp = generateOTP()
 
-            if (isConnected(this)){
-                showProgressBar(null)
-                myViewModel.checkMobileNo(mobileNo,otp.toString()).observe(this, Observer {
-                    hideProgress()
-                    it?.let {
-                        Toast.makeText(this,"OTP sent successfully",Toast.LENGTH_SHORT).show()
-                        binding.otpSentTo.text = ("OTP sent to +91 XXXXX ${mobileNo.substring(5,10)}")
-                        binding.loginLayout.visibility = View.GONE
-                        binding.otpLayout.visibility = View.VISIBLE
-                        user = it.data[0]
-                    }
-                })
-            }else{
-                Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show()
-            }
+            showProgressBar(null)
+            myViewModel.checkMobileNo(mobileNo,otp.toString()).observe(this, Observer {
+                hideProgress()
+                it?.let {
+                    Toast.makeText(this,"OTP sent successfully",Toast.LENGTH_SHORT).show()
+                    startSmsUserConsent()
+                    binding.otpSentTo.text = ("OTP sent to +91 XXXXX ${mobileNo.substring(7,12)}")
+                    binding.loginLayout.visibility = View.GONE
+                    binding.otpLayout.visibility = View.VISIBLE
+                    user = it.data[0]
+                }
+            })
         }
 
         binding.loginBtn.setOnClickListener {
@@ -83,9 +82,15 @@ class Login : BaseActivity<ActivityLoginBinding>() {
 
             AppPrefData.user(user)
             AppPrefData.isLogin(true)
-            val intent = Intent(this,MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+            if (user.name == null || user.email == null){
+                val intent = Intent(this,ProfileRegistration::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }else{
+                val intent = Intent(this,MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
         }
 
     }
@@ -140,6 +145,44 @@ class Login : BaseActivity<ActivityLoginBinding>() {
 
         }
         countDownTimer?.start()
+    }
+
+    private fun startSmsUserConsent() {
+        val client = SmsRetriever.getClient(this)
+        //We can add sender phone number or leave it blank
+        // I'm adding null here
+        client.startSmsUserConsent(null)
+            .addOnSuccessListener { registerBroadcastReceiver() }
+            .addOnFailureListener { }
+    }
+
+    private fun registerBroadcastReceiver() {
+        if (smsBroadcastReceiver != null) {
+            return
+        }
+        smsBroadcastReceiver = SmsBroadcastReceiver()
+        smsBroadcastReceiver!!.smsBroadcastReceiverListener =
+            object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
+                override fun onSuccess(intent: Intent?) {
+                    startActivityForResult(intent, REQ_USER_CONSENT)
+                }
+
+                override fun onFailure() {}
+            }
+        val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+        registerReceiver(smsBroadcastReceiver, intentFilter)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_USER_CONSENT) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                //That gives all message to us.
+                // We need to get the code from inside with regex
+                val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                binding.otpEdt.setText(extractDigits(message))
+            }
+        }
     }
 
     override fun onBackPressed() {

@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 
-
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
@@ -27,13 +26,18 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val intent = if (AppPrefData.isLogin()) {
-                Intent(this, MainActivity::class.java)
+                val user = AppPrefData.user()!!
+                if (user.name == null || user.email == null){
+                    Intent(this, ProfileRegistration::class.java)
+                }else{
+                    Intent(this, MainActivity::class.java)
+                }
             } else {
                 Intent(this, Login::class.java)
             }
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
-            overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
+            overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out)
         }, 3000)
     }
 }

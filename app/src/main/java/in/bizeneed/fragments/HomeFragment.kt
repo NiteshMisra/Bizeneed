@@ -1,16 +1,14 @@
 package `in`.bizeneed.fragments
 
 import `in`.bizeneed.R
-import `in`.bizeneed.activity.Address
 import `in`.bizeneed.activity.Profile
-import `in`.bizeneed.activity.SearchActivity
+import `in`.bizeneed.activity.ServiceDetail
 import `in`.bizeneed.adapter.BannerAdapter
 import `in`.bizeneed.adapter.MoreServicesAdapter
 import `in`.bizeneed.adapter.ServicesAdapter
 import `in`.bizeneed.databinding.FragmentHomeBinding
 import `in`.bizeneed.extras.AppPrefData
 import `in`.bizeneed.extras.Constants
-import `in`.bizeneed.extras.isConnected
 import `in`.bizeneed.response.BannerData
 import `in`.bizeneed.response.ServiceData
 import android.content.Intent
@@ -19,11 +17,12 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.google.gson.Gson
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -41,16 +40,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             loadData()
         }
 
-        binding.location.setOnClickListener {
+        /*binding.location.setOnClickListener {
             startActivity(Intent(activity1,Address::class.java))
-        }
-
-        /*binding.profile.setOnClickListener {
-            startActivity(Intent(activity1,Profile::class.java))
         }*/
 
-        binding.searchImage.setOnClickListener {
-            startActivity(Intent(activity1,SearchActivity::class.java))
+        binding.profile.setOnClickListener {
+            startActivity(Intent(activity1, Profile::class.java))
         }
 
         binding.searchEdt.addTextChangedListener(object : TextWatcher{
@@ -72,65 +67,83 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun singleBanner() {
-        if (isConnected(activity1)){
-            myViewModel.getBanners("2").observe(activity1, Observer {
-                it.let {
-                    it.let {
-                        if (it.data.isNotEmpty()){
-                            binding.bannerText.visibility = View.VISIBLE
-                            binding.image.visibility = View.VISIBLE
-                            Glide.with(activity1).load(Constants.IMAGE_URL + it.data[0].image).into(binding.image)
-                        }else{
-                            binding.bannerText.visibility = View.GONE
-                            binding.image.visibility = View.GONE
-                        }
-                    }
+        myViewModel.getBanners("2").observe(activity1, Observer {
+            if (it == null){
+                binding.image.visibility = View.GONE
+                return@Observer
+            }
+
+            if (it.data.isEmpty()){
+                binding.image.visibility = View.GONE
+                return@Observer
+            }
+
+            val currentImage = it.data[0]
+            binding.image.visibility = View.VISIBLE
+
+            Glide.with(activity1)
+                .asBitmap()
+                .load(Constants.IMAGE_URL + currentImage.image)
+                .placeholder(R.drawable.boy)
+                .override(1600,1600)
+                .into(BitmapImageViewTarget(binding.image))
+
+            binding.image.setOnClickListener {
+                if (currentImage.subCategory != null && currentImage.subCategory.isNotEmpty()){
+                    val intent = Intent(activity1, ServiceDetail::class.java)
+                    intent.putExtra(Constants.DATA, Gson().toJson(currentImage.subCategory[0]))
+                    intent.putExtra(Constants.IS_PURCHASED,false)
+                    activity1.startActivity(intent)
                 }
-            })
-        }
+            }
+        })
     }
 
     private fun initViews() {
         bannerList = ArrayList()
+    }
+
+    override fun onStart() {
+        super.onStart()
         val user = AppPrefData.user()!!
-        if (user.city != null){
-            binding.city.text = user.city
-        }else{
-            binding.city.text = ("New Delhi")
+        binding.userName.text = user.name
+        if (user.profile != null){
+            Glide.with(activity1)
+                .asBitmap()
+                .load(Constants.PROFILE_URL + user.profile)
+                .placeholder(R.drawable.boy)
+                .override(1600,1600)
+                .into(BitmapImageViewTarget(binding.userProfile))
         }
     }
 
     private fun servicesList() {
 
         binding.refresh.isRefreshing = false
-        if (isConnected(activity1)){
-            showProgressBar(null)
-            myViewModel.getServices().observe(activity1, Observer {
-                hideProgress()
-                it.let {
+        showProgressBar(null)
+        myViewModel.getServices().observe(activity1, Observer {
+            hideProgress()
+            it?.let {
 
-                    val list = it.data
-                    val serviceList : ArrayList<ServiceData> = ArrayList()
-                    val moreServiceList : ArrayList<ServiceData> = ArrayList()
-                    for (i in list.indices){
-                        if (i < 9){
-                            serviceList.add(list[i])
-                        }else {
-                            moreServiceList.add(list[i])
-                        }
+                val list = it.data
+                val serviceList : ArrayList<ServiceData> = ArrayList()
+                val moreServiceList : ArrayList<ServiceData> = ArrayList()
+                for (i in list.indices){
+                    if (i < 9){
+                        serviceList.add(list[i])
+                    }else {
+                        moreServiceList.add(list[i])
                     }
-
-                    servicesAdapter = ServicesAdapter(activity1,serviceList)
-                    binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
-                    binding.servicesRcv.adapter = servicesAdapter
-                    servicesAdapter?.notifyDataSetChanged()
-
-                    moreServicesList(moreServiceList)
                 }
-            })
-        }else{
-            Toast.makeText(activity1,"No Internet Connection",Toast.LENGTH_SHORT).show()
-        }
+
+                servicesAdapter = ServicesAdapter(activity1,serviceList)
+                binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
+                binding.servicesRcv.adapter = servicesAdapter
+                servicesAdapter?.notifyDataSetChanged()
+
+                moreServicesList(moreServiceList)
+            }
+        })
     }
 
     private fun moreServicesList(list : ArrayList<ServiceData>) {
@@ -148,17 +161,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun bannerList() {
 
-        if (isConnected(activity1)){
-            myViewModel.getBanners("1").observe(activity1, Observer {
-                it.let {
-                    bannerList.clear()
-                    bannerList.addAll(it.data)
-                    val bannerAdapter = BannerAdapter(activity1, bannerList)
-                    binding.viewPager.adapter = bannerAdapter
-                    bannerAdapter.notifyDataSetChanged()
-                }
-            })
-        }
+        myViewModel.getBanners("1").observe(activity1, Observer {
+            it?.let {
+                bannerList.clear()
+                bannerList.addAll(it.data)
+                val bannerAdapter = BannerAdapter(activity1, bannerList)
+                binding.viewPager.adapter = bannerAdapter
+                bannerAdapter.notifyDataSetChanged()
+            }
+        })
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {

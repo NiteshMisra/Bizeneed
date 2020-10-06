@@ -3,7 +3,6 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_marginTop="15dp"
         android:layout_height="wrap_content">
@@ -15,8 +14,6 @@
             android:textSize="17sp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Website Description Title"
             android:layout_height="wrap_content"/>
 
         <TextView
@@ -25,18 +22,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:drawableStart="@drawable/ic_dot_8dp"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="8 Page Website, Inquiry Form, Live Chat, etc."
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:layout_marginTop="10dp"
+            android:textColor="#494949"
+            android:textSize="14sp" />
 
         <View
             android:layout_width="match_parent"
             android:background="#DCDCDC"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_height="2dp"/>
 
         <View

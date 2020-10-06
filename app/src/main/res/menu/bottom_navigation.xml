@@ -9,12 +9,9 @@
         android:icon="@drawable/ic_clipboard"
         android:title="Bookings"/>
 
-    <!--<item android:id="@+id/nav_safe"
-        android:title="UC Safe"/>-->
-
-    <!--<item android:id="@+id/nav_rewards"
+    <item android:id="@+id/nav_reward"
         android:icon="@drawable/ic_baseline_local_offer_24"
-        android:title="Wallet"/>-->
+        android:title="Rewards"/>
 
     <item android:id="@+id/nav_setting"
         android:icon="@drawable/ic_settings"

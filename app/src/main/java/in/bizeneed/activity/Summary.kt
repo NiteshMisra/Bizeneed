@@ -4,14 +4,16 @@ import `in`.bizeneed.BuildConfig
 import `in`.bizeneed.R
 import `in`.bizeneed.adapter.CouponAdapter
 import `in`.bizeneed.databinding.ActivitySummaryBinding
+import `in`.bizeneed.dialog.PayLaterDialog
+import `in`.bizeneed.dialog.PaymentStatus
 import `in`.bizeneed.extras.*
 import `in`.bizeneed.model.OrderModel
 import `in`.bizeneed.response.CouponData
+import `in`.bizeneed.response.OrderData
 import `in`.bizeneed.response.SubCategoryData
 import `in`.bizeneed.response.User
 import `in`.bizeneed.rest.Coroutines
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -25,7 +27,6 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.floor
 
 class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
 
@@ -37,6 +38,8 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
     private var lastAppliedCouponPos = -1
     private var walletDeductAmount: Int = 0
     private var amount: Int = 0
+    private var cashBack: Int = 0
+    private var discount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +48,9 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
         subCategoryData = Gson().fromJson(value, SubCategoryData::class.java)
 
         user = AppPrefData.user()!!
-        binding.userName.text = user.name
-        binding.userAddress.text = (user.address + ", " + user.city + ", " + user.state)
-        binding.userMobile.text = user.mobile
+//        binding.userName.text = user.name
+//        binding.userAddress.text = (user.address + ", " + user.city + ", " + user.state)
+//        binding.userMobile.text = user.mobile
         binding.promoCode.text = subCategoryData.promoCode
         binding.mrp.text = ("\u20B9${subCategoryData.mrp}")
         binding.sellingPrice.text = ("\u20B9${subCategoryData.sellingPrice}")
@@ -67,6 +70,7 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
         currentBalance()
 
         binding.registerBtn.setOnClickListener {
+            var walletDeduct = 0
             if (binding.walletCheckBox.isChecked) {
                 amount = if (walletDeductAmount != 0) {
                     if (walletDeductAmount < amountToBePaid) {
@@ -77,37 +81,41 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 } else {
                     amountToBePaid
                 }
-
-                if (walletDeductAmount == amountToBePaid) {
-                    proceedOrderApi("Online")
-                } else {
-                    proceedToPay()
-                }
+                walletDeduct = walletDeductAmount
             } else {
                 amount = amountToBePaid
-                proceedToPay()
+                walletDeduct = 0
             }
+            cashBack = ((amount * subCategoryData.discount.toInt()) / 100)
+            val dialog = PayLaterDialog(
+                subCategoryData.sellingPrice.toInt(),
+                (subCategoryData.sellingPrice.toInt() - amount),
+                cashBack,
+                walletDeduct,
+                amount,
+                false
+            )
+            dialog.show(supportFragmentManager, "PaymentDialog")
         }
 
-        binding.changeAddress.setOnClickListener {
-            onBackPressed()
-        }
+//        binding.changeAddress.setOnClickListener { onBackPressed() }
 
         binding.payLaterBtn.setOnClickListener {
-            amount = if (binding.walletCheckBox.isChecked) {
-                if (walletDeductAmount != 0) {
-                    if (walletDeductAmount < amountToBePaid) {
-                        amountToBePaid - walletDeductAmount
-                    } else {
-                        0
-                    }
-                } else {
-                    amountToBePaid
-                }
-            } else {
-                amountToBePaid
+            if (binding.walletCheckBox.isChecked) {
+                binding.walletCheckBox.isChecked = false
+                checkBoxHandle()
             }
-            proceedOrderApi("Offline")
+            amount = amountToBePaid + discount
+            cashBack = 0
+            val dialog = PayLaterDialog(
+                subCategoryData.sellingPrice.toInt(),
+                0,
+                cashBack,
+                0,
+                amount,
+                true
+            )
+            dialog.show(supportFragmentManager, "PaymentDialog")
         }
 
         binding.walletCheckBox.setOnClickListener {
@@ -138,14 +146,11 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 AppPrefData.walletAmount(it)
                 if (it.toInt() > 0) {
                     binding.walletLayout.visibility = View.VISIBLE
-                    val percentOfAmount: Int =
-                        (it.toInt() * subCategoryData.walletWithdrawalPercent.toInt()) / 100
-                    if (percentOfAmount < amountToBePaid) {
-                        walletDeductAmount = percentOfAmount
-                        binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
-                    } else if (percentOfAmount >= amountToBePaid) {
-                        walletDeductAmount = amountToBePaid
-                        binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
+                    binding.walletDeduct.text = ("- \u20B9$it")
+                    walletDeductAmount = if (amountToBePaid > it.toInt()) {
+                        it.toInt()
+                    } else {
+                        amountToBePaid
                     }
 
                 } else {
@@ -172,6 +177,7 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                             binding.promoDiscount.text = ("- \u20B9$discountPrice")
                             amountToBePaid =
                                 subCategoryData.sellingPrice.toInt() - discountPrice.toInt()
+                            discount = discountPrice.toInt()
                             checkBoxHandle()
                             Toast.makeText(
                                 this,
@@ -206,9 +212,9 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
         })
     }
 
-    private fun proceedToPay() {
+    fun proceedToPay() {
         if (isConnected(this)) {
-            showProgressBar(null)
+            showProgressBar("Processing Order")
             val checkout = Checkout()
             checkout.setKeyID(BuildConfig.RZP_KEY)
             checkout.setImage(R.drawable.company_logo)
@@ -239,13 +245,12 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                     options.put("payment_capture", 1)
                     options.put("theme.color", "#538E01")
 
-                    Log.e("RegistrationActivity", options.toString())
                     checkout.open(this, options)
 
                 }
 
             } catch (e: Exception) {
-                Log.e("RegistrationActivity", "Error in starting Razorpay Checkout : ", e);
+                showPaymentDialog(false)
                 hideProgress()
             }
         } else {
@@ -256,91 +261,93 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
     override fun getLayoutRes(): Int = R.layout.activity_summary
 
     override fun onPaymentError(p0: Int, p1: String?) {
-        hideProgress()
-        Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show()
+        showPaymentDialog(false)
+    }
+
+    private fun showPaymentDialog(isSuccess: Boolean) {
+        Coroutines.main {
+            hideProgress()
+            val dialog = PaymentStatus(isSuccess)
+            dialog.show(supportFragmentManager, "PaymentDialog")
+        }
     }
 
     override fun onPaymentSuccess(paymentId: String?) {
         proceedOrderApi("Online")
     }
 
-    private fun proceedOrderApi(paymentMode: String) {
+    fun proceedOrderApi(paymentMode: String) {
 
-        if (isConnected(this)) {
-            showProgressBar(null)
+        showProgressBar("Processing Order")
 
-            if (orderId.isEmpty()) {
-                val tenDigit = (floor(Math.random() * 9_000_000_000L) + 1_000_000_000L).toLong()
-                orderId = tenDigit.toString()
-            }
-
-            val c = Calendar.getInstance().time
-            val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            var currDate = df.format(c)
-            currDate = "$currDate.000Z"
-            val currDate1 = currDate.replace(" ", "T")
-
-            val orderModel = if (paymentMode == "Online") {
-                OrderModel(
-                    orderId,
-                    user.id.toString(),
-                    user.name!!,
-                    user.address!!,
-                    user.state!!,
-                    user.mobile,
-                    user.email!!,
-                    amount.toString(),
-                    getTime(currDate1),
-                    getDate(currDate1),
-                    subCategoryData.name,
-                    paymentMode,
-                    subCategoryData.discount
-                )
-            } else {
-                OrderModel(
-                    orderId,
-                    user.id.toString(),
-                    user.name!!,
-                    user.address!!,
-                    user.state!!,
-                    user.mobile,
-                    user.email!!,
-                    amount.toString(),
-                    getTime(currDate1),
-                    getDate(currDate1),
-                    subCategoryData.name,
-                    paymentMode,
-                    "0"
-                )
-            }
-            myViewModel.createOrder(orderModel).observe(this, Observer {
-                hideProgress()
-                it?.let {
-                    if (it) {
-                        if (walletDeductAmount > 0) {
-                            deductFromWallet()
-                        } else {
-                            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            })
-        } else {
-            hideProgress()
-            Toast.makeText(
-                this,
-                "Internet Connection is Lost. Contact our Team for Refund",
-                Toast.LENGTH_SHORT
-            ).show()
+        if (orderId.isEmpty()) {
+            val randomOrderId = System.currentTimeMillis()
+            orderId = randomOrderId.toString()
         }
+
+        val c = Calendar.getInstance().time
+        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        var currDate = df.format(c)
+        currDate = "$currDate.000Z"
+        val currDate1 = currDate.replace(" ", "T")
+
+        val date = getDate(currDate1)
+        val time = getTime(currDate1)
+
+        val orderModel = OrderModel(
+            orderId,
+            user.id.toString(),
+            user.name!!,
+            user.address!!,
+            user.state!!,
+            user.mobile,
+            user.email!!,
+            amount.toString(),
+            time,
+            date,
+            subCategoryData.name,
+            paymentMode,
+            cashBack.toString()
+        )
+        myViewModel.createOrder(orderModel).observe(this, Observer {
+
+            if (it == null) {
+                hideProgress()
+                showPaymentDialog(false)
+                return@Observer
+            }
+
+            if (it) {
+                val orderData = OrderData(
+                    orderId, subCategoryData.name, user.id.toString(),
+                    user.name!!, user.address!!, user.state!!,
+                    user.mobile, amount.toString(), date,
+                    time, "1", paymentMode, arrayListOf(subCategoryData)
+                )
+                createOrderNotification(this, subCategoryData, orderData, subCategoryData.name)
+
+                if (walletDeductAmount > 0 && paymentMode == "Online") {
+                    deductFromWallet()
+                } else {
+                    hideProgress()
+                    showPaymentDialog(true)
+                }
+            } else {
+                hideProgress()
+                showPaymentDialog(false)
+            }
+        })
     }
 
     private fun deductFromWallet() {
         myViewModel.updateBalance(walletDeductAmount.toString()).observe(this,
             Observer {
-                it?.let {
-                    Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show()
+                hideProgress()
+                if (it == null) {
+                    showPaymentDialog(false)
                 }
+
+                showPaymentDialog(true)
             })
     }
 }

@@ -17,5 +17,6 @@ data class OrderData(
     val timeOfOrder : String,
     val dateOfOrder : String,
     val completed : String,
+    val paymentType : String,
     val subCategoryDetails : List<SubCategoryData>
 )

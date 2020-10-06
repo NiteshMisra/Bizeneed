@@ -9,6 +9,8 @@ data class CategoryData(
     val id : String,
     val name : String,
     val image : String,
+    var isShowing : Boolean = false,
+    var showPosition : Int = 0,
     val subCategory : List<SubCategoryData>
 )
 

@@ -6,6 +6,7 @@ import `in`.bizeneed.repository.MyRepository
 import `in`.bizeneed.response.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import okhttp3.ResponseBody
 
 class MyViewModel(
     private var myRepository: MyRepository
@@ -27,12 +28,24 @@ class MyViewModel(
         return myRepository.checkMobileNo(mobileNo,otp)
     }
 
+    fun cancelOrder(orderId : String, name : String, amount : String, subCategoryName : String) : LiveData<CancelOrderResponse>{
+        return myRepository.cancelOrder(orderId, name, amount, subCategoryName)
+    }
+
     fun fetchAllComment(subCategoryName : String) : LiveData<AllCommentResponse>{
         return myRepository.fetchAllComment(subCategoryName)
     }
 
-    fun updateUser(updateModel: UpdateModel) : LiveData<Boolean>{
-        return myRepository.updateUser(updateModel)
+    fun fetchWalletHistory() : LiveData<WalletHistoryResponse>{
+        return myRepository.fetchWalletHistory()
+    }
+
+    fun checkReferAll(couponCode : String) : LiveData<CheckReferResponse>{
+        return myRepository.checkReferAll(couponCode)
+    }
+
+    fun updateUser(updateModel: UpdateModel, newUser : User) : LiveData<Boolean>{
+        return myRepository.updateUser(updateModel,newUser)
     }
 
     fun createOrder(orderModel: OrderModel) : LiveData<Boolean>{
@@ -49,6 +62,14 @@ class MyViewModel(
 
     fun checkPromoCode(subCategoryName: String,promoCode : String) : LiveData<CheckPromoCodeResponse>{
         return myRepository.checkPromoCode(subCategoryName,promoCode)
+    }
+
+    fun checkReferalNo(referNo: String) : LiveData<ResponseBody>{
+        return myRepository.checkReferalNo(referNo)
+    }
+
+    fun sendFeedBack(feedBack: String) : LiveData<ResponseBody>{
+        return myRepository.sendFeedBack(feedBack)
     }
 
     fun currentBalance() : LiveData<String>{

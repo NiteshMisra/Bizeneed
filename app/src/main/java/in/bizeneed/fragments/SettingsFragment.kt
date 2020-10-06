@@ -1,23 +1,42 @@
 package `in`.bizeneed.fragments
 
+import `in`.bizeneed.BuildConfig
 import `in`.bizeneed.R
+import `in`.bizeneed.activity.ContactUs
 import `in`.bizeneed.activity.Login
 import `in`.bizeneed.activity.Profile
+import `in`.bizeneed.activity.WalletHistory
 import `in`.bizeneed.databinding.FragmentProfileBinding
 import `in`.bizeneed.extras.AppPrefData
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 
 class SettingsFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val user = AppPrefData.user()!!
+        showProgressBar(null)
+        myViewModel.currentBalance().observe(activity1, Observer {
+            hideProgress()
+            if (it == null){
+                binding.walletBalance.text = ("\u20B9 ${user.wallet}")
+            }else{
+                if (it.toInt() > 0){
+                    user.wallet = it
+                    AppPrefData.user(user)
+                    binding.walletBalance.text = ("\u20B9 $it")
+                }else{
+                    user.wallet = "0"
+                    AppPrefData.user(user)
+                    binding.walletBalance.text = ("\u20B9 0")
+                }
+            }
+        })
 
         binding.logOut.setOnClickListener {
             val builder = AlertDialog.Builder(activity1)
@@ -40,6 +59,26 @@ class SettingsFragment : BaseFragment<FragmentProfileBinding>() {
         binding.profile.setOnClickListener {
             startActivity(Intent(activity1,Profile::class.java))
         }
+
+        binding.share.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT,"Hey check out my app: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
+            intent.type = "text/plain"
+            startActivity(intent)
+        }
+
+        binding.contactUs.setOnClickListener {
+            startActivity(Intent(activity1,ContactUs::class.java))
+        }
+
+        binding.walletLayout.setOnClickListener {
+            val user1 = AppPrefData.user()!!
+            if(user1.wallet != null && user1.wallet!!.isNotEmpty() && (user1.wallet!!.toInt() > 0 )){
+                startActivity(Intent(activity1,WalletHistory::class.java))
+            }
+        }
+
     }
 
 

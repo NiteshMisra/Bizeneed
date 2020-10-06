@@ -22,13 +22,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "BASE_URL", "\"https://bizeneed.com/bizeneedApk/\""
+            buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
             buildConfigField "String", "RZP_KEY", "\"rzp_test_CbdgS5lkqE8bkR\""
             buildConfigField "String", "RZP_SECRET", "\"MiQIosS0mkpfQnSX4K75OGtJ\""
         }
 
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://bizeneed.com/bizeneedApk/\""
+            buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
             buildConfigField "String", "RZP_KEY", "\"rzp_test_CbdgS5lkqE8bkR\""
             buildConfigField "String", "RZP_SECRET", "\"MiQIosS0mkpfQnSX4K75OGtJ\""
         }
@@ -91,10 +91,20 @@ dependencies {
     implementation 'com.razorpay:checkout:1.5.16'
     implementation 'com.razorpay:razorpay-java:1.3.8'
 
-    // Dialog
-    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    // Lottie
+    implementation "com.airbnb.android:lottie:3.4.1"
 
-    // Dialog
-    implementation "com.samigehi:loadingview:1.1"
+    // Image Compressor
+    implementation "id.zelory:compressor:3.0.0"
+
+    // Permission Manager
+    implementation "gun0912.ted:tedpermission:2.2.3"
+
+    // Read OTP
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
+
+    // OTP View
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'
 
 }

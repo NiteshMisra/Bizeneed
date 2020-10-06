@@ -1,12 +1,29 @@
 package `in`.bizeneed.extras
 
-import android.app.Activity
+import `in`.bizeneed.R
+import `in`.bizeneed.activity.MainActivity
+import `in`.bizeneed.activity.ServiceDetail
+import `in`.bizeneed.response.OrderData
+import `in`.bizeneed.response.SubCategoryData
+import `in`.bizeneed.rest.Coroutines
+import android.app.*
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.net.Uri
+import android.os.Build
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.FragmentActivity
+import com.google.gson.Gson
 import java.util.*
+import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 fun hideKeyBoard(fragmentActivity: FragmentActivity) {
     val inm = fragmentActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -41,6 +58,57 @@ fun isConnected(context: Context): Boolean {
     return false
 }
 
+fun getBitmap(context: Context, imageUri: Uri): Bitmap? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+
+        ImageDecoder.decodeBitmap(
+            ImageDecoder.createSource(
+                context.contentResolver,
+                imageUri))
+
+    } else {
+
+        context.contentResolver.openInputStream(imageUri)?.use {
+                inputStream ->
+            BitmapFactory.decodeStream(inputStream)
+        }
+
+    }
+}
+
+fun getStates() : ArrayList<String> {
+    val states = arrayOf(
+        "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh",
+        "Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
+        "Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand",
+        "West Bengal","Andaman & Nicobar Islands","Chandigarh","Dadra & Nagar  Haveli","Daman & Diu","Lakshadweep",
+        "Puducherry","Delhi","Jammu and Kashmir"
+    )
+    val statesList: ArrayList<String> = ArrayList()
+    statesList.addAll(states)
+    statesList.sort()
+    statesList.add(0,"Select State")
+    return statesList
+}
+
+fun getUserReferCode() : String {
+    val value = 1000 + AppPrefData.user()!!.id
+    return "CMY$value"
+}
+
+fun extractDigits(`in`: String?): String? {
+    val p = Pattern.compile("(\\d{6})")
+    val m = p.matcher(`in`)
+    return if (m.find()) {
+        m.group(0)
+    } else ""
+}
+
+fun isEmailValid(emailId : String) : Boolean{
+    val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+    return emailId.trim { it <= ' ' }.matches(emailPattern.toRegex())
+}
+
 fun formattedRating(ratingCount: Int): String {
     return if (ratingCount > 1000) {
         val thousandPlace = ratingCount / 1000
@@ -51,15 +119,62 @@ fun formattedRating(ratingCount: Int): String {
     }
 }
 
+fun noInterConnection(){
+    Coroutines.main { Toast.makeText(MyApplication.applicationContext(),"No Internet Connection",Toast.LENGTH_SHORT).show() }
+}
+
+fun slowInternetConnection(){
+    Coroutines.main { Toast.makeText(MyApplication.applicationContext(),"Slow Internet Connection Try again later",Toast.LENGTH_SHORT).show() }
+}
+
+fun errorOccurred(){
+    Coroutines.main { Toast.makeText(MyApplication.applicationContext(),"Something went wrong, Try again later",Toast.LENGTH_SHORT).show() }
+}
+
+@Suppress("DEPRECATION")
+fun createOrderNotification(context : Context, subCategoryData: SubCategoryData, orderData: OrderData, subCategoryName : String){
+
+    val intent = Intent(context, ServiceDetail::class.java)
+    intent.putExtra(Constants.DATA, Gson().toJson(subCategoryData))
+    intent.putExtra(Constants.IS_PURCHASED,true)
+    intent.putExtra(Constants.ORDER_DATA, Gson().toJson(orderData))
+
+    val channelId = "companify_channel_id"
+
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        val channel = NotificationChannel(channelId,"Companify",NotificationManager.IMPORTANCE_DEFAULT)
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    val pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+    val builder = NotificationCompat.Builder(context)
+
+    builder.setAutoCancel(true)
+        .setDefaults(Notification.DEFAULT_ALL)
+        .setWhen(System.currentTimeMillis())
+        .setSmallIcon(R.drawable.c_logo)
+        .setTicker("Companify")
+        .setChannelId(channelId)
+        .setContentTitle("Order Successful")
+        .setContentText("Thanks for booking our service - $subCategoryData")
+        .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND)
+        .setContentIntent(pendingIntent)
+        .setContentInfo("Info")
+
+    notificationManager.notify(1,builder.build())
+
+}
+
 fun getDate(date: String): String {
     val year = date.substring(0, 4)
     val day = date.substring(8, 10)
     val mon = date.substring(5, 7).toInt()
     val month = arrayOf(
         " ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-        "Aug", "Sept", "Oct", "Nov", "Dec"
+        "Aug", "Sep", "Oct", "Nov", "Dec"
     )
-    return day + " " + month[mon] + " " + year
+    return day + "-" + month[mon] + "-" + year
 }
 
 fun getTime(time: String): String {
