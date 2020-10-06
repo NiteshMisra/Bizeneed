@@ -1,18 +1,19 @@
 package `in`.bizeneed.adapter
 
 import `in`.bizeneed.R
+import `in`.bizeneed.model.SliderModel
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import androidx.cardview.widget.CardView
+import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-class LoginImageAdapter(val act: Context, var imagelist: List<Int>) : PagerAdapter()  {
+class LoginImageAdapter(val act: Context, var imagelist: List<SliderModel>) : PagerAdapter()  {
 
     override fun getCount(): Int {
         return imagelist.size
@@ -22,7 +23,7 @@ class LoginImageAdapter(val act: Context, var imagelist: List<Int>) : PagerAdapt
         return imagelist.size
     }
 
-    fun setItems(items1: List<Int>) {
+    fun setItems(items1: List<SliderModel>) {
         imagelist = items1
         notifyDataSetChanged()
     }
@@ -35,11 +36,13 @@ class LoginImageAdapter(val act: Context, var imagelist: List<Int>) : PagerAdapt
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val currentImage: Int = imagelist[position]
+        val currentImage: SliderModel = imagelist[position]
         val inflater = act.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val v: View = inflater.inflate(R.layout.login_slider_image, container, false)
         val image = v.findViewById<ImageView>(R.id.image)
-        Glide.with(act).load(currentImage).diskCacheStrategy(DiskCacheStrategy.ALL).into(image)
+        val title : TextView = v.findViewById(R.id.title)
+        title.text = currentImage.desc
+        Glide.with(act).load(currentImage.image).diskCacheStrategy(DiskCacheStrategy.ALL).into(image)
         container.addView(v)
         return v
     }

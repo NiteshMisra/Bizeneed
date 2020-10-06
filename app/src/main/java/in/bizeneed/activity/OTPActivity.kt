@@ -2,6 +2,7 @@ package `in`.bizeneed.activity
 
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ActivityOtpBinding
+import `in`.bizeneed.extras.AppPrefData
 import `in`.bizeneed.extras.Constants
 import `in`.bizeneed.extras.SmsBroadcastReceiver
 import `in`.bizeneed.extras.extractDigits
@@ -16,7 +17,7 @@ class OTPActivity : BaseActivity<ActivityOtpBinding>() {
 
     private lateinit var mobile : String
     private lateinit var otp : String
-    private val CONSENT = 200
+    private val consent = 200
     private var smsBroadcastReceiver: SmsBroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,26 @@ class OTPActivity : BaseActivity<ActivityOtpBinding>() {
                 return@setOnClickListener
             }
 
+            if (otpString.isEmpty() || otpString.length < 6){
+                Toast.makeText(this,"Invalid OTP",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            if (otpString == otp){
+                val user = AppPrefData.user()!!
+                AppPrefData.isLogin(true)
+                if (user.name == null || user.email == null){
+                    val intent = Intent(this,ProfileRegistration::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(this,MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
+            }else{
+                Toast.makeText(this,"Invalid OTP",Toast.LENGTH_SHORT).show()
+            }
 
         }
 
@@ -58,7 +78,7 @@ class OTPActivity : BaseActivity<ActivityOtpBinding>() {
         smsBroadcastReceiver!!.smsBroadcastReceiverListener =
             object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
                 override fun onSuccess(intent: Intent?) {
-                    startActivityForResult(intent, CONSENT)
+                    startActivityForResult(intent, consent)
                 }
 
                 override fun onFailure() {}
@@ -69,7 +89,7 @@ class OTPActivity : BaseActivity<ActivityOtpBinding>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CONSENT) {
+        if (requestCode == consent) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 //That gives all message to us.
                 // We need to get the code from inside with regex
