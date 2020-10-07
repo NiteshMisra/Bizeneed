@@ -38,14 +38,13 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
         Glide.with(this)
             .asBitmap()
             .load(Constants.IMAGE_URL + subCategoryData.headerImage)
-            .placeholder(R.drawable.boy)
             .override(1600, 1600)
             .into(BitmapImageViewTarget(binding.image))
 
         binding.name.text = subCategoryData.name
         binding.title.text = subCategoryData.name
         binding.offer.text =
-            ("Use Code: ${subCategoryData.promoCode} to get ${subCategoryData.discount}% Additional Discount")
+            ("Use Code: ${subCategoryData.promoCode} to get \u20B9 ${subCategoryData.discount} Additional Cashback")
         binding.crossedPrice.text = ("\u20B9${subCategoryData.mrp}")
         binding.currentPrice.text = ("\u20B9${subCategoryData.sellingPrice}*")
 
@@ -63,10 +62,16 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
             ) {
                 binding.bookTxt.text = ("Booked")
                 binding.cancelLayout.visibility = View.VISIBLE
+                binding.bookServiceBtn.text = ("Booked")
                 binding.bookServiceBtn.visibility = View.GONE
             } else if (orderDetail!!.completed.toInt() == 2){
                 binding.bookTxt.text = ("Cancelled")
                 binding.bookServiceBtn.text = ("Cancelled")
+                binding.cancelLayout.visibility = View.GONE
+                binding.bookServiceBtn.visibility = View.VISIBLE
+            }else if(orderDetail!!.completed.toInt() == 1) {
+                binding.bookTxt.text = ("Completed")
+                binding.bookServiceBtn.text = ("Completed")
                 binding.cancelLayout.visibility = View.GONE
                 binding.bookServiceBtn.visibility = View.VISIBLE
             }else{

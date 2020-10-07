@@ -3,10 +3,7 @@ package `in`.bizeneed.activity
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.ActivityProfileRegistrationBinding
 import `in`.bizeneed.dialog.CouponAddDialog
-import `in`.bizeneed.extras.AppPrefData
-import `in`.bizeneed.extras.getBitmap
-import `in`.bizeneed.extras.getUserReferCode
-import `in`.bizeneed.extras.isEmailValid
+import `in`.bizeneed.extras.*
 import `in`.bizeneed.model.UpdateModel
 import `in`.bizeneed.response.User
 import `in`.bizeneed.rest.Coroutines
@@ -14,6 +11,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
@@ -21,8 +19,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.iceteck.silicompressorr.SiliCompressor
 import kotlinx.coroutines.delay
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 
 class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
@@ -169,18 +169,22 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
             Coroutines.io {
                 val uri = data.data
                 if (uri != null) {
-                    val bitmap = getBitmap(this, uri)
-                    if (bitmap != null) {
-                        val stream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
-                        val byteArray = stream.toByteArray()
-                        Coroutines.main {
+                    val path = getRealPathFromURI(this, uri)
+                    if (path != null){
+                        val bitmap = SiliCompressor.with(this).getCompressBitmap(path)
+                        val file: File = saveImageToFile(this, bitmap)!!
+                        if (bitmap != null) {
+                            val stream = ByteArrayOutputStream()
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                            val byteArray = stream.toByteArray()
+                            Coroutines.main {
+                                hideProgress()
+                                binding.userProfile.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
+                                profile = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                            }
+                        } else {
                             hideProgress()
-                            binding.userProfile.setImageBitmap(bitmap)
-                            profile = Base64.encodeToString(byteArray, Base64.DEFAULT)
                         }
-                    } else {
-                        hideProgress()
                     }
                 } else {
                     hideProgress()

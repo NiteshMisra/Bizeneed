@@ -98,7 +98,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.4.1"
 
     // Image Compressor
-    implementation "id.zelory:compressor:3.0.0"
+    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.3'
 
     // Permission Manager
     implementation "gun0912.ted:tedpermission:2.2.3"

@@ -29,7 +29,6 @@ class OrderAdapter(
             Glide.with(context)
                 .asBitmap()
                 .load(Constants.IMAGE_URL + currentItem.subCategoryDetails[0].headerImage)
-                .placeholder(R.drawable.boy)
                 .override(1600,1600)
                 .into(BitmapImageViewTarget(holder.binding.image))
 

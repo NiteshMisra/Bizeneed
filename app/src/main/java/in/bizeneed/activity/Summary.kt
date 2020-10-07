@@ -13,6 +13,7 @@ import `in`.bizeneed.response.OrderData
 import `in`.bizeneed.response.SubCategoryData
 import `in`.bizeneed.response.User
 import `in`.bizeneed.rest.Coroutines
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -40,6 +41,7 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
     private var amount: Int = 0
     private var cashBack: Int = 0
     private var discount: Int = 0
+    private var myWalletBalance : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +55,15 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
 //        binding.userMobile.text = user.mobile
         binding.promoCode.text = subCategoryData.promoCode
         binding.mrp.text = ("\u20B9${subCategoryData.mrp}")
-        binding.sellingPrice.text = ("\u20B9${subCategoryData.sellingPrice}")
-        binding.promoSummary.text =
-            ("On Successful payment, ${subCategoryData.discount}% cashback will be added in your wallet.")
-        amountToBePaid = subCategoryData.sellingPrice.toInt()
-        binding.discount.text =
-            ("- \u20B9${(subCategoryData.mrp.toInt() - subCategoryData.sellingPrice.toInt())}")
+        binding.discount.text = ("- \u20B9${(subCategoryData.mrp.toInt() - subCategoryData.sellingPrice.toInt())}")
         binding.promoDiscount.text = ("- \u20B90")
+        amountToBePaid = subCategoryData.sellingPrice.toInt()
+        binding.sellingPrice.text = ("\u20B9${amountToBePaid}")
+
+
+        binding.promoSummary.text = ("On Successful Online payment, \u20B9 ${subCategoryData.discount} cashback will be added in your wallet.")
+        binding.walletDeduct.setTextColor(Color.parseColor("#777777"))
+        binding.WalletText.setTextColor(Color.parseColor("#777777"))
 
         //binding.walletDeductText.text = ("Deduct ${subCategoryData.walletWithdrawalPercent}% from my wallet")
         //binding.crossedPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
@@ -86,10 +90,10 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 amount = amountToBePaid
                 walletDeduct = 0
             }
-            cashBack = ((amount * subCategoryData.discount.toInt()) / 100)
+            cashBack = subCategoryData.discount.toInt()
             val dialog = PayLaterDialog(
-                subCategoryData.sellingPrice.toInt(),
-                (subCategoryData.sellingPrice.toInt() - amount),
+                subCategoryData.mrp.toInt(),
+                (subCategoryData.mrp.toInt() - (amount + walletDeduct)),
                 cashBack,
                 walletDeduct,
                 amount,
@@ -108,8 +112,8 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
             amount = amountToBePaid + discount
             cashBack = 0
             val dialog = PayLaterDialog(
-                subCategoryData.sellingPrice.toInt(),
-                0,
+                subCategoryData.mrp.toInt(),
+                (subCategoryData.mrp.toInt() - amount),
                 cashBack,
                 0,
                 amount,
@@ -135,8 +139,12 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
             } else {
                 binding.sellingPrice.text = ("\u20B9$amountToBePaid")
             }
+            binding.walletDeduct.setTextColor(Color.parseColor("#000000"))
+            binding.WalletText.setTextColor(Color.parseColor("#000000"))
         } else {
             binding.sellingPrice.text = ("\u20B9$amountToBePaid")
+            binding.walletDeduct.setTextColor(Color.parseColor("#777777"))
+            binding.WalletText.setTextColor(Color.parseColor("#777777"))
         }
     }
 
@@ -146,11 +154,14 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 AppPrefData.walletAmount(it)
                 if (it.toInt() > 0) {
                     binding.walletLayout.visibility = View.VISIBLE
-                    val percentageAmount = (it.toInt() * subCategoryData.walletWithdrawalPercent.toInt() )/100
-                    walletDeductAmount = if (amountToBePaid > percentageAmount) {
-                        percentageAmount
+
+                    myWalletBalance = it.toInt()
+
+                    val percent = (amountToBePaid * subCategoryData.walletWithdrawalPercent.toInt())/100
+                    walletDeductAmount = if (myWalletBalance > percent) {
+                        percent
                     } else {
-                        amountToBePaid
+                        myWalletBalance
                     }
                     binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
 
@@ -176,9 +187,17 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                             lastAppliedCouponPos = position
                             couponAdapter.setSelected(true, lastAppliedCouponPos)
                             binding.promoDiscount.text = ("- \u20B9$discountPrice")
-                            amountToBePaid =
-                                subCategoryData.sellingPrice.toInt() - discountPrice.toInt()
-                            discount = discountPrice.toInt()
+                            amountToBePaid -= discountPrice.toInt()
+
+                            val percent = (amountToBePaid * subCategoryData.walletWithdrawalPercent.toInt())/100
+                            walletDeductAmount = if (myWalletBalance > percent) {
+                                percent
+                            } else {
+                                myWalletBalance
+                            }
+                            binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
+
+                            discount = (subCategoryData.mrp.toInt() - subCategoryData.sellingPrice.toInt()) + discountPrice.toInt()
                             checkBoxHandle()
                             Toast.makeText(
                                 this,

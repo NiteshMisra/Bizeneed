@@ -1,7 +1,6 @@
 package `in`.bizeneed.extras
 
 import `in`.bizeneed.R
-import `in`.bizeneed.activity.MainActivity
 import `in`.bizeneed.activity.ServiceDetail
 import `in`.bizeneed.response.OrderData
 import `in`.bizeneed.response.SubCategoryData
@@ -9,6 +8,7 @@ import `in`.bizeneed.rest.Coroutines
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -16,11 +16,17 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.gson.Gson
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -31,6 +37,40 @@ fun hideKeyBoard(fragmentActivity: FragmentActivity) {
     view?.apply {
         inm.hideSoftInputFromWindow(this.windowToken, 0)
     }
+}
+
+fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
+    var cursor: Cursor? = null
+    return try {
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
+        val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        cursor.getString(column_index)
+    } finally {
+        cursor?.close()
+    }
+}
+
+fun saveImageToFile(context: Context, bitmap: Bitmap): File? {
+    val myPath = File(getRootDirPath(context), "profile.png")
+    var fos: FileOutputStream? = null
+    try {
+        fos = FileOutputStream(myPath)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, fos)
+        fos.close()
+    } catch (e: Exception) {
+        Log.e("SAVE_IMAGE", e.message, e)
+    }
+    return myPath
+}
+
+fun getRootDirPath(context: Context): String? {
+    if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+        val file = ContextCompat.getExternalFilesDirs(context, null)[0]
+        return file.absolutePath
+    }
+    return context.filesDir.absolutePath
 }
 
 fun generateOTP(): Int {

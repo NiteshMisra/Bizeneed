@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -134,7 +133,7 @@
                     <TextView
                         android:id="@+id/discount"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="15dp"
                         android:fontFamily="@font/roboto"
@@ -186,12 +185,13 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/WalletText"
                         android:layout_width="wrap_content"
                         android:text="Use Wallet Cashback"
                         android:layout_toEndOf="@id/walletCheckBox"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="#777777"
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"
                         android:layout_height="wrap_content"/>

@@ -12,6 +12,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
@@ -24,7 +25,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.iceteck.silicompressorr.SiliCompressor
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 class Profile : BaseActivity<ActivityProfileBinding>(), AdapterView.OnItemSelectedListener {
 
@@ -116,8 +119,8 @@ class Profile : BaseActivity<ActivityProfileBinding>(), AdapterView.OnItemSelect
 
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, 1)
+            val i = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(i, 1)
         }
 
         override fun onPermissionDenied(deniedPermissions: List<String>) {}
@@ -175,19 +178,23 @@ class Profile : BaseActivity<ActivityProfileBinding>(), AdapterView.OnItemSelect
             Coroutines.io {
                 val uri = data.data
                 if (uri != null) {
-                    val bitmap = getBitmap(this,uri)
-                    if (bitmap != null) {
-                        val stream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
-                        val byteArray = stream.toByteArray()
-                        Coroutines.main {
-                            hideProgress()
-                            binding.userProfile.setImageBitmap(bitmap)
-                            profile = Base64.encodeToString(byteArray, Base64.DEFAULT)
-                        }
-                    } else {
-                        hideProgress()
-                    }
+                    val path = getRealPathFromURI(this, uri)
+                   if (path != null){
+                       val bitmap = SiliCompressor.with(this).getCompressBitmap(path)
+                       val file: File = saveImageToFile(this, bitmap)!!
+                       if (bitmap != null) {
+                           val stream = ByteArrayOutputStream()
+                           bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                           val byteArray = stream.toByteArray()
+                           Coroutines.main {
+                               hideProgress()
+                               binding.userProfile.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
+                               profile = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                           }
+                       } else {
+                           hideProgress()
+                       }
+                   }
                 } else {
                     hideProgress()
                 }

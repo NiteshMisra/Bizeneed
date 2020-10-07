@@ -270,8 +270,12 @@ class MyRepository(var context: Context) {
                         var imageName = ""
                         if (it.contains(",")) {
                             imageName = it.substringBefore(",")
-                            newUser.profile = imageName
-                            AppPrefData.user(newUser)
+                            if (!imageName.toLowerCase(Locale.getDefault()).equals("no")){
+                                newUser.profile = imageName
+                                AppPrefData.user(newUser)
+                            }else{
+                                AppPrefData.user(newUser)
+                            }
                         } else {
                             AppPrefData.user(newUser)
                         }
