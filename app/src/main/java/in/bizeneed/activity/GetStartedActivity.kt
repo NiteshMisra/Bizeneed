@@ -27,9 +27,9 @@ class GetStartedActivity : BaseActivity<ActivityGetStartedBinding>(){
 
     private fun loginSlider() {
         imageList = ArrayList()
-        imageList.add(SliderModel(R.raw.salon,""))
-        imageList.add(SliderModel(R.raw.salon,""))
-        imageList.add(SliderModel(R.raw.salon,""))
+        imageList.add(SliderModel(R.raw.first,""))
+        imageList.add(SliderModel(R.raw.second,""))
+        imageList.add(SliderModel(R.raw.lea,""))
         val loginImageAdapter = LoginImageAdapter(this,imageList)
         binding.viewPager.adapter = loginImageAdapter
         loginImageAdapter.notifyDataSetChanged()

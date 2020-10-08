@@ -190,6 +190,7 @@ fun createOrderNotification(context : Context, subCategoryData: SubCategoryData,
     val pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
     val builder = NotificationCompat.Builder(context)
 
+    val s="Thanks for booking our service - "+subCategoryData.name;
     builder.setAutoCancel(true)
         .setDefaults(Notification.DEFAULT_ALL)
         .setWhen(System.currentTimeMillis())
@@ -197,7 +198,7 @@ fun createOrderNotification(context : Context, subCategoryData: SubCategoryData,
         .setTicker("Companify")
         .setChannelId(channelId)
         .setContentTitle("Order Successful")
-        .setContentText("Thanks for booking our service - $subCategoryData")
+        .setContentText(s)
         .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND)
         .setContentIntent(pendingIntent)
         .setContentInfo("Info")
