@@ -6,4 +6,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
     <color name="tagGrey">#C1C1C1</color>
+    <color name="sliderColour">#FFABBD</color>
+    <color name="sliderColour2">#EB4F0B</color>
 </resources>

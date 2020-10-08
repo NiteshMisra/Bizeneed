@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
@@ -41,7 +42,12 @@ class LoginImageAdapter(val act: Context, var imagelist: List<SliderModel>) : Pa
         val v: View = inflater.inflate(R.layout.login_slider_image, container, false)
         val image = v.findViewById<ImageView>(R.id.image)
         val title : TextView = v.findViewById(R.id.title)
-        title.text = currentImage.desc
+        val desc : TextView= v.findViewById(R.id.desc)
+        if (currentImage.desc.isEmpty()){
+            desc.visibility = View.GONE
+        }
+        desc.text = currentImage.desc
+        title.text = currentImage.title
         Glide.with(act).load(currentImage.image).diskCacheStrategy(DiskCacheStrategy.ALL).into(image)
         container.addView(v)
         return v
@@ -52,7 +58,7 @@ class LoginImageAdapter(val act: Context, var imagelist: List<SliderModel>) : Pa
         position: Int,
         `object`: Any
     ) {
-        container.removeView(`object` as RelativeLayout)
+        container.removeView(`object` as LinearLayout)
     }
 
     // constructor

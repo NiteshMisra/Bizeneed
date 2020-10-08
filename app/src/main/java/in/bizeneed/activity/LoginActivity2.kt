@@ -40,6 +40,7 @@ class LoginActivity2 : BaseActivity<ActivityLogin2Binding>() {
             }
 
             val token : String = FirebaseInstanceId.getInstance().token!!
+            AppPrefData.token(token)
             showProgressBar(null)
             myViewModel.checkMobileNo(mobileNo,otp.toString(),token).observe(this, Observer {
                 hideProgress()

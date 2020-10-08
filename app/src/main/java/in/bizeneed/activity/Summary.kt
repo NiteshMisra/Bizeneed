@@ -158,10 +158,14 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                     myWalletBalance = it.toInt()
 
                     val percent = (amountToBePaid * subCategoryData.walletWithdrawalPercent.toInt())/100
-                    walletDeductAmount = if (myWalletBalance > percent) {
-                        percent
-                    } else {
-                        myWalletBalance
+                    walletDeductAmount = if(percent > 1000){
+                        1000
+                    }else{
+                        if (myWalletBalance > percent) {
+                            percent
+                        } else {
+                            myWalletBalance
+                        }
                     }
                     binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
 
@@ -190,10 +194,14 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                             amountToBePaid -= discountPrice.toInt()
 
                             val percent = (amountToBePaid * subCategoryData.walletWithdrawalPercent.toInt())/100
-                            walletDeductAmount = if (myWalletBalance > percent) {
-                                percent
-                            } else {
-                                myWalletBalance
+                            walletDeductAmount = if(percent > 1000){
+                                1000
+                            }else{
+                                if (myWalletBalance > percent) {
+                                    percent
+                                } else {
+                                    myWalletBalance
+                                }
                             }
                             binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
 

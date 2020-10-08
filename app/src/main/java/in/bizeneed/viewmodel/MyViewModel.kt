@@ -36,6 +36,10 @@ class MyViewModel(
         return myRepository.fetchAllComment(subCategoryName)
     }
 
+    fun updateToken(){
+        myRepository.updateToken()
+    }
+
     fun fetchWalletHistory() : LiveData<WalletHistoryResponse>{
         return myRepository.fetchWalletHistory()
     }

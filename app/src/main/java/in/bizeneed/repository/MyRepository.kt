@@ -158,6 +158,33 @@ class MyRepository(var context: Context) {
         return data
     }
 
+    fun updateToken(): MutableLiveData<ResponseBody> {
+        val data: MutableLiveData<ResponseBody> = MutableLiveData()
+
+        Coroutines.io {
+            try {
+                val response = retrofitClient.api.updateToken(AppPrefData.user()!!.id.toString(),AppPrefData.token()!!)
+                if (response.isSuccessful) {
+                   /* val body = response.body()
+                    data.postValue(body)*/
+                } else {
+                    data.postValue(null)
+                }
+            } catch (e: UnknownHostException) {
+                data.postValue(null)
+                noInterConnection()
+            } catch (e: SocketTimeoutException) {
+                data.postValue(null)
+                slowInternetConnection()
+            } catch (e: SocketException) {
+                data.postValue(null)
+                errorOccurred()
+            }
+        }
+
+        return data
+    }
+
     fun cancelOrder(
         orderId: String,
         name: String,

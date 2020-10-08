@@ -62,5 +62,16 @@ class AppPrefData {
                 }
             }
         }
+
+        fun token(token: String) {
+            val editor = preferences.edit()
+            editor.putString("USER_TOKEN", Gson().toJson(token))
+            editor.apply()
+        }
+
+        fun token(): String? {
+            val mSharedPreferences = preferences
+            return mSharedPreferences.getString("USER_TOKEN", "")
+        }
     }
 }
