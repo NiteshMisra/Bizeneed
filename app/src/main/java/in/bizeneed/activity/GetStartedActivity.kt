@@ -33,8 +33,8 @@ class GetStartedActivity : BaseActivity<ActivityGetStartedBinding>(){
     private fun loginSlider() {
         imageList = ArrayList()
         imageList.add(SliderModel(R.drawable.first,"Get instant support for all your queries for the business",""))
-        imageList.add(SliderModel(R.raw.second,"We have got you need for your business","Companify is India's cloud-based business services platform dedicated to helping Entrepreneurs easily start and grow their business, at an affordable cost."))
-        imageList.add(SliderModel(R.raw.lea,"Get your company register within just 2 days with best price in market","Now you need to place order to avail rewards and benefits available for your business."))
+        imageList.add(SliderModel(R.raw.second,"Get all Business services at single platform","Companify is India's cloud-based business services platform dedicated to helping Entrepreneurs easily start and grow their business, at an affordable cost."))
+        imageList.add(SliderModel(R.raw.lea,"Get your business started within 5 days","Now you need to place order to avail rewards and benefits available for your business."))
         val loginImageAdapter = LoginImageAdapter(this,imageList)
         binding.viewPager.adapter = loginImageAdapter
         loginImageAdapter.notifyDataSetChanged()

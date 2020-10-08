@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,14 +28,14 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:fontFamily="@font/poppins"
-            android:textStyle="bold"
-            android:layout_marginTop="3dp"
-            android:textColor="@color/black"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="IT Services"
+            android:textColor="@color/black"
             android:textSize="11sp"
-            android:text="IT Services"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 

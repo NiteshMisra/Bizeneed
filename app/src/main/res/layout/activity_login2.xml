@@ -3,7 +3,6 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Steamline all your legal opeartions on one platform"
+            android:text="Single Platform for all your Business Needs"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginStart="20dp"
