@@ -39,8 +39,12 @@ class LoginActivity2 : BaseActivity<ActivityLogin2Binding>() {
                 otp = generateOTP()
             }
 
-            val token : String = FirebaseInstanceId.getInstance().token!!
-            AppPrefData.token(token)
+            var token = ""
+            val firebaseToken = FirebaseInstanceId.getInstance().token
+            firebaseToken?.let {
+                token = it
+                AppPrefData.token(token)
+            }
             showProgressBar(null)
             myViewModel.checkMobileNo(mobileNo,otp.toString(),token).observe(this, Observer {
                 hideProgress()
