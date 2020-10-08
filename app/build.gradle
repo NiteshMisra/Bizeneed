@@ -24,14 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
-            buildConfigField "String", "RZP_KEY", "\"rzp_live_lddJDIAOu4s1ud\""
-            buildConfigField "String", "RZP_SECRET", "\"u82ngSUif5ImAE5mIM3JxT7f\""
+            buildConfigField "String", "RZP_KEY", "\"rzp_live_ryixMXxAGH2D4I\""
+            buildConfigField "String", "RZP_SECRET", "\"kXj3SdxEsNnhSRZ4UOs3uhQX\""
         }
 
         debug {
             buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
-            buildConfigField "String", "RZP_KEY", "\"rzp_live_lddJDIAOu4s1ud\""
-            buildConfigField "String", "RZP_SECRET", "\"u82ngSUif5ImAE5mIM3JxT7f\""
+            buildConfigField "String", "RZP_KEY", "\"rzp_live_ryixMXxAGH2D4I\""
+            buildConfigField "String", "RZP_SECRET", "\"kXj3SdxEsNnhSRZ4UOs3uhQX\""
         }
     }
 
