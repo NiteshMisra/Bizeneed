@@ -104,12 +104,17 @@ class MyRepository(var context: Context) {
         return data
     }
 
-    fun checkMobileNo(mobileNo: String, otp: String, token : String): MutableLiveData<LoginResponse> {
+    fun checkMobileNo(
+        mobileNo: String,
+        otp: String,
+        token: String
+    ): MutableLiveData<LoginResponse> {
         val data: MutableLiveData<LoginResponse> = MutableLiveData()
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.checkMobileNo(mobileNo, otp,token)
+                val response =
+                    retrofitClient.api.checkMobileNo(mobileNo, otp, token.replace("\"", ""))
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)
@@ -158,17 +163,29 @@ class MyRepository(var context: Context) {
         return data
     }
 
-    fun updateToken(): MutableLiveData<ResponseBody> {
-        val data: MutableLiveData<ResponseBody> = MutableLiveData()
+    fun updateToken(token: String): MutableLiveData<Boolean> {
+        val data: MutableLiveData<Boolean> = MutableLiveData()
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.updateToken(AppPrefData.user()!!.id.toString(),AppPrefData.token()!!)
+                val response = retrofitClient.api.updateToken(
+                    AppPrefData.user()!!.id.toString(),
+                    token.replace("\"", "")
+                )
                 if (response.isSuccessful) {
-                   /* val body = response.body()
-                    data.postValue(body)*/
+                    val body = response.body()?.string()
+                    if (body != null){
+                        val it = body.toString()
+                        if (it.toLowerCase(Locale.getDefault()) == "token updated"){
+                            data.postValue(true)
+                        }else{
+                            data.postValue(false)
+                        }
+                    }else{
+                        data.postValue(false)
+                    }
                 } else {
-                    data.postValue(null)
+                    data.postValue(false)
                 }
             } catch (e: UnknownHostException) {
                 data.postValue(null)
@@ -297,10 +314,10 @@ class MyRepository(var context: Context) {
                         var imageName = ""
                         if (it.contains(",")) {
                             imageName = it.substringBefore(",")
-                            if (!imageName.toLowerCase(Locale.getDefault()).equals("no")){
+                            if (!imageName.toLowerCase(Locale.getDefault()).equals("no")) {
                                 newUser.profile = imageName
                                 AppPrefData.user(newUser)
-                            }else{
+                            } else {
                                 AppPrefData.user(newUser)
                             }
                         } else {

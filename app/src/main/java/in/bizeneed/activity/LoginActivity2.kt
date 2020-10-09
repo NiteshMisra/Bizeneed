@@ -10,6 +10,7 @@ import `in`.bizeneed.extras.generateOTP
 import `in`.bizeneed.extras.hideKeyBoard
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
@@ -43,6 +44,7 @@ class LoginActivity2 : BaseActivity<ActivityLogin2Binding>() {
             val firebaseToken = FirebaseInstanceId.getInstance().token
             firebaseToken?.let {
                 token = it
+                Log.e("data",token)
                 AppPrefData.token(token)
             }
             showProgressBar(null)

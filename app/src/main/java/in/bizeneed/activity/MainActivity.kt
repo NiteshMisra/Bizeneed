@@ -10,7 +10,9 @@ import `in`.bizeneed.fragments.HomeFragment
 import `in`.bizeneed.fragments.RewardsFragment
 import `in`.bizeneed.fragments.SettingsFragment
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -36,10 +38,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun tokenApi() {
         val token = AppPrefData.token()
         token?.let { token1 ->
+            token1.replace("\"","")
             val fireBaseToken = FirebaseInstanceId.getInstance().token
             fireBaseToken?.let { token2 ->
-                if (token1 != token2){
-                    myViewModel.updateToken()
+                if (!token1.contains(token2)){
+                    myViewModel.updateToken(token2).observe(this, Observer {
+                        it?.let { isUpdated ->
+                            if (isUpdated){
+                                AppPrefData.token(token2)
+                            }
+                        }
+                    })
                 }
             }
         }
