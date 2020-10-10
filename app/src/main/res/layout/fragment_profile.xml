@@ -88,18 +88,32 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/walletBalance"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:drawablePadding="15dp"
                         android:layout_marginEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:fontFamily="@font/roboto_bold"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content">
+
+                        <ProgressBar
+                            android:id="@+id/walletProgress"
+                            android:layout_width="wrap_content"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_marginEnd="5dp"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/walletBalance"
+                            android:layout_width="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:drawablePadding="15dp"
+                            android:visibility="gone"
+                            android:gravity="center_vertical"
+                            android:fontFamily="@font/roboto_bold"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -157,6 +171,26 @@
                     android:textSize="14sp"
                     android:textColor="@color/black"
                     android:drawableStart="@drawable/ic_baseline_contact_support_24"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#BFBFBF"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:id="@+id/policies"
+                    android:layout_width="match_parent"
+                    android:text="Companify Policies"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_baseline_policy_24"
                     android:drawablePadding="15dp"
                     android:padding="15dp"
                     android:gravity="center_vertical"

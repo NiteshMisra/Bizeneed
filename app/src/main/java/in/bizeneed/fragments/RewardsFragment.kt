@@ -4,7 +4,6 @@ import `in`.bizeneed.BuildConfig
 import `in`.bizeneed.R
 import `in`.bizeneed.databinding.FragmentRewardsBinding
 import `in`.bizeneed.dialog.CouponAddDialog
-import `in`.bizeneed.extras.AppPrefData
 import `in`.bizeneed.extras.getUserReferCode
 import android.content.Intent
 import android.os.Bundle
@@ -36,7 +35,7 @@ class RewardsFragment : BaseFragment<FragmentRewardsBinding>() {
             myViewModel.checkReferAll(binding.couponCodeEdt.text.toString()).observe(activity1, Observer {
                 hideProgress()
                 it?.let {
-                    if (it.data[0].isValid.toLowerCase(Locale.getDefault()) == "in valid"){
+                    if (it.data[0].isValid.toLowerCase(Locale.getDefault()) == "in valid" || it.data[0].isValid.toLowerCase(Locale.getDefault()) == "no"){
                         Toast.makeText(activity1,"Invalid Coupon",Toast.LENGTH_SHORT).show()
                     }else{
                         val dialog = CouponAddDialog(it.data[0].discountPrice.toInt())

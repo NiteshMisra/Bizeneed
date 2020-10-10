@@ -171,8 +171,19 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/bannerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/loader_bg"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="150dp"/>
+
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPager"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:overScrollMode="never"
                     android:layout_marginTop="10dp"

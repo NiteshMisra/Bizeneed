@@ -40,11 +40,12 @@ fun hideKeyBoard(fragmentActivity: FragmentActivity) {
     }
 }
 
-fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
+@Suppress("DEPRECATION")
+fun getRealPathFromURI(context: Context, contentUri: Uri): String? {
     var cursor: Cursor? = null
     return try {
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
+        cursor = context.contentResolver.query(contentUri, proj, null, null, null)
         val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         cursor.moveToFirst()
         cursor.getString(column_index)

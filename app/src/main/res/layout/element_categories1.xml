@@ -34,7 +34,7 @@
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:scaleType="fitXY"
-                        android:background="#F0F0F0"
+                        android:background="#CDCDCD"
                         android:layout_height="120dp"/>
 
                     <TextView
@@ -47,7 +47,7 @@
                         android:layout_marginBottom="10dp"
                         android:textSize="14sp"
                         android:fontFamily="@font/roboto"
-                        android:text="Category 1"
+                        android:background="#CDCDCD"
                         android:textColor="#404040" />
 
                 </LinearLayout>

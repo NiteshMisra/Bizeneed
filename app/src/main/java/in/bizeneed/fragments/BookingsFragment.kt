@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
 
 class BookingsFragment : BaseFragment<FragmentBookingsBinding>() {
 
@@ -15,7 +16,7 @@ class BookingsFragment : BaseFragment<FragmentBookingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bookingRcv.layoutManager = LinearLayoutManager(activity1)
-        binding.dataView.visibility = View.GONE
+        binding.dataView.visibility = View.VISIBLE
         binding.emptyView.visibility = View.GONE
 
         loadData()
@@ -34,14 +35,19 @@ class BookingsFragment : BaseFragment<FragmentBookingsBinding>() {
 
     private fun loadData() {
         binding.refresh.isRefreshing = false
-        showProgressBar(null)
+        var orderAdapter = OrderAdapter(activity1)
+        val skeletonScreen = Skeleton.bind(binding.bookingRcv)
+            .adapter(orderAdapter)
+            .load(R.layout.element_transactions)
+            .count(10)
+            .show()
         myViewModel.fetchOrder().observe(activity1, Observer {
-            hideProgress()
+            skeletonScreen.hide()
             it?.let {
                 if (it.data.isNotEmpty()){
                     binding.dataView.visibility = View.VISIBLE
                     binding.emptyView.visibility = View.GONE
-                    val orderAdapter = OrderAdapter(activity1)
+                    orderAdapter = OrderAdapter(activity1)
                     orderAdapter.addItems(it.data)
                     binding.bookingRcv.adapter = orderAdapter
                     orderAdapter.notifyDataSetChanged()

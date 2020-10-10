@@ -10,13 +10,11 @@ import `in`.bizeneed.response.CategoryResponse
 import `in`.bizeneed.response.ServiceData
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.ethanhua.skeleton.Skeleton
 import com.google.gson.Gson
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ServiceCategory : BaseActivity<ActivityServiceCategoryBinding>(), CategoryListener {
 
@@ -68,10 +66,14 @@ class ServiceCategory : BaseActivity<ActivityServiceCategoryBinding>(), Category
     private fun categories() {
         categoryLayoutManager = LinearLayoutManager(this)
         binding.categoryRcv.layoutManager = categoryLayoutManager
-
-        showProgressBar(null)
+        categoriesAdapter = CategoriesAdapter1(this,this)
+        val skeletonScreen = Skeleton.bind(binding.categoryRcv)
+            .adapter(categoriesAdapter)
+            .load(R.layout.element_categories1)
+            .count(5)
+            .show()
         myViewModel.getAllCategory(serviceData.name).observe(this, androidx.lifecycle.Observer {
-            hideProgress()
+            skeletonScreen.hide()
             it?.let {
 
                 categoryResponse = it

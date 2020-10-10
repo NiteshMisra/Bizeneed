@@ -14,6 +14,10 @@ class CommentAdapter(var context: Context) : BaseRecyclerViewAdapter<CommentData
         position: Int
     ) {
 
+        holder.binding.senderNameTv.setBackgroundResource(0)
+        holder.binding.commentTv.setBackgroundResource(0)
+        holder.binding.timeLayout.setBackgroundResource(0)
+
         val currentItem = items[position]
 
         holder.binding.senderNameTv.text = currentItem.userName

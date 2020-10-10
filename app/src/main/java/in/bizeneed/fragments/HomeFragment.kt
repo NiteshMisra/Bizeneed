@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.ethanhua.skeleton.Skeleton
 import com.google.gson.Gson
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -84,7 +85,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             Glide.with(activity1)
                 .asBitmap()
                 .load(Constants.IMAGE_URL + currentImage.image)
-                .placeholder(R.drawable.boy)
                 .override(1600,1600)
                 .into(BitmapImageViewTarget(binding.image))
 
@@ -119,10 +119,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun servicesList() {
 
+        binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
+        val skeletonScreen = Skeleton.bind(binding.servicesRcv)
+            .adapter(servicesAdapter)
+            .load(R.layout.element_services)
+            .count(6)
+            .show()
         binding.refresh.isRefreshing = false
-        showProgressBar(null)
         myViewModel.getServices().observe(activity1, Observer {
-            hideProgress()
+            skeletonScreen.hide()
             it?.let {
 
                 val list = it.data
@@ -137,7 +142,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
 
                 servicesAdapter = ServicesAdapter(activity1,serviceList)
-                binding.servicesRcv.layoutManager = GridLayoutManager(activity1,3)
                 binding.servicesRcv.adapter = servicesAdapter
                 servicesAdapter?.notifyDataSetChanged()
 
@@ -160,9 +164,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun bannerList() {
-
+        binding.bannerLayout.visibility = View.VISIBLE
+        binding.viewPager.visibility = View.GONE
         myViewModel.getBanners("1").observe(activity1, Observer {
             it?.let {
+                binding.bannerLayout.visibility = View.GONE
+                binding.viewPager.visibility = View.VISIBLE
                 bannerList.clear()
                 bannerList.addAll(it.data)
                 val bannerAdapter = BannerAdapter(activity1, bannerList)

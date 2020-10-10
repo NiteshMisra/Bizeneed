@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -22,6 +22,8 @@
             android:id="@+id/view6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/viewPager"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
             android:gravity="center_horizontal"
@@ -57,13 +59,15 @@
             style="@style/Widget.MaterialComponents.Button"
             android:text="Get Started"
             android:textColor="@color/white"
-            android:layout_marginTop="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="35dp"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:textSize="15sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:fontFamily="@font/roboto_bold"
             android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>

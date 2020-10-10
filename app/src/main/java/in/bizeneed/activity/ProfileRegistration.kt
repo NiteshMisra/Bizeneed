@@ -69,7 +69,7 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
 
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI )
             startActivityForResult(intent, 1)
         }
 
@@ -172,8 +172,8 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
                     val path = getRealPathFromURI(this, uri)
                     if (path != null){
                         val bitmap = SiliCompressor.with(this).getCompressBitmap(path)
-                        val file: File = saveImageToFile(this, bitmap)!!
-                        if (bitmap != null) {
+                        val file: File? = saveImageToFile(this, bitmap)
+                        if (bitmap != null && file != null) {
                             val stream = ByteArrayOutputStream()
                             bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
                             val byteArray = stream.toByteArray()

@@ -3,7 +3,6 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:padding="10dp"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -29,7 +28,7 @@
                     <TextView
                         android:id="@+id/sender_name_tv"
                         android:layout_width="match_parent"
-                        android:text="Nitish Mishra"
+                        android:background="#CDCDCD"
                         android:fontFamily="@font/roboto_bold"
                         android:textSize="15sp"
                         android:maxLines="1"
@@ -57,7 +56,7 @@
                 <TextView
                     android:id="@+id/comment_tv"
                     android:layout_width="match_parent"
-                    android:text="Nitish Mishra"
+                    android:background="#CDCDCD"
                     android:fontFamily="@font/roboto"
                     android:textSize="12sp"
                     android:textColor="#696969"
@@ -66,6 +65,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/timeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -75,7 +75,6 @@
                 <TextView
                     android:id="@+id/time_tv"
                     android:layout_width="wrap_content"
-                    android:text="23 minutes ago"
                     android:fontFamily="@font/roboto"
                     android:textSize="10sp"
                     android:textColor="#9C9C9C"

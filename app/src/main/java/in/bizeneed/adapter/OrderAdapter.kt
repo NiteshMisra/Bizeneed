@@ -7,8 +7,6 @@ import `in`.bizeneed.extras.Constants
 import `in`.bizeneed.response.OrderData
 import android.content.Context
 import android.content.Intent
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.google.gson.Gson
 
 class OrderAdapter(
@@ -22,14 +20,23 @@ class OrderAdapter(
         position: Int
     ) {
 
+        holder.binding.title.setBackgroundResource(0)
+        holder.binding.date.setBackgroundResource(0)
+        holder.binding.status.setBackgroundResource(0)
+        holder.binding.amount.setBackgroundResource(0)
+
         val currentItem = items[position]
         holder.binding.title.text = currentItem.subCategoryName
-        holder.binding.status.text = if (currentItem.completed.toInt() == 0){
-            ("Booked")
-        }else if (currentItem.completed.toInt() == 2){
-            ("Cancelled")
-        }else{
-            ("Completed")
+        holder.binding.status.text = when {
+            currentItem.completed.toInt() == 0 -> {
+                ("Booked")
+            }
+            currentItem.completed.toInt() == 2 -> {
+                ("Cancelled")
+            }
+            else -> {
+                ("Completed")
+            }
         }
         holder.binding.date.text = (currentItem.timeOfOrder + ", " + currentItem.dateOfOrder)
         holder.binding.amount.text = ("\u20B9${currentItem.totalAmount}")

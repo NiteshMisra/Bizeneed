@@ -27,6 +27,9 @@ class ServicesAdapter(
     override fun onBindViewHolder(holder: ServiceVH, position: Int) {
         val currentItem: ServiceData = list[position]
 
+        holder.imageLayout.setBackgroundResource(R.drawable.service_bg)
+        holder.title.setBackgroundResource(0)
+
         Glide.with(context).load(Constants.IMAGE_URL + currentItem.headerImage).into(holder.image)
         holder.title.text = currentItem.name
 
@@ -51,6 +54,7 @@ class ServicesAdapter(
         val title: TextView = view.findViewById(R.id.title)
         val image: RoundedImageView = view.findViewById(R.id.image)
         val layout: LinearLayout = view.findViewById(R.id.layout)
+        val imageLayout : RelativeLayout= view.findViewById(R.id.imageLayout)
     }
 
     @Suppress("UNCHECKED_CAST")

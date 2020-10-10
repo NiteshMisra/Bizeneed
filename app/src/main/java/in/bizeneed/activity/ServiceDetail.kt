@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.ethanhua.skeleton.Skeleton
 import com.google.gson.Gson
 import java.util.*
 
@@ -152,10 +153,14 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
 
     private fun commentList() {
         binding.commentRcv.layoutManager = LinearLayoutManager(this)
-
-        showProgressBar(null)
+        var commentAdapter = CommentAdapter(this)
+        val skeletonScreen = Skeleton.bind(binding.commentRcv)
+            .adapter(commentAdapter)
+            .load(R.layout.element_comment)
+            .count(10)
+            .show()
         myViewModel.fetchAllComment(subCategoryData.name).observe(this, Observer {
-            hideProgress()
+            skeletonScreen.hide()
             it?.let {
                 var sumRating = 0F
                 for (item in it.data) {
@@ -175,7 +180,7 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
                     binding.commentLayout.visibility = View.VISIBLE
                 }
 
-                val commentAdapter = CommentAdapter(this)
+                commentAdapter = CommentAdapter(this)
                 commentAdapter.addItems(it.data)
                 binding.commentRcv.adapter = commentAdapter
                 commentAdapter.notifyDataSetChanged()

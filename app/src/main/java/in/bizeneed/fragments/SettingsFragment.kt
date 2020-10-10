@@ -18,9 +18,11 @@ class SettingsFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         val user = AppPrefData.user()!!
-        showProgressBar(null)
+        binding.walletProgress.visibility = View.VISIBLE
+        binding.walletBalance.visibility = View.GONE
         myViewModel.currentBalance().observe(activity1, Observer {
-            hideProgress()
+            binding.walletProgress.visibility = View.GONE
+            binding.walletBalance.visibility = View.VISIBLE
             if (it == null){
                 binding.walletBalance.text = ("\u20B9 ${user.wallet}")
             }else{
@@ -77,10 +79,11 @@ class SettingsFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
+        binding.policies.setOnClickListener {
+            startActivity(Intent(activity1,Policies::class.java))
+        }
+
     }
-
-
-
 
     companion object {
         @JvmStatic

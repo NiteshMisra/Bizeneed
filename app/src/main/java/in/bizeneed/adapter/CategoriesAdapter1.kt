@@ -6,6 +6,7 @@ import `in`.bizeneed.extras.Constants
 import `in`.bizeneed.listener.CategoryListener
 import `in`.bizeneed.response.CategoryData
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -27,6 +28,9 @@ class CategoriesAdapter1(
         holder: Companion.BaseViewHolder<ElementCategories1Binding>,
         position: Int
     ) {
+
+        holder.binding.title.setBackgroundResource(0)
+        holder.binding.image.setBackgroundResource(R.color.colorPrimary)
 
         val currentItem: CategoryData = items[position]
 
