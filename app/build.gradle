@@ -25,14 +25,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
-            buildConfigField "String", "RZP_KEY", "\"rzp_test_CbdgS5lkqE8bkR\""
-            buildConfigField "String", "RZP_SECRET", "\"MiQIosS0mkpfQnSX4K75OGtJ\""
+            buildConfigField "String", "RZP_KEY", "\"rzp_live_ryixMXxAGH2D4I\""
+            buildConfigField "String", "RZP_SECRET", "\"kXj3SdxEsNnhSRZ4UOs3uhQX\""
         }
 
         debug {
             buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
-            buildConfigField "String", "RZP_KEY", "\"rzp_test_CbdgS5lkqE8bkR\""
-            buildConfigField "String", "RZP_SECRET", "\"MiQIosS0mkpfQnSX4K75OGtJ\""
+            buildConfigField "String", "RZP_KEY", "\"rzp_live_ryixMXxAGH2D4I\""
+            buildConfigField "String", "RZP_SECRET", "\"kXj3SdxEsNnhSRZ4UOs3uhQX\""
         }
     }
 
@@ -106,7 +106,7 @@ dependencies {
 
     // Read OTP
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
-    implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
 
     // OTP View
     implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'

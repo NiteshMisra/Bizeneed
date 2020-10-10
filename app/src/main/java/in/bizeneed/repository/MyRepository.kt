@@ -104,12 +104,17 @@ class MyRepository(var context: Context) {
         return data
     }
 
-    fun checkMobileNo(mobileNo: String, otp: String, token : String): MutableLiveData<LoginResponse> {
+    fun checkMobileNo(
+        mobileNo: String,
+        otp: String,
+        token: String
+    ): MutableLiveData<LoginResponse> {
         val data: MutableLiveData<LoginResponse> = MutableLiveData()
 
         Coroutines.io {
             try {
-                val response = retrofitClient.api.checkMobileNo(mobileNo, otp,token)
+                val response =
+                    retrofitClient.api.checkMobileNo(mobileNo, otp, token.replace("\"", ""))
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)
@@ -142,6 +147,45 @@ class MyRepository(var context: Context) {
                     data.postValue(body)
                 } else {
                     data.postValue(null)
+                }
+            } catch (e: UnknownHostException) {
+                data.postValue(null)
+                noInterConnection()
+            } catch (e: SocketTimeoutException) {
+                data.postValue(null)
+                slowInternetConnection()
+            } catch (e: SocketException) {
+                data.postValue(null)
+                errorOccurred()
+            }
+        }
+
+        return data
+    }
+
+    fun updateToken(token: String): MutableLiveData<Boolean> {
+        val data: MutableLiveData<Boolean> = MutableLiveData()
+
+        Coroutines.io {
+            try {
+                val response = retrofitClient.api.updateToken(
+                    AppPrefData.user()!!.id.toString(),
+                    token.replace("\"", "")
+                )
+                if (response.isSuccessful) {
+                    val body = response.body()?.string()
+                    if (body != null){
+                        val it = body.toString()
+                        if (it.toLowerCase(Locale.getDefault()) == "token updated"){
+                            data.postValue(true)
+                        }else{
+                            data.postValue(false)
+                        }
+                    }else{
+                        data.postValue(false)
+                    }
+                } else {
+                    data.postValue(false)
                 }
             } catch (e: UnknownHostException) {
                 data.postValue(null)
@@ -270,10 +314,10 @@ class MyRepository(var context: Context) {
                         var imageName = ""
                         if (it.contains(",")) {
                             imageName = it.substringBefore(",")
-                            if (!imageName.toLowerCase(Locale.getDefault()).equals("no")){
+                            if (!imageName.toLowerCase(Locale.getDefault()).equals("no")) {
                                 newUser.profile = imageName
                                 AppPrefData.user(newUser)
-                            }else{
+                            } else {
                                 AppPrefData.user(newUser)
                             }
                         } else {
@@ -522,8 +566,12 @@ class MyRepository(var context: Context) {
                 val response =
                     retrofitClient.api.updateBalance(AppPrefData.user()!!.id.toString(), amount)
                 if (response.isSuccessful) {
-                    val body = response.body()
-                    data.postValue(body)
+                    val body = response.body()?.string()
+                    if (body != null){
+                        data.postValue(body.toString())
+                    }else{
+                        data.postValue(null)
+                    }
                 } else {
                     data.postValue(null)
                 }

@@ -46,8 +46,8 @@ class PayLaterDialog(
 
         binding.cashBack.text = ("₹ $cashBack")
         binding.mrp.text = ("₹$totalAmount")
-        binding.discount.text = ("₹$discount")
-        binding.walletDeduct.text = ("₹$walletAmount")
+        binding.discount.text = ("- ₹$discount")
+        binding.walletDeduct.text = ("- ₹$walletAmount")
         binding.sellingPrice.text = ("₹$amount")
 
         binding.proceedBtn.setOnClickListener {
@@ -56,7 +56,7 @@ class PayLaterDialog(
                 if (isOffline){
                     (activity1 as Summary).proceedOrderApi("Offline")
                 }else{
-                    if (walletAmount == amount) {
+                    if (amount == 0) {
                         (activity1 as Summary).proceedOrderApi("Online")
                     } else {
                         (activity1 as Summary).proceedToPay()

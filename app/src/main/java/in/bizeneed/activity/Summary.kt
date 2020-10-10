@@ -42,6 +42,7 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
     private var cashBack: Int = 0
     private var discount: Int = 0
     private var myWalletBalance : Int = 0
+    private var lastCouponDiscount : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,10 +159,14 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                     myWalletBalance = it.toInt()
 
                     val percent = (amountToBePaid * subCategoryData.walletWithdrawalPercent.toInt())/100
-                    walletDeductAmount = if (myWalletBalance > percent) {
-                        percent
-                    } else {
-                        myWalletBalance
+                    walletDeductAmount = if(percent > 1000){
+                        1000
+                    }else{
+                        if (myWalletBalance > percent) {
+                            percent
+                        } else {
+                            myWalletBalance
+                        }
                     }
                     binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
 
@@ -187,13 +192,18 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                             lastAppliedCouponPos = position
                             couponAdapter.setSelected(true, lastAppliedCouponPos)
                             binding.promoDiscount.text = ("- \u20B9$discountPrice")
-                            amountToBePaid -= discountPrice.toInt()
+                            amountToBePaid = (amountToBePaid + lastCouponDiscount) - discountPrice.toInt()
+                            lastCouponDiscount = discountPrice.toInt()
 
                             val percent = (amountToBePaid * subCategoryData.walletWithdrawalPercent.toInt())/100
-                            walletDeductAmount = if (myWalletBalance > percent) {
-                                percent
-                            } else {
-                                myWalletBalance
+                            walletDeductAmount = if(percent > 1000){
+                                1000
+                            }else{
+                                if (myWalletBalance > percent) {
+                                    percent
+                                } else {
+                                    myWalletBalance
+                                }
                             }
                             binding.walletDeduct.text = ("- \u20B9$walletDeductAmount")
 
@@ -334,6 +344,8 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
             if (it == null) {
                 hideProgress()
                 showPaymentDialog(false)
+                /*val orderData = createOrderData(orderModel, arrayListOf(subCategoryData))
+                AppPrefData.order(AppPrefData.user()!!.id.toString(),orderData)*/
                 return@Observer
             }
 
@@ -354,6 +366,8 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
                 }
             } else {
                 hideProgress()
+               /* val orderData = createOrderData(orderModel, arrayListOf(subCategoryData))
+                AppPrefData.order(AppPrefData.user()!!.id.toString(),orderData)*/
                 showPaymentDialog(false)
             }
         })

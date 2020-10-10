@@ -2,6 +2,7 @@ package `in`.bizeneed.extras
 
 import `in`.bizeneed.R
 import `in`.bizeneed.activity.ServiceDetail
+import `in`.bizeneed.model.OrderModel
 import `in`.bizeneed.response.OrderData
 import `in`.bizeneed.response.SubCategoryData
 import `in`.bizeneed.rest.Coroutines
@@ -104,34 +105,66 @@ fun getBitmap(context: Context, imageUri: Uri): Bitmap? {
         ImageDecoder.decodeBitmap(
             ImageDecoder.createSource(
                 context.contentResolver,
-                imageUri))
+                imageUri
+            )
+        )
 
     } else {
 
-        context.contentResolver.openInputStream(imageUri)?.use {
-                inputStream ->
+        context.contentResolver.openInputStream(imageUri)?.use { inputStream ->
             BitmapFactory.decodeStream(inputStream)
         }
 
     }
 }
 
-fun getStates() : ArrayList<String> {
+fun getStates(): ArrayList<String> {
     val states = arrayOf(
-        "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh",
-        "Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
-        "Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand",
-        "West Bengal","Andaman & Nicobar Islands","Chandigarh","Dadra & Nagar  Haveli","Daman & Diu","Lakshadweep",
-        "Puducherry","Delhi","Jammu and Kashmir"
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chhattisgarh",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal",
+        "Andaman & Nicobar Islands",
+        "Chandigarh",
+        "Dadra & Nagar  Haveli",
+        "Daman & Diu",
+        "Lakshadweep",
+        "Puducherry",
+        "Delhi",
+        "Jammu and Kashmir"
     )
     val statesList: ArrayList<String> = ArrayList()
     statesList.addAll(states)
     statesList.sort()
-    statesList.add(0,"Select State")
+    statesList.add(0, "Select State")
     return statesList
 }
 
-fun getUserReferCode() : String {
+fun getUserReferCode(): String {
     val value = 1000 + AppPrefData.user()!!.id
     return "CMY$value"
 }
@@ -144,7 +177,7 @@ fun extractDigits(`in`: String?): String? {
     } else ""
 }
 
-fun isEmailValid(emailId : String) : Boolean{
+fun isEmailValid(emailId: String): Boolean {
     val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
     return emailId.trim { it <= ' ' }.matches(emailPattern.toRegex())
 }
@@ -159,38 +192,82 @@ fun formattedRating(ratingCount: Int): String {
     }
 }
 
-fun noInterConnection(){
-    Coroutines.main { Toast.makeText(MyApplication.applicationContext(),"No Internet Connection",Toast.LENGTH_SHORT).show() }
+fun noInterConnection() {
+    Coroutines.main {
+        Toast.makeText(
+            MyApplication.applicationContext(),
+            "No Internet Connection",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }
 
-fun slowInternetConnection(){
-    Coroutines.main { Toast.makeText(MyApplication.applicationContext(),"Slow Internet Connection Try again later",Toast.LENGTH_SHORT).show() }
+fun slowInternetConnection() {
+    Coroutines.main {
+        Toast.makeText(
+            MyApplication.applicationContext(),
+            "Slow Internet Connection Try again later",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }
 
-fun errorOccurred(){
-    Coroutines.main { Toast.makeText(MyApplication.applicationContext(),"Something went wrong, Try again later",Toast.LENGTH_SHORT).show() }
+fun errorOccurred() {
+    Coroutines.main {
+        Toast.makeText(
+            MyApplication.applicationContext(),
+            "Something went wrong, Try again later",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+}
+
+fun createOrderData(orderModel: OrderModel, subCategoryData: List<SubCategoryData>): OrderData {
+    return OrderData(
+        orderModel.orderId,
+        orderModel.subCategoryName,
+        orderModel.userId,
+        orderModel.name,
+        orderModel.address,
+        orderModel.state,
+        orderModel.mobile,
+        orderModel.totalPrice,
+        orderModel.timeOfOrder,
+        orderModel.dateOfOrder,
+        "0",
+        orderModel.paymentType,
+        subCategoryData
+    )
 }
 
 @Suppress("DEPRECATION")
-fun createOrderNotification(context : Context, subCategoryData: SubCategoryData, orderData: OrderData, subCategoryName : String){
+fun createOrderNotification(
+    context: Context,
+    subCategoryData: SubCategoryData,
+    orderData: OrderData,
+    subCategoryName: String
+) {
 
     val intent = Intent(context, ServiceDetail::class.java)
     intent.putExtra(Constants.DATA, Gson().toJson(subCategoryData))
-    intent.putExtra(Constants.IS_PURCHASED,true)
+    intent.putExtra(Constants.IS_PURCHASED, true)
     intent.putExtra(Constants.ORDER_DATA, Gson().toJson(orderData))
 
     val channelId = "companify_channel_id"
 
-    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-        val channel = NotificationChannel(channelId,"Companify",NotificationManager.IMPORTANCE_DEFAULT)
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val channel =
+            NotificationChannel(channelId, "Companify", NotificationManager.IMPORTANCE_DEFAULT)
         notificationManager.createNotificationChannel(channel)
     }
 
-    val pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+    val pendingIntent =
+        PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     val builder = NotificationCompat.Builder(context)
 
-    val s="Thanks for booking our service - "+subCategoryData.name;
+    val s = "Thanks for booking our service - " + subCategoryData.name;
     builder.setAutoCancel(true)
         .setDefaults(Notification.DEFAULT_ALL)
         .setWhen(System.currentTimeMillis())
@@ -203,7 +280,7 @@ fun createOrderNotification(context : Context, subCategoryData: SubCategoryData,
         .setContentIntent(pendingIntent)
         .setContentInfo("Info")
 
-    notificationManager.notify(1,builder.build())
+    notificationManager.notify(1, builder.build())
 
 }
 

@@ -1,9 +1,11 @@
 package `in`.bizeneed.extras
 
+import `in`.bizeneed.response.OrderData
 import `in`.bizeneed.response.User
 import android.app.Activity
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -61,6 +63,38 @@ class AppPrefData {
                     null
                 }
             }
+        }
+
+        fun order(userId : String, orderData: OrderData) {
+            val list = ArrayList<OrderData>()
+            if (order(userId).isNotEmpty()){
+                list.addAll(order(userId))
+            }
+            list.add(orderData)
+            val editor = preferences.edit()
+            editor.putString("FAILED_ORDER_$userId", Gson().toJson(list))
+            editor.apply()
+        }
+
+        fun order(userId: String): ArrayList<OrderData> {
+            val mSharedPreferences = preferences
+            val value = mSharedPreferences.getString("FAILED_ORDER_$userId", "")
+            if (!value.isNullOrEmpty()){
+                val type  = object : TypeToken<ArrayList<OrderData>>(){}.type!!
+                return Gson().fromJson(value,type)
+            }
+            return ArrayList()
+        }
+
+        fun token(token: String) {
+            val editor = preferences.edit()
+            editor.putString("USER_TOKEN", Gson().toJson(token))
+            editor.apply()
+        }
+
+        fun token(): String? {
+            val mSharedPreferences = preferences
+            return mSharedPreferences.getString("USER_TOKEN", "")
         }
     }
 }

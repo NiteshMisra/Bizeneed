@@ -39,6 +39,13 @@ interface Api {
     ) : Response<AllCommentResponse>
 
     @FormUrlEncoded
+    @POST("updateToken.php")
+    suspend fun updateToken(
+        @Field("userId") userId : String,
+        @Field("token") token : String
+    ) : Response<ResponseBody>
+
+    @FormUrlEncoded
     @POST("cancelOrder.php")
     suspend fun cancelOrder(
         @Field("orderId") orderId : String,
@@ -138,6 +145,6 @@ interface Api {
     suspend fun updateBalance(
         @Field("userId") userId : String,
         @Field("amount") amount : String
-    ) : Response<String>
+    ) : Response<ResponseBody>
 
 }

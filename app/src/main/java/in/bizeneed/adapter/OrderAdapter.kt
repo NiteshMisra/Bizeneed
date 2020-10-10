@@ -24,14 +24,12 @@ class OrderAdapter(
 
         val currentItem = items[position]
         holder.binding.title.text = currentItem.subCategoryName
-        if (currentItem.subCategoryDetails.isNotEmpty()){
-
-            Glide.with(context)
-                .asBitmap()
-                .load(Constants.IMAGE_URL + currentItem.subCategoryDetails[0].headerImage)
-                .override(1600,1600)
-                .into(BitmapImageViewTarget(holder.binding.image))
-
+        holder.binding.status.text = if (currentItem.completed.toInt() == 0){
+            ("Booked")
+        }else if (currentItem.completed.toInt() == 2){
+            ("Cancelled")
+        }else{
+            ("Completed")
         }
         holder.binding.date.text = (currentItem.timeOfOrder + ", " + currentItem.dateOfOrder)
         holder.binding.amount.text = ("\u20B9${currentItem.totalAmount}")
