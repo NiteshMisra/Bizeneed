@@ -73,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:inputType="phone"
                 android:textColor="@color/black"
+                android:maxLength="10"
                 android:textSize="15sp"
                 android:fontFamily="@font/roboto_medium"
                 android:background="@null"

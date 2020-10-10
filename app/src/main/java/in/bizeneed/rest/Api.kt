@@ -145,6 +145,6 @@ interface Api {
     suspend fun updateBalance(
         @Field("userId") userId : String,
         @Field("amount") amount : String
-    ) : Response<String>
+    ) : Response<ResponseBody>
 
 }

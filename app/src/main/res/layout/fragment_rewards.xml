@@ -64,7 +64,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Invite your friends to Urban Company service. They get instant \u20B95000 in rewards."
+                                android:text="Invite your friends to Companify Service"
                                 android:textColor="#7C7C7C"
                                 android:textSize="12sp" />
 

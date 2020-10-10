@@ -13,7 +13,9 @@ import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 
-class PaymentStatus(var isSuccessful : Boolean) : DialogFragment() {
+class PaymentStatus(
+    private var isSuccessful : Boolean
+) : DialogFragment() {
 
     private lateinit var binding : PaymentDialogBinding
 

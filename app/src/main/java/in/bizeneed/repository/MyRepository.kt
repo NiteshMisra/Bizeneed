@@ -566,8 +566,12 @@ class MyRepository(var context: Context) {
                 val response =
                     retrofitClient.api.updateBalance(AppPrefData.user()!!.id.toString(), amount)
                 if (response.isSuccessful) {
-                    val body = response.body()
-                    data.postValue(body)
+                    val body = response.body()?.string()
+                    if (body != null){
+                        data.postValue(body.toString())
+                    }else{
+                        data.postValue(null)
+                    }
                 } else {
                     data.postValue(null)
                 }
