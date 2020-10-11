@@ -39,7 +39,7 @@ class PayLaterDialog(
         super.onViewCreated(view, savedInstanceState)
 
         if (isOffline){
-            binding.message.text = ("If you choose 'Pay Later' service then you won't be able to take benefits of cashBack and discounts.")
+            binding.message.text = ("If you choose 'Pay Later' service then you won't be able to take benefits of Cashback and discounts.")
         }else{
             binding.message.text = ("Online Payment")
         }

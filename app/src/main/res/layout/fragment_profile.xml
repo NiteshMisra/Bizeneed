@@ -65,7 +65,6 @@
                         android:layout_toEndOf="@id/walletImage"
                         android:layout_marginStart="15dp"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@id/walletBalance"
                         android:orientation="vertical">
 
                         <TextView
