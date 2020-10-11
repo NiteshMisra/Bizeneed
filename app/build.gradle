@@ -9,6 +9,13 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
 
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     defaultConfig {
         applicationId "in.bizeneed"
         minSdkVersion 21
@@ -126,5 +133,11 @@ dependencies {
     //skeleton loader
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    //OkHttp Client
+    implementation 'commons-io:commons-io:20030203.000550'
+    implementation 'commons-net:commons-net:20030805.205232'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
 
 }
