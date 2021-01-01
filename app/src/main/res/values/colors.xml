@@ -8,4 +8,18 @@
     <color name="tagGrey">#C1C1C1</color>
     <color name="sliderColour">#FFABBD</color>
     <color name="sliderColour2">#EB4F0B</color>
+
+    <array name="array_dot_active">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/white</item>
+        <item>@color/white</item>
+        <item>@color/white</item>
+        <item>@color/white</item>
+    </array>
 </resources>

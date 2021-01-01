@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:gravity="start|center"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/dimen_40dp"
+            android:src="@drawable/effective_price"
+            android:padding="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_height="@dimen/dimen_40dp"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:textSize="13sp"
+            android:text="Get it at just \u20B98550 with ICICI Credit Card/Axis Credit Card/Citi Credit Card/Kotak Credit Card"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/roboto"
+            android:textColor="#686868"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</layout>

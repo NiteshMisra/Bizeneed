@@ -50,6 +50,14 @@ class Profile : BaseActivity<ActivityProfileBinding>(), AdapterView.OnItemSelect
         } else {
             binding.cityEdt.setText(("New Delhi"))
         }
+        if(!user.businessName.equals("null"))
+        {
+            binding.businessEdt.setText(user.businessName)
+        }
+        if(!user.gst.equals("null"))
+        {
+            binding.gstEdt.setText(user.gst)
+        }
         user.pincode?.let {
             binding.pinCodeEdt.setText(it)
         }
@@ -135,6 +143,8 @@ class Profile : BaseActivity<ActivityProfileBinding>(), AdapterView.OnItemSelect
             || user.name != binding.nameEdt.text.toString()
             || user.email != binding.emailEdt.text.toString()
             || user.profile != profile
+            || user.gst != binding.gstEdt.text.toString()
+            || user.businessName != binding.businessEdt.text.toString()
         ) {
 
             var profile2 = ""
@@ -147,13 +157,13 @@ class Profile : BaseActivity<ActivityProfileBinding>(), AdapterView.OnItemSelect
                 binding.nameEdt.text.toString(), binding.emailEdt.text.toString(),
                 binding.addressEdt.text.toString(), binding.cityEdt.text.toString(),
                 state, binding.pinCodeEdt.text.toString(),
-                user.wallet, profile2
+                user.wallet, profile2,binding.gstEdt.text.toString(),binding.businessEdt.text.toString()
             )
 
             val updateModel = UpdateModel(
                 newUser.name!!, newUser.email!!, newUser.address!!,
                 newUser.city!!, newUser.state!!, newUser.pincode!!, newUser.id.toString(), profile,
-                getUserReferCode()
+                getUserReferCode(),newUser.gst!!,newUser.businessName!!
             )
 
             myViewModel.updateUser(updateModel,newUser).observe(this, Observer {

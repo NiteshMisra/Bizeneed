@@ -11,13 +11,13 @@ import `in`.bizeneed.rest.RetrofitClient
 import androidx.lifecycle.MutableLiveData
 import `in`.bizeneed.rest.Coroutines
 import android.content.Context
-import android.util.Log
-import com.google.gson.Gson
+import com.google.firebase.iid.FirebaseInstanceId
 import okhttp3.ResponseBody
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.*
+
 
 class MyRepository(var context: Context) {
 
@@ -269,7 +269,7 @@ class MyRepository(var context: Context) {
         Coroutines.io {
             try {
                 val response =
-                    retrofitClient.api.checkReferAll(couponCode, AppPrefData.user()!!.id.toString())
+                    retrofitClient.api.checkReferAll(couponCode, AppPrefData.user()!!.id.toString(),""+FirebaseInstanceId.getInstance().token)
                 if (response.isSuccessful) {
                     val body = response.body()
                     data.postValue(body)
@@ -304,7 +304,9 @@ class MyRepository(var context: Context) {
                     updateModel.pincode,
                     updateModel.id,
                     updateModel.profile,
-                    updateModel.referCode
+                    updateModel.referCode,
+                    updateModel.gst,
+                    updateModel.businessName
                 )
                 if (response.isSuccessful) {
                     val body = response.body()?.string()
@@ -362,7 +364,9 @@ class MyRepository(var context: Context) {
                     orderModel.dateOfOrder,
                     orderModel.subCategoryName,
                     orderModel.paymentType,
-                    orderModel.cashBack
+                    orderModel.cashBack,
+                    orderModel.gst,
+                    orderModel.businessName
                 )
                 if (response.isSuccessful) {
                     data.postValue(true)
@@ -558,6 +562,8 @@ class MyRepository(var context: Context) {
         return data
     }
 
+
+
     fun updateBalance(amount: String): MutableLiveData<String> {
         val data: MutableLiveData<String> = MutableLiveData()
 
@@ -589,4 +595,31 @@ class MyRepository(var context: Context) {
         return data
     }
 
+    fun sendMail(to: String,msg : String): MutableLiveData<ResponseBody> {
+        val data: MutableLiveData<ResponseBody> = MutableLiveData()
+
+
+        Coroutines.io {
+            try {
+                val response =
+                    retrofitClient.api.sendMail(to,msg);
+                if (response.isSuccessful)
+                {
+                   //  data.postValue(response)
+                } else {
+
+                }
+            } catch (e: UnknownHostException) {
+                //data.postValue(null)
+                noInterConnection()
+            } catch (e: SocketTimeoutException) {
+                //data.postValue(null)
+                slowInternetConnection()
+            } catch (e: SocketException) {
+                //data.postValue(null)
+                errorOccurred()
+            }
+        }
+        return data;
+    }
 }

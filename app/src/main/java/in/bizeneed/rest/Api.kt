@@ -1,7 +1,5 @@
 package `in`.bizeneed.rest
 
-import `in`.bizeneed.model.OrderModel
-import `in`.bizeneed.model.UpdateModel
 import `in`.bizeneed.response.*
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -63,8 +61,9 @@ interface Api {
     @FormUrlEncoded
     @POST("checkWalletReferall.php")
     suspend fun checkReferAll(
-        @Field("promoCode") promoCode : String,
-        @Field("userId") userId : String
+        @Field("promoCode") promoCode: String,
+        @Field("userId") userId: String,
+        @Field("token") token : String
     ) : Response<CheckReferResponse>
 
     @FormUrlEncoded
@@ -78,8 +77,10 @@ interface Api {
         @Field("pincode") pincode : String,
         @Field("id") id : String,
         @Field("profile") profile : String,
-        @Field("referalNo") referalNo : String
-    ) : Response<ResponseBody>
+        @Field("referalNo") referalNo : String,
+        @Field("gst") gst : String,
+        @Field("businessName") businessName : String
+        ) : Response<ResponseBody>
 
     @FormUrlEncoded
     @POST("proceed_order.php")
@@ -96,7 +97,9 @@ interface Api {
         @Field("dateOfOrder") dateOfOrder: String,
         @Field("subCategoryName") subCategoryName: String,
         @Field("paymentType") paymentType: String,   // Online or Offline
-        @Field("cashBack") cashBack: String
+        @Field("cashBack") cashBack: String,
+        @Field("gst") gst: String,
+        @Field("businessName") businessName: String
     ) : Response<ResponseBody>
 
     @FormUrlEncoded
@@ -145,6 +148,13 @@ interface Api {
     suspend fun updateBalance(
         @Field("userId") userId : String,
         @Field("amount") amount : String
+    ) : Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("sendMail.php")
+    suspend fun sendMail(
+        @Field("to") to: String,
+        @Field("msg") msg: String
     ) : Response<ResponseBody>
 
 }

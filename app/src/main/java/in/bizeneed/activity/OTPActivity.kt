@@ -97,6 +97,7 @@ class OTPActivity : BaseActivity<ActivityOtpBinding>() {
                 // We need to get the code from inside with regex
                 val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
                 binding.otpTxt.setOTP(extractDigits(message)!!)
+                binding.verifyBtn.callOnClick();
             }
         }
     }

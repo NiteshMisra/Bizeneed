@@ -44,7 +44,8 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
     private var myWalletBalance : Int = 0
     private var lastCouponDiscount : Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
 
         val value = intent.getStringExtra(Constants.DATA)
@@ -242,7 +243,8 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
         })
     }
 
-    fun proceedToPay() {
+    fun proceedToPay()
+    {
         if (isConnected(this)) {
             showProgressBar("Processing Order")
             val checkout = Checkout()
@@ -337,8 +339,15 @@ class Summary : BaseActivity<ActivitySummaryBinding>(), PaymentResultListener {
             date,
             subCategoryData.name,
             paymentMode,
-            cashBack.toString()
+            cashBack.toString(),
+            user.gst!!,
+            user.businessName!!
         )
+        myViewModel.sendMail("companify@gmail.com","Congratulation You Received New Order \nOrder Id :" +
+                ""+orderId+"\nUser Name : "+user.name+"\nService Name : "+subCategoryData.name+"\nAmount : "+amount.toString()+"\nPayment Type : "+paymentMode);
+        myViewModel.sendMail(user.email.toString(),"Congratulation Your Order Has Been Proceed\nOrder Id :" +
+                ""+orderId+"\nService Name : "+subCategoryData.name+"\nAmount : "+amount.toString()+"\nPayment Type : "+paymentMode);
+
         myViewModel.createOrder(orderModel).observe(this, Observer {
 
             if (it == null) {

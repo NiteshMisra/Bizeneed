@@ -29,13 +29,22 @@ class OrderAdapter(
         holder.binding.title.text = currentItem.subCategoryName
         holder.binding.status.text = when {
             currentItem.completed.toInt() == 0 -> {
-                ("Booked")
+                ("Order Placed")
             }
             currentItem.completed.toInt() == 2 -> {
                 ("Cancelled")
             }
+            currentItem.completed.toInt() == 3 -> {
+                ("Assigned")
+            }
+            currentItem.completed.toInt() == 4 -> {
+                ("Documentation pending")
+            }
+            currentItem.completed.toInt() == 5 -> {
+                ("Work In Progress")
+            }
             else -> {
-                ("Completed")
+                ("Work Delivered")
             }
         }
         holder.binding.date.text = (currentItem.timeOfOrder + ", " + currentItem.dateOfOrder)

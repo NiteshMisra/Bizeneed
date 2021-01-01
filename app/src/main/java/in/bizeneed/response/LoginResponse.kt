@@ -17,5 +17,7 @@ data class User(
     val state : String?,
     val pincode : String?,
     var wallet : String?,
-    var profile : String?
+    var profile : String?,
+    var gst : String?,
+    var businessName : String?
 )

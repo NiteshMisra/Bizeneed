@@ -25,7 +25,8 @@ class SplashActivity : AppCompatActivity() {
         binding.imageView.startAnimation(fadeIn)
 
         Handler().postDelayed({
-            val intent = if (AppPrefData.isLogin()) {
+            val intent = if (AppPrefData.isLogin())
+            {
                 val user = AppPrefData.user()!!
                 if (user.name == null || user.email == null){
                     Intent(this, ProfileRegistration::class.java)
@@ -33,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
                     Intent(this, MainActivity::class.java)
                 }
             } else {
-                Intent(this, GetStartedActivity::class.java)
+                Intent(this, WelcomeActivity::class.java)
             }
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)

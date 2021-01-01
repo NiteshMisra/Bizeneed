@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <androidx.core.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -204,48 +203,6 @@
                             android:text="BOOK"/>
 
                     </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/plusMinusLayout"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:visibility="gone"
-                        android:background="@drawable/add_bg"
-                        android:layout_centerInParent="true">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:src="@drawable/ic_remove_white"
-                            android:layout_margin="1dp"
-                            android:layout_alignParentStart="true"
-                            android:scaleType="fitXY"
-                            android:layout_height="match_parent"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textAllCaps="true"
-                            android:layout_centerInParent="true"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:textColor="@color/colorPrimary"
-                            android:text="1"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:src="@drawable/ic_add_white"
-                            android:layout_margin="1dp"
-                            android:layout_alignParentEnd="true"
-                            android:scaleType="fitXY"
-                            android:layout_gravity="end"
-                            android:layout_height="match_parent"/>
-
-                    </RelativeLayout>
-
                 </RelativeLayout>
 
             </LinearLayout>
@@ -260,6 +217,35 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/effectivePriceBox"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:gravity="start|center"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/dimen_40dp"
+                    android:src="@drawable/effective_price"
+                    android:padding="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_height="@dimen/dimen_40dp"/>
+
+                <TextView
+                    android:id="@+id/effectivePriceDescription"
+                    android:layout_width="wrap_content"
+                    android:textSize="13sp"
+                    android:text="Get it at just \u20B98550 with ICICI Credit Card/Axis Credit Card/Citi Credit Card/Kotak Credit Card"
+                    android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="#686868"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -557,7 +543,19 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/payNow"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                style="@style/Widget.MaterialComponents.Button"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:fontFamily="@font/roboto_bold"
+                android:layout_margin="5dp"
+                android:padding="12dp"
+                android:text="Pay Now"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

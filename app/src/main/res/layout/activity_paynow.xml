@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/back_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_arrow_back" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/company_logo"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/dimen_20dp"
+                    >
+                    <com.github.florent37.materialtextfield.MaterialTextField
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mtf_labelColor="#34495e"
+                        app:mtf_image="@drawable/bubble"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:layout_marginBottom="30dp"
+                        android:id="@+id/editTextBox"
+                        >
+
+                        <EditText
+                            android:id="@+id/amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter Amount"
+                            android:textColor="#424242"
+                            android:textSize="15sp"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:scrollbars="vertical"
+                            />
+
+                    </com.github.florent37.materialtextfield.MaterialTextField>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        app:cornerRadius="10dp"
+                        android:textStyle="bold"
+                        android:textColorHint="@color/white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:hint="Pay"
+                        android:id="@+id/payMoney"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="15dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

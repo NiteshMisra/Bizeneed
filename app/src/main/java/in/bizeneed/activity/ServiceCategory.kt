@@ -85,7 +85,8 @@ class ServiceCategory : BaseActivity<ActivityServiceCategoryBinding>(), Category
         })
     }
 
-    override fun hideOtherCategory(visibleCategoryIndex: Int) {
+    override fun hideOtherCategory(visibleCategoryIndex: Int)
+      {
         if (oldSelectedPosition != -1 && oldSelectedPosition != visibleCategoryIndex){
             categoriesAdapter.changeShowing(oldSelectedPosition,false,0)
             categoriesAdapter.notifyItemChanged(oldSelectedPosition)

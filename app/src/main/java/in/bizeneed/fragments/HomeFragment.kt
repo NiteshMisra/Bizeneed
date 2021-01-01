@@ -25,7 +25,8 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.ethanhua.skeleton.Skeleton
 import com.google.gson.Gson
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class
+HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private var countDownTimer: CountDownTimer ?= null
     private lateinit var bannerList : ArrayList<BannerData>

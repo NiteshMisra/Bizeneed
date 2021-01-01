@@ -9,5 +9,7 @@ data class UpdateModel(
     var pincode : String,
     var id : String,
     val profile : String,
-    val referCode : String
+    val referCode : String,
+    val gst : String,
+    val businessName : String
 )

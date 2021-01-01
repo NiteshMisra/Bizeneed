@@ -94,7 +94,7 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
             binding.nameEdt.text.toString(), email,
             "", "",
             "", "",
-            wallet, ""
+            wallet, "","",""
         )
 
         val updateModel = UpdateModel(
@@ -106,7 +106,9 @@ class ProfileRegistration : BaseActivity<ActivityProfileRegistrationBinding>() {
             newUser.pincode!!,
             newUser.id.toString(),
             profile,
-            getUserReferCode()
+            getUserReferCode(),
+            newUser.gst!!,
+            newUser.businessName!!
         )
 
         if (binding.couponCodeEdt.text.trim().toString().isNotEmpty()){

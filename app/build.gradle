@@ -20,8 +20,8 @@ android {
         applicationId "in.bizeneed"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,13 +31,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
+            buildConfigField "String", "BASE_URL", "\"http://companify.in/bizeneedApk/\""
             buildConfigField "String", "RZP_KEY", "\"rzp_live_ryixMXxAGH2D4I\""
             buildConfigField "String", "RZP_SECRET", "\"kXj3SdxEsNnhSRZ4UOs3uhQX\""
         }
 
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://bizeneed.com/bizeneedApk/\""
+            buildConfigField "String", "BASE_URL", "\"http://companify.in/bizeneedApk/\""
             buildConfigField "String", "RZP_KEY", "\"rzp_live_ryixMXxAGH2D4I\""
             buildConfigField "String", "RZP_SECRET", "\"kXj3SdxEsNnhSRZ4UOs3uhQX\""
         }
@@ -139,5 +139,10 @@ dependencies {
     implementation 'commons-net:commons-net:20030805.205232'
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
+
+    implementation 'com.github.florent37:materialtextfield:1.0.7'
+
+
+    implementation 'com.android.volley:volley:1.1.1'
 
 }

@@ -39,7 +39,8 @@ class CategoriesAdapter1(
         holder.binding.title.text = currentItem.name
         Glide.with(context).load(Constants.IMAGE_URL + currentItem.image).into(holder.binding.image)
 
-        if (currentItem.isShowing){
+        if (currentItem.isShowing)
+        {
             holder.binding.categoryRcv.visibility = View.VISIBLE
             val manager = LinearLayoutManager(context)
             holder.binding.categoryRcv.layoutManager = manager

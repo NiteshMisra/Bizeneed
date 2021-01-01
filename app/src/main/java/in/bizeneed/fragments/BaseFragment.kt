@@ -47,7 +47,8 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
         return binding.root
     }
 
-    fun showProgressBar(message: String?) {
+    public fun showProgressBar(message: String?)
+    {
         if (pDialog == null) {
             pDialog = ProgressDialog(activity1)
         }

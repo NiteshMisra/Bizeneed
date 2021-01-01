@@ -35,9 +35,14 @@ class RewardsFragment : BaseFragment<FragmentRewardsBinding>() {
             myViewModel.checkReferAll(binding.couponCodeEdt.text.toString()).observe(activity1, Observer {
                 hideProgress()
                 it?.let {
-                    if (it.data[0].isValid.toLowerCase(Locale.getDefault()) == "in valid" || it.data[0].isValid.toLowerCase(Locale.getDefault()) == "no"){
+                    if (it.data[0].isValid.toLowerCase(Locale.getDefault()) == "in valid"){
+                        Toast.makeText(activity1,"This device has been already registered rewards and benefits will not applicable",Toast.LENGTH_SHORT).show()
+                    }
+                    else if(it.data[0].isValid.toLowerCase(Locale.getDefault()) == "no")
+                    {
                         Toast.makeText(activity1,"Invalid Coupon",Toast.LENGTH_SHORT).show()
-                    }else{
+                    }
+                    else{
                         val dialog = CouponAddDialog(it.data[0].discountPrice.toInt())
                         dialog.show(activity1.supportFragmentManager,"CouponDialog")
                     }

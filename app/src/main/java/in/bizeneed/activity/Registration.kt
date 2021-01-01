@@ -21,7 +21,8 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
     private lateinit var subCategoryData : SubCategoryData
     private var state : String = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         val value = intent.getStringExtra(Constants.DATA)
         subCategoryData = Gson().fromJson(value, SubCategoryData::class.java)
@@ -38,7 +39,14 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
         binding.nameEdt.setText(user.name)
         binding.mobileEdt.text = user.mobile
         binding.emailEdt.setText(user.email)
-
+        if(!user.businessName.equals("null"))
+        {
+            binding.businessEdt.setText(user.businessName)
+        }
+        if(!user.gst.equals("null"))
+        {
+            binding.gstEdt.setText(user.gst)
+        }
         user.state?.let {
             if (user.state!!.isEmpty()){
                 binding.stateSpinner.setSelection(0)
@@ -65,16 +73,17 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
                 return@setOnClickListener
             }
 
-            if (binding.additionalMsg.text.toString().isNotEmpty()){
+            if (binding.additionalMsg.text.toString().isNotEmpty())
+            {
                 sendAdditionalMsg()
-            }else{
-                updateData()
-            }
+            }else
+            { updateData() }
         }
 
     }
 
-    private fun sendAdditionalMsg() {
+    private fun sendAdditionalMsg()
+    {
         showProgressBar(null)
         myViewModel.sendFeedBack(binding.additionalMsg.text.toString()).observe(this, Observer {
             hideProgress()
@@ -90,19 +99,24 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
         showProgressBar(null)
         if (user.name != binding.nameEdt.text.toString()
             || user.email != binding.emailEdt.text.toString()
+            || user.gst != binding.gstEdt.text.toString()
+            || user.businessName != binding.gstEdt.text.toString()
             || (user.state != state && state.isNotEmpty())
-        ) {
+        )
+        {
 
             var address = ""
             if (user.address != null){
                 address = user.address!!
             }
 
+
             val newUser = User(
                 user.id, user.mobile,
                 binding.nameEdt.text.toString(), binding.emailEdt.text.toString(),
                 address, user.city,
-                state, user.pincode, user.wallet,user.profile
+                state, user.pincode, user.wallet,user.profile,binding.gstEdt.text.toString()
+                ,binding.businessEdt.text.toString()
             )
 
             var pinCode = ""
@@ -117,6 +131,8 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
             val updateModel = UpdateModel(
                 newUser.name!!, newUser.email!!, newUser.address!!,
                 city, newUser.state!!, pinCode, newUser.id.toString(),profile, getUserReferCode()
+                ,newUser.gst!!,
+                newUser.businessName!!
             )
 
             myViewModel.updateUser(updateModel,newUser).observe(this, Observer {
@@ -135,7 +151,8 @@ class Registration : BaseActivity<ActivityRegistrationBinding>(), AdapterView.On
                 }
             })
 
-        } else {
+        }
+        else {
             hideProgress()
             val intent = Intent(this,Summary::class.java)
             intent.putExtra(Constants.DATA,Gson().toJson(subCategoryData))

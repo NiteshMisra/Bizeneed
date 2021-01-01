@@ -5,6 +5,8 @@ import `in`.bizeneed.adapter.CommentAdapter
 import `in`.bizeneed.adapter.DetailListAdapter
 import `in`.bizeneed.adapter.ServiceImagesAdapter
 import `in`.bizeneed.databinding.ActivityServiceDetailBinding
+import `in`.bizeneed.databinding.ElementEffectivePriceBinding
+import `in`.bizeneed.extras.AppPrefData
 import `in`.bizeneed.extras.Constants
 import `in`.bizeneed.extras.formattedRating
 import `in`.bizeneed.response.OrderData
@@ -48,6 +50,7 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
             ("Use Code: ${subCategoryData.promoCode} to get \u20B9 ${subCategoryData.discount} Additional Cashback")
         binding.crossedPrice.text = ("\u20B9${subCategoryData.mrp}")
         binding.currentPrice.text = ("\u20B9${subCategoryData.sellingPrice}*")
+        binding.effectivePriceDescription.text =  ("Get it at just \u20B9${(subCategoryData.sellingPrice.toInt()-subCategoryData.discount.toInt())} with paying online")
 
         if (!subCategoryData.description.isNullOrEmpty()){
             binding.priceDesc.text = subCategoryData.description
@@ -58,12 +61,17 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
         if (isPurchased) {
             val order = intent.getStringExtra(Constants.ORDER_DATA)
             orderDetail = Gson().fromJson(order, OrderData::class.java)
+            binding.effectivePriceBox.visibility=View.GONE
+            if(orderDetail!!.completed.toInt()!=1 && orderDetail!!.completed.toInt()!=2 && orderDetail!!.paymentType.toLowerCase(Locale.getDefault()) == "offline")
+            {
+                binding.payNow.visibility = View.VISIBLE
+            }
             if (orderDetail!!.completed.toInt() == 0 &&
                 orderDetail!!.paymentType.toLowerCase(Locale.getDefault()) == "offline"
             ) {
-                binding.bookTxt.text = ("Booked")
+                binding.bookTxt.text = ("Placed")
                 binding.cancelLayout.visibility = View.VISIBLE
-                binding.bookServiceBtn.text = ("Booked")
+                binding.bookServiceBtn.text = ("Order Placed")
                 binding.bookServiceBtn.visibility = View.GONE
             } else if (orderDetail!!.completed.toInt() == 2){
                 binding.bookTxt.text = ("Cancelled")
@@ -71,13 +79,32 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
                 binding.cancelLayout.visibility = View.GONE
                 binding.bookServiceBtn.visibility = View.VISIBLE
             }else if(orderDetail!!.completed.toInt() == 1) {
-                binding.bookTxt.text = ("Completed")
-                binding.bookServiceBtn.text = ("Completed")
+                binding.bookTxt.text = ("Delivered")
+                binding.bookServiceBtn.text = ("Work Delivered")
                 binding.cancelLayout.visibility = View.GONE
                 binding.bookServiceBtn.visibility = View.VISIBLE
-            }else{
-                binding.bookTxt.text = ("Booked")
-                binding.bookServiceBtn.text = ("Booked")
+            }
+            else if(orderDetail!!.completed.toInt() == 3) {
+                binding.bookTxt.text = ("Assigned")
+                binding.bookServiceBtn.text = ("Assigned")
+                binding.cancelLayout.visibility = View.GONE
+                binding.bookServiceBtn.visibility = View.VISIBLE
+            }
+            else if(orderDetail!!.completed.toInt() == 4) {
+                binding.bookTxt.text = ("pending")
+                binding.bookServiceBtn.text = ("Documentation pending")
+                binding.cancelLayout.visibility = View.GONE
+                binding.bookServiceBtn.visibility = View.VISIBLE
+            }
+            else if(orderDetail!!.completed.toInt() == 5) {
+                binding.bookTxt.text = ("Progress")
+                binding.bookServiceBtn.text = ("Work In Progress")
+                binding.cancelLayout.visibility = View.GONE
+                binding.bookServiceBtn.visibility = View.VISIBLE
+            }
+            else{
+                binding.bookTxt.text = ("Placed")
+                binding.bookServiceBtn.text = ("Order Placed")
                 binding.cancelLayout.visibility = View.GONE
                 binding.bookServiceBtn.visibility = View.VISIBLE
             }
@@ -86,6 +113,13 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
             binding.cancelLayout.visibility = View.GONE
             binding.bookServiceBtn.visibility = View.VISIBLE
             binding.bookServiceBtn.text = ("Book Service")
+        }
+        binding.payNow.setOnClickListener{
+            val intent = Intent(this, PayNowActivity::class.java)
+            intent.putExtra("orderId",orderDetail!!.orderId);
+            intent.putExtra("email", AppPrefData.user()!!.email);
+            intent.putExtra("mobile",AppPrefData.user()!!.mobile);
+            startActivityForResult(intent,0)
         }
 
         binding.cancelBtn.setOnClickListener {
@@ -128,6 +162,12 @@ class ServiceDetail : BaseActivity<ActivityServiceDetailBinding>() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==0)
+            if(resultCode==0)
+                this.finish()
+    }
     private fun cancelOrder() {
         if (isPurchased && orderDetail != null) {
             showProgressBar(null)

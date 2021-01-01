@@ -13,5 +13,7 @@ data class OrderModel(
     val dateOfOrder: String,
     val subCategoryName: String,
     val paymentType: String,   // Online or Offline
-    val cashBack: String
+    val cashBack: String,
+    val gst: String,
+    val businessName: String
 )

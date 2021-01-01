@@ -84,4 +84,9 @@ class MyViewModel(
         return myRepository.updateBalance(amount)
     }
 
+    fun sendMail(to : String, msg : String)
+    {
+         myRepository.sendMail(to,msg);
+    }
+
 }

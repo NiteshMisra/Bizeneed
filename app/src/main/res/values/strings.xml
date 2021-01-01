@@ -11,5 +11,22 @@
         <item>Himachal Pradesh</item>
 
     </string-array>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
     <string name="title_activity_maps">Map</string>
+    <string name="slide_1_title">Single Platform</string>
+    <string name="slide_1_desc">Companify is Indians cloud-based business services platform dedicated to helping Entrepreneurs easily start and grow their business, at an affordable cost.</string>
+
+    <string name="slide_2_title">Helpline Support</string>
+    <string name="slide_2_desc">Get instant support for all your queries for the business</string>
+
+    <string name="slide_3_title">Fast Service</string>
+    <string name="slide_3_desc">Get your business started within 5 days, Now you need to place order to avail rewards and benefits available for your business.</string>
+
+    <string name="slide_4_title">Refer &amp; Earn</string>
+    <string name="slide_4_desc">Refer your friends and family and get exited prices and rewards !</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
 </resources>
