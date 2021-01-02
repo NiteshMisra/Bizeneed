@@ -10,7 +10,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
             >
             <LinearLayout
@@ -33,14 +33,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_margin="@dimen/dimen_20dp"
+                    android:layout_margin="20dp"
                     >
                     <com.github.florent37.materialtextfield.MaterialTextField
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mtf_labelColor="#34495e"
                         app:mtf_image="@drawable/bubble"
-                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="30dp"
                         android:id="@+id/editTextBox"
                         >

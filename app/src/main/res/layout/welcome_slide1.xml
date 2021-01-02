@@ -23,21 +23,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/slide_1_title"
+            android:text="Single Platform"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/slide_title"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:paddingLeft="@dimen/desc_padding"
-            android:paddingRight="@dimen/desc_padding"
-            android:text="@string/slide_1_desc"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Companify is Indians cloud-based business services platform dedicated to helping Entrepreneurs easily start and grow their business, at an affordable cost."
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/slide_desc" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -23,21 +23,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/slide_3_title"
+            android:text="Fast Service"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/slide_title"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:paddingLeft="@dimen/desc_padding"
-            android:paddingRight="@dimen/desc_padding"
-            android:text="@string/slide_3_desc"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Get your business started within 5 days, Now you need to place order to avail rewards and benefits available for your business."
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/slide_desc" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 </RelativeLayout>
